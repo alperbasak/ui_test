@@ -13,7 +13,8 @@ class WelcomePage extends LocatePage {
         logoutBtn(required: true) 		{ $("a#btn_logout") }
         accountBtn(required: true) 		{ $("a#btn_username") }
         adminBtn(required: false) 		{ $("a#btn_admin") }     
-        
+		privacyTerms(required: true)	{ $('a#btn_privacy_terms')}
+		
         globalSearch(required: true)	{ $("input#inpt_search") }
         
         tabsHolder(required: true)		{ $("div.tabsHolder") }
@@ -22,5 +23,6 @@ class WelcomePage extends LocatePage {
         inboxMenu(required: true) 		{ $('a#btn_messages') }
         calendarMenu(required: true)	{ $('a#btn_calendar') }
         privacyMenu(required: true)		{ $('a#btn_privacy') }
+		
     }
 }

@@ -30,6 +30,7 @@ class LoginSpec extends GebSpec {
         waitFor {at LoginPage}
     }
 
+	
     @Unroll("Empty auth input should keep user at LoginPage for username [#uname] and password [#pwd]")
     def "Empty auth input should keep user at LoginPage without sending request"() {
         given: "we are at the LoginPage"
@@ -50,8 +51,8 @@ class LoginSpec extends GebSpec {
         pwd		<< params.get('login.empty.password')
     }
 
-    @Ignore
-    @Unroll("Invalid auth input should keep user at LoginPage for username [#uname] and password [#pwd]")
+    
+    @Ignore("Invalid auth input should keep user at LoginPage for username [#uname] and password [#pwd]")
     def "Invalid auth input should keep user at LoginPage"() {
         given: "we are at the LoginPage"
         to LoginPage
@@ -72,22 +73,24 @@ class LoginSpec extends GebSpec {
         uname	<< params.get('login.invalid.username')
         pwd		<< params.get('login.invalid.password')
     }
-    
-    def "Valid auth input should take user to WelcomePage"() {
-        given: "we are at the LoginPage"
-        to LoginPage
+	
+	@Unroll ("Valid auth input should take user to WelcomePage")
+	def "Valid auth input should take user to WelcomePage"() {
+		given: "we are at the LoginPage"
+		to LoginPage
 
-        when: "we enter valid credentials"
-        username = params.get('username')
-        password = params.get('password')
+		when: "we enter valid credentials"
+		username = params.get('username')
+		password = params.get('password')
 
-        and: "click login button"
-        loginButton.click()
+		and: "click login button"
+		loginButton.click()
 
-        then: "we should see WelcomePage"
-        waitFor {at WelcomePage}
-        
-        cleanup: "logout after we finish"
-        logoutBtn.click()
-    }
+		then: "we should see WelcomePage"
+		waitFor {at WelcomePage}
+		
+		cleanup: "logout after we finish"
+		logoutBtn.click()
+	}
+	
 }

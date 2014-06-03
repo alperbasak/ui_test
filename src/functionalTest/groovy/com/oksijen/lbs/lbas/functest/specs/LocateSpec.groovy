@@ -17,7 +17,7 @@ import com.oksijen.lbs.lbas.functest.pages.WelcomePage
  * Also common spec level and method level setup / cleanup functions are included.
  *
  */
-@Ignore
+
 class LocateSpec extends GebSpec {	
 	@Shared params = new TestParams('TestParams')
 	

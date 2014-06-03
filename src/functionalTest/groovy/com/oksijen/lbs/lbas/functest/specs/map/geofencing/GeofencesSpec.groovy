@@ -1,4 +1,4 @@
-package com.oksijen.lbs.lbas.functest.specs.map.places
+package com.oksijen.lbs.lbas.functest.specs.map.geofencing
 
 import spock.lang.*
 import static org.hamcrest.Matchers.*

@@ -7,6 +7,7 @@ import static spock.util.matcher.HamcrestSupport.*
 import com.oksijen.lbs.lbas.functest.pages.calendar.CalendarHomePage
 import com.oksijen.lbs.lbas.functest.pages.map.MapHomePage
 import com.oksijen.lbs.lbas.functest.pages.privacy.PrivacyHomePage
+import com.oksijen.lbs.lbas.functest.pages.privacyterms.PrivacyTermsHomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
 import com.oksijen.lbs.lbas.functest.pages.account.AccountHomePage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
@@ -49,7 +50,7 @@ class WelcomeMenuSpec extends LocateSpec {
         waitFor {at MapHomePage}
     }
     
-    @Ignore
+    
     def "Inbox should be rendered when menu is clicked"() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
@@ -71,4 +72,15 @@ class WelcomeMenuSpec extends LocateSpec {
         then: "Account page should be rendered"
         waitFor {at AccountHomePage}
     }
+	
+	def "Privacy statements should be rendered when privacy statements button is clicked"() {
+		given: "We are at the WelcomePage"
+		at WelcomePage
+		
+		when: "I click Privacy Statement button"
+		privacyTerms.click()
+
+		then: "Privact terms page should be rendered"
+		waitFor {at PrivacyTermsHomePage}
+	}
 }
