@@ -17,7 +17,19 @@ import com.oksijen.lbs.lbas.functest.pages.WelcomePage
  */
 @Stepwise
 class WelcomeMenuSpec extends LocateSpec {
-    def "Calendar should be rendered when menu is clicked"() {
+	
+	def "Map should be rendered when menu is clicked"() {
+		given: "We are at the WelcomePage"
+		at WelcomePage
+		
+		when: "I click map link"
+		mapMenu.click()
+
+		then: "Map page should be rendered"
+		waitFor {at MapHomePage}
+	}
+	
+	def "Calendar should be rendered when menu is clicked"() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
     	
@@ -37,17 +49,6 @@ class WelcomeMenuSpec extends LocateSpec {
 
         then: "Privacy page should be rendered"
         waitFor {at PrivacyHomePage}
-    }
-    
-    def "Map should be rendered when menu is clicked"() {
-    	given: "We are at the WelcomePage"
-    	at WelcomePage
-    	
-        when: "I click map link"
-        mapMenu.click()
-
-        then: "Map page should be rendered"
-        waitFor {at MapHomePage}
     }
     
     
