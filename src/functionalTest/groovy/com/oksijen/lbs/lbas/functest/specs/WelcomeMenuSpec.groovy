@@ -62,6 +62,17 @@ class WelcomeMenuSpec extends LocateSpec {
         then: "Inbox page should be rendered"
         waitFor {at InboxHomePage}
     }
+	
+	def "Popup should be rendered when mouse hovered over it "() {
+    	given: "We are at the WelcomePage"
+    	at WelcomePage
+    	
+        when: "I hover over inbox link"
+        inboxMenu.moveToElement()
+
+        then: "Inbox popup menu should be rendered"
+        waitFor {at inboxPopupMenu}
+    }
     
     def "Account should be rendered when account button is clicked"() {
     	given: "We are at the WelcomePage"
