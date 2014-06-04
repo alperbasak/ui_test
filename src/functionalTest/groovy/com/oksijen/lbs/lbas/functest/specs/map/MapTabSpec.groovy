@@ -31,7 +31,7 @@ class MapTabSpec extends LocateSpec {
         when: "I click places link"
         placesTab.click()
 
-        then: "Assets tab should be rendered"
+        then: "Places tab should be rendered"
         waitFor {at PlacesPage}
     }
     
