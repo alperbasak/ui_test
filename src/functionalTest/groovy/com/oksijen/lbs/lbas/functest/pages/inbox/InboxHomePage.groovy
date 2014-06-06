@@ -13,5 +13,14 @@ class InboxHomePage extends WelcomePage {
         mainDiv(required: true) 	{ $("div#messages") }
         leftPanel(required: true) 	{ $("div#inbox") }
         rightPanel(required: true) 	{ $("div#messageDiv") }
+		
+		messages (required: true)	{ $("a#tab-mex") }
+		requests (required: true)	{ $("a.tab-inbox-requests") }
+		
+		searchMessage(required:true){ $("a#searchMessageArea") }
+		
+		inboxMenu(required: true) 	{ $("li.INBOX_menu") }
+		sentMenu(required: true) 	{ $("li.SENT_menu") }
+		trashMenu(required: true) 	{ $("li.TRASH_menu") }
     }
 }

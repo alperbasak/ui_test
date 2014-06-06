@@ -21,7 +21,7 @@ class WelcomePage extends LocatePage {
                 
         mapMenu(required: true) 		{ $('a#btn_map') }
         inboxMenu(required: true) 		{ $('a#btn_messages') }
-        calendarMenu(required: true)	{ $('a#btn_calendar') }
+		calendarMenu(required: true)	{ $('a#btn_calendar') }
         privacyMenu(required: true)		{ $('a#btn_privacy') }
 		
     }

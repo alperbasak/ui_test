@@ -11,6 +11,7 @@ import com.oksijen.lbs.lbas.functest.pages.privacyterms.PrivacyTermsHomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
 import com.oksijen.lbs.lbas.functest.pages.account.AccountHomePage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
+import com.oksijen.lbs.lbas.functest.pages.inbox.InboxPopupMenu
 
 /**
  * Created by cpekyaman on 3/25/2014.
@@ -51,16 +52,26 @@ class WelcomeMenuSpec extends LocateSpec {
         waitFor {at PrivacyHomePage}
     }
     
-    
-    def "Inbox should be rendered when menu is clicked"() {
+	def "Inbox should be rendered when menu is clicked"() {
+		given: "We are at the WelcomePage"
+		at WelcomePage
+		
+		when: "I click inbox link"
+		inboxMenu.click()
+
+		then: "Inbox page should be rendered"
+		waitFor {at InboxHomePage}
+	}
+   
+	def "Popup should be rendered when mouse hovered over it "() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
     	
-        when: "I click inbox link"
-        inboxMenu.click()
+        when: "I hover over inbox link"
+        inboxMenu.moveToElement()
 
-        then: "Inbox page should be rendered"
-        waitFor {at InboxHomePage}
+        then: "Inbox popup menu should be rendered"
+        waitFor {at InboxPopupMenu}
     }
     
     def "Account should be rendered when account button is clicked"() {
@@ -84,4 +95,5 @@ class WelcomeMenuSpec extends LocateSpec {
 		then: "Privact terms page should be rendered"
 		waitFor {at PrivacyTermsHomePage}
 	}
+		
 }
