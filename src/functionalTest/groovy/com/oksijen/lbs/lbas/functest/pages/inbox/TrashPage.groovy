@@ -1,6 +1,5 @@
 package com.oksijen.lbs.lbas.functest.pages.inbox
 
-import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
 /**
  * 
