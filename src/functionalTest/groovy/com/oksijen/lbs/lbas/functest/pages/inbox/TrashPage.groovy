@@ -9,6 +9,6 @@ class TrashPage extends InboxHomePage {
     static at = { mainDiv.displayed == true }
 
     static content = {
-		trash (required: true)	{ $("a#tab-trash") }
+		trash (required: true)	{ $('a#tab-trash') }
     }
 }

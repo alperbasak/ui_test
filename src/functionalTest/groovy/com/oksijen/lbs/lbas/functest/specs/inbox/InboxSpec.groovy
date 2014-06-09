@@ -10,7 +10,7 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 
 import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
-import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
+import com.oksijen.lbs.lbas.functest.pages.inbox.*
 
 
 /**
@@ -18,39 +18,60 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
  */
 @Stepwise
 class InboxSpec extends LocateSpec {
-	
-	def "Clicking inbox tab takes me to messages page" (){
+	@Ignore
+	def "Clicking inbox tab takes me to messages page"(){
 		given: "We are at the InboxHomePage"
-		at InboxHomePage
+		at WelcomePage
+		inboxMenu.click()
+		waitFor { at InboxHomePage}
 		
 		when: "I click Inbox tab"
-		inboxMenu.click()
+		inboxPanel.click()
 		
 		then: "Inbox page should render"
 		waitFor {at InboxHomePage}
 	}
-	
-	def "Clicking trash tab takes me to deleted messages page" () {
+	@Ignore
+	def "Clicking Incoming Requests tab takes me to incoming requests page"(){
 		given: "We are at the InboxHomePage"
-		at InboxHomePage
+		at WelcomePage
+		inboxMenu.click()
+		waitFor { at InboxHomePage}
+		
+		when: "I click Incoming Requests tab"
+		requestsInbox.click()
+		
+		then: "Incoming Requests page should render"
+		expect requestsInbox.displayed, is(true)
+	}
+	@Unroll
+	def "Clicking sent tab takes me to sent messages page"() {
+		given: "We are at the InboxHomePage"
+		at WelcomePage
+		inboxMenu.click()
+		waitFor {at InboxHomePage}
 		
 		when: "I click Sent tab"
-		sentMenu.click()
+		sentPanel.moveToElement()
+		sentPanel.click()
 		
 		then:"Sent page should render"
 		waitFor {at SentPage}
 	}
-	
-	def "Clicking sent tab takes me to sent messages page" () {
+	@Unroll
+	def "Clicking trash tab takes me to deleted messages page"() {
 		given: "We are at the InboxHomePage"
-		at InboxHomePage
+		at WelcomePage
+		inboxMenu.click()
+		waitFor { at InboxHomePage}
 		
-		when: "I click Sent tab"
-		sentMenu.click()
+		when: "I click Deleted tab"
+		trashPanel.click()
 		
 		then:"Trash page should render"
 		waitFor {at TrashPage}
 	}
+	
 	
 }
 
