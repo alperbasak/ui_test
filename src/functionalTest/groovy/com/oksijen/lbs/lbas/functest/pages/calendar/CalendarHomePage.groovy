@@ -13,5 +13,6 @@ class CalendarHomePage extends WelcomePage {
         mainDiv(required: true) 	{ $("div#calendar") }
         leftPanel(required: true) 	{ $("div.left") }
         rightPanel(required: true) 	{ $("div.right") }
+		calendarMenu(required: false)  { $("a#btn_calendar")}
     }
 }
