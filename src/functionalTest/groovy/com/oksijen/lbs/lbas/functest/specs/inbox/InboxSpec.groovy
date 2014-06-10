@@ -16,14 +16,15 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
 /**
  * 
  */
-@Stepwise
+
 class InboxSpec extends LocateSpec {
-	@Ignore
-	def "Clicking inbox tab takes me to messages page"(){
+	
+
+def "Clicking inbox tab takes me to messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.click()
-		waitFor { at InboxHomePage}
+		waitFor('slow') { at InboxHomePage}
 		
 		when: "I click Inbox tab"
 		inboxPanel.click()
@@ -31,39 +32,53 @@ class InboxSpec extends LocateSpec {
 		then: "Inbox page should render"
 		waitFor {at InboxHomePage}
 	}
-	@Ignore
-	def "Clicking Incoming Requests tab takes me to incoming requests page"(){
+	
+def "Clicking Incoming Requests tab takes me to incoming requests page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.click()
-		waitFor { at InboxHomePage}
+		waitFor('slow') { at InboxHomePage}
 		
 		when: "I click Incoming Requests tab"
-		requestsInbox.click()
+		requestsTab.click()
 		
 		then: "Incoming Requests page should render"
-		expect requestsInbox.displayed, is(true)
+		expect requestsTab.hasClass('ui-state-active'), is(true)
 	}
-	@Unroll
-	def "Clicking sent tab takes me to sent messages page"() {
+
+def "Clicking sent tab takes me to sent messages page"() {
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.click()
-		waitFor {at InboxHomePage}
+		waitFor('slow') {at InboxHomePage}
 		
 		when: "I click Sent tab"
-		sentPanel.moveToElement()
 		sentPanel.click()
 		
 		then:"Sent page should render"
 		waitFor {at SentPage}
 	}
-	@Unroll
-	def "Clicking trash tab takes me to deleted messages page"() {
+	
+def "Clicking Sent Requests tab takes me to sent requests page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.click()
-		waitFor { at InboxHomePage}
+		waitFor('slow') { at InboxHomePage}
+		
+		when: "I click Sent Requests tab"
+		sentPanel.click()
+		requestsTab.click()
+		
+		then: "Sent Requests page should render"
+		expect requestsTab.hasClass('ui-state-active'), is(true)
+	}
+	
+	
+def "Clicking trash tab takes me to deleted messages page"() {
+		given: "We are at the InboxHomePage"
+		at WelcomePage
+		inboxMenu.click()
+		waitFor('slow') { at InboxHomePage}
 		
 		when: "I click Deleted tab"
 		trashPanel.click()
@@ -71,7 +86,6 @@ class InboxSpec extends LocateSpec {
 		then:"Trash page should render"
 		waitFor {at TrashPage}
 	}
-	
 	
 }
 

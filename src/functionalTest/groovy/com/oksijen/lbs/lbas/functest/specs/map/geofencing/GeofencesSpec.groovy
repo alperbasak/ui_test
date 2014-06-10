@@ -26,7 +26,6 @@ class GeofencesSpec extends LocateSpec {
         then: "Geofence drawing toolbar should be visible on map"
         waitFor('fast') { hasSLink($('div.gm-style'), 'Save Geofence') == true }
         waitFor('fast') { hasSLink($('div.gm-style'), 'Cancel') == true }
-        //expect hasButton($('div.gm-style'), 'Cancel'), is(true)
-        //expect hasButton($('div.gm-style'), 'Save Geofence'), is(true)
+
     }
 }

@@ -11,5 +11,8 @@ class SentPage extends InboxHomePage {
     static content = {
 		sentMessages (required: true)	{ $('a.tab-sent-messages') }
 		sentRequests (required: true)	{ $('a.tab-sent-requests') }
+		sentTab (required: true)		{ $("li.tab-messages") }
+		requestsTab (required: true)	{ $("li.tab-requests") }
+		
     }
 }

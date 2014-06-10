@@ -10,20 +10,26 @@ class InboxHomePage extends WelcomePage {
     static at = { mainDiv.displayed == true }
 
     static content = {
-       mainDiv(required: true) 	{ $("div#messages") }
-        leftPanel(required: true) 	{ $("div#inbox") }
-        rightPanel(required: true) 	{ $("div#messageDiv") }
+		mainDiv(required: true) 		{ $("div#messages") }
+        leftPanel(required: true) 		{ $("div#inbox") }
+        rightPanel(required: true) 		{ $("div#messageDiv") }
+		
+		inboxPanel(required: false) 	{ $('li.INBOX-menu') }
+		sentPanel(required: false) 		{ $('li.SENT-menu')  }
+		trashPanel(required: false) 	{ $('li.TRASH-menu')  }
 		
 		messagesTab (required: true)	{ $("a#tab-mex") }
-		requestsTab (required: true)	{ $("a.tab-inbox-requests") }
-		inboxMessages (required: true)	{ $("a#tab-inbox-messages") }
+		requestsTab (required: true)	{ $("li.tab-requests") }
+			
+		searchMessage(required:true)	{ $("input#searchMessageInput") }
 		
-		requestsInbox (required: false)	{ $("div#tab-inbox-requests") }
+		newMessage(required:true)		{ $("li.newMsg")}
+		toInput(required: false) 		 { $("input#token-input-messageTo") }
+		subjectInput(required: false) 	 { $("input#messageSubject") }
+		messageInput(required: false) 	 { $("textarea#messageContent") }
+		addressList(required: false)		{ $('div.token-input-dropdown-facebook') }
+		addressListItems(required: false)	{ addressList.find('ul').children()}
 		
-		searchMessage(required:true){ $("input#searchMessageInput") }
-		
-		inboxPanel(required: false) 	{ $('a.inbox span') }
-		sentPanel(required: false) 	{ $('a.sent span')  }
-		trashPanel(required: false) 	{ $('a.trash span')  }
+
     }
 }
