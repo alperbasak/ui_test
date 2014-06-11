@@ -23,6 +23,6 @@ class WelcomePage extends LocatePage {
         inboxMenu(required: true) 		{ $('a#btn_messages') }
 		calendarMenu(required: true)	{ $('a#btn_calendar') }
         privacyMenu(required: true)		{ $('a#btn_privacy') }
-		
+
     }
 }
