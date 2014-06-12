@@ -45,6 +45,21 @@ class CalendarSpec extends LocateSpec {
 		
 	}
 	
+	def "Weekly view is displayed"(){
+		given: "We are at the WelcomePage"
+		at WelcomePage
+		calendarMenu.click()
+						
+		when: "Week is clicked"
+		waitFor {at CalendarHomePage}
+		
+		weekView.click()
+				
+		then: "Calendar weekly view page should render"
+		waitFor {at CalendarWeekPage}
+		
+	}
+	
 }
 
 
