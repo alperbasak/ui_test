@@ -27,9 +27,12 @@ class InboxHomePage extends WelcomePage {
 		toInput(required: false) 		 { $("input#token-input-messageTo") }
 		subjectInput(required: false) 	 { $("input#messageSubject") }
 		messageInput(required: false) 	 { $("textarea#messageContent") }
+		
 		addressList(required: false)		{ $('div.token-input-dropdown-facebook') }
 		addressListItems(required: false)	{ addressList.find('ul').children()}
 		
-
+		successSent(required: false) 		{ $("div.successMessageCheck") }
+		errorMessage(required: false)		{$("a.js-error-message") }
+		errorMessageDetail(required: false)	{$("div.tooltip-alert-generic-left")}
     }
 }
