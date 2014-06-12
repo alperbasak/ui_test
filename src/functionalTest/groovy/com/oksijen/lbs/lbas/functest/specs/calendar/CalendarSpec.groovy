@@ -14,11 +14,11 @@ import com.oksijen.lbs.lbas.functest.pages.calendar.*
 
 
 /**
- * 
- */
+ *created by cturkdogan on 6/12/2014 */
+
 @Stepwise
 class CalendarSpec extends LocateSpec {
-	@Unroll
+	
 	def "Month view is displayed"(){
 		given: "We are at the WelcomePage"
 		at WelcomePage
@@ -42,6 +42,21 @@ class CalendarSpec extends LocateSpec {
 				
 		then: "Calendar page should render"
 		expect highlightToday.displayed, is(true)
+		
+	}
+	
+	def "Weekly view is displayed"(){
+		given: "We are at the WelcomePage"
+		at WelcomePage
+		calendarMenu.click()
+						
+		when: "Week is clicked"
+		waitFor {at CalendarHomePage}
+		
+		weekView.click()
+				
+		then: "Calendar weekly view page should render"
+		waitFor {at CalendarWeekPage}
 		
 	}
 	
