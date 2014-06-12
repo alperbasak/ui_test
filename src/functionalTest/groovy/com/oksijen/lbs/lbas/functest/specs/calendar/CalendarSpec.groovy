@@ -10,7 +10,7 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 
 import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
-import com.oksijen.lbs.lbas.functest.pages.calendar.CalendarHomePage
+import com.oksijen.lbs.lbas.functest.pages.calendar.*
 
 
 /**
@@ -19,16 +19,32 @@ import com.oksijen.lbs.lbas.functest.pages.calendar.CalendarHomePage
 @Stepwise
 class CalendarSpec extends LocateSpec {
 	@Unroll
-	def "Clicking calendar tab takes me to calendar page"(){
+	def "Month view is displayed"(){
 		given: "We are at the WelcomePage"
 		at WelcomePage
-				
-		when: "I click Calendar tab"
 		calendarMenu.click()
+						
+		when: "Calendar page is displayed"
+		waitFor {at CalendarHomePage}
 				
 		then: "Calendar page should render"
-		waitFor {at CalendarHomePage}
+		expect currentDate.displayed, is(true)
+		
 	}
+	
+	def "Today is highlighted"(){
+		given: "We are at the WelcomePage"
+		at WelcomePage
+		calendarMenu.click()
+						
+		when: "Calendar page is displayed"
+		waitFor {at CalendarHomePage}
+				
+		then: "Calendar page should render"
+		expect highlightToday.displayed, is(true)
+		
+	}
+	
 }
 
 

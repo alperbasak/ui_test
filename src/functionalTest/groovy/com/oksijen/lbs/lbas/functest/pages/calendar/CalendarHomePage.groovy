@@ -14,5 +14,7 @@ class CalendarHomePage extends WelcomePage {
         leftPanel(required: true) 	{ $("div.left") }
         rightPanel(required: true) 	{ $("div.right") }
 		calendarMenu(required: false)  { $("a#btn_calendar")}
+		currentDate(required: false) { $("div.fc-day-number")}
+		highlightToday(required: false) { $("td.fc-thu.fc-widget-content.fc-day17.fc-state-highlight.fc-today")}
     }
 }
