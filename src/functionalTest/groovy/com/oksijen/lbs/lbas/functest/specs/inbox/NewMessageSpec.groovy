@@ -18,7 +18,7 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
  */
 
 class NewMessageSpec extends LocateSpec {
-	@IgnoreRest
+	
 	def "Clicking cancel button closes new message dialog"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
@@ -33,7 +33,7 @@ class NewMessageSpec extends LocateSpec {
 		waitFor('fast') { hasButton($("form#sendMessage"), 'Cancel') == true }
 		
 		and:"Click cancel button"
-		clickButton('cancel')							//dont click
+		$("td.buttons_class button.cancel").click()
 		waitFor('fast') { hasButton($("form#sendMessage"), 'Send') == false }
 		waitFor('fast') { hasButton($("form#sendMessage"), 'Cancel') == false }
 	}
@@ -50,17 +50,17 @@ class NewMessageSpec extends LocateSpec {
 		then: "New message dialog opens; Click send without recipient"
 		waitFor('fast') {  hasButton($("form#sendMessage"), 'Send') == true }
         waitFor('fast') {  hasButton($("form#sendMessage"), 'Cancel') == true }
-		clickButton($('form#sendMessage'),'Send')								//dont click
+		$("td.buttons_class button.send").click()								
 		
 		and:"Error message is displayed"
-		waitFor { errorMessage.displayed == true}
+		waitFor { errorMessage.displayed == true}							//false
 		
 		and:"Detailed dialog opens when clicked on error message"
-		errorMessage.click()
+		$("a.js-error-message").click()
 		waitFor	{ errorMessageDetail.displayed == true}
 	}
 		
-		
+	@Ignore
 	def "Clicking New message creates a new message"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
@@ -85,10 +85,11 @@ class NewMessageSpec extends LocateSpec {
 		messageInput << params.get('newMessage.messageInput')
 		
 		and:"Click send button"
-		clickButton($('div.ui-dialog'), 'Send')						//dont click
+		$("td.buttons_class button.send").click()
 		waitfor { successSent.displayed==true }
 	}
 	
+	@Ignore
 	def "Checking also SMS sends SMS to recipient"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
@@ -114,7 +115,7 @@ class NewMessageSpec extends LocateSpec {
 	
 		and:"Check 'send via SMS' box and send message"
 		$("checkbox", name: "isSmsSend").value("false")				//onchange?
-		clickButton($('div.ui-dialog'), 'Send')					//dont click
+		$("td.buttons_class button.send").click()
 		waitfor { successSent.displayed==true }
 	}
 }

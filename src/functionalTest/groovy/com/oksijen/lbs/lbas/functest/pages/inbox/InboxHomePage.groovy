@@ -32,10 +32,10 @@ class InboxHomePage extends WelcomePage {
 		addressListItems(required: false)	{ addressList.find('ul').children()}
 		
 		successSent(required: false) 		{ $("div.successMessageCheck") }
-		errorMessage(required: false)		{$("a.js-error-message") }
+		errorMessage(required: false)		{$("div.content-cell") }
 		errorMessageDetail(required: false)	{$("div.tooltip-alert-generic-left")}
 		
-		markBtns(required: false)			{$("a.inboxActionLink")}
+		markBtns(required: false)			{$("a#inboxActionLink")}
 		markAsRead(required: false)			{markBtns.find('mark-read')}
 		markAsUnread(required: false)		{markBtns.find('mark-unread')}
 		markDelete(required: false)			{markBtns.find('mark-delete')}
