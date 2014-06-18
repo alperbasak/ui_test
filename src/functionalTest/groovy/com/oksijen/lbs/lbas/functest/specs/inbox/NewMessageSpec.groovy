@@ -16,7 +16,7 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
 /**
  *
  */
-
+@Stepwise
 class NewMessageSpec extends LocateSpec {
 	
 	def "Clicking cancel button closes new message dialog"(){
@@ -53,15 +53,73 @@ class NewMessageSpec extends LocateSpec {
 		$("td.buttons_class button.send").click()								
 		
 		and:"Error message is displayed"
-		waitFor { errorMessage.displayed == true}							//false
+		waitFor('fast') { errorMessage.displayed == true}						
 		
-		and:"Detailed dialog opens when clicked on error message"
-		$("a.js-error-message").click()
-		waitFor	{ errorMessageDetail.displayed == true}
+		and:"Detailed dialog opens when clicked on error message; close message dialog"
+		errorMessage.click()
+		waitFor('fast')	{ errorMessageDetail.eq(0).displayed == true}
+		$("td.buttons_class button.cancel").click()
 	}
+	
+	def "Clicking X next to name, deletes the name"(){
+		given: "We are at the InboxHomePage"
+		at WelcomePage
+		inboxMenu.click()
+		waitFor('slow') { at InboxHomePage}
 		
-	@Ignore
-	def "Clicking New message creates a new message"(){
+		when: "I click New Message"
+		newMessage.click()
+		
+		then: "New message dialog opens"
+		waitFor('fast') { hasButton($("form#sendMessage"), 'Send') == true }
+		waitFor('fast') { hasButton($("form#sendMessage"), 'Cancel') == true }
+		
+		and: "I enter messageTo and autocomplete should be visible"
+		toInput << params.get('newMessage.toInput')
+		waitFor { addressList.displayed == true }					
+		expect addressListItems.size(), greaterThan(0)
+		
+		and:"Select first and click X to delete"
+		addressListItems.click()
+		expect $("ul.token-input-list-facebook").children().size(), greaterThan(0)
+		$("ul.token-input-list-facebook li span").click()
+		waitFor("fast") {$("ul.token-input-list-facebook").children().size()==1}
+	}
+	
+	def "Entering over 480 characters in subject area, opens up error dialog"(){
+		given: "We are at the InboxHomePage"
+		at WelcomePage
+		inboxMenu.click()
+		waitFor('slow') { at InboxHomePage}
+		
+		when: "I click New Message"
+		newMessage.click()
+		
+		then: "New message dialog opens"
+		waitFor('fast') {  hasButton($("form#sendMessage"), 'Send') == true }
+		waitFor('fast') {  hasButton($("form#sendMessage"), 'Cancel') == true }
+		
+		and: "I enter messageTo and autocomplete should be visible"
+		toInput << params.get('newMessage.toInput')
+		waitFor { addressList.displayed == true }
+		expect addressListItems.size(), greaterThan(0)
+		
+		and:"Select first and enter other parameters"
+		addressListItems.click()
+		subjectInput << params.get('newMessage.subjectInput')
+		messageInput << params.get('newMessage.charLimit')
+		$("td.buttons_class button.send").click()
+		
+		and:"Error message is displayed and error dialog opens when hovered and clicked on error message"
+		waitFor('fast') { errorMessage.displayed == true}
+		$("a.alert-charts").jquery.mouseover()										
+		waitFor('fast') {  errorMessageDetail.eq(3).displayed ==true}
+		errorMessage.click()
+		waitFor('fast') {  errorMessageDetail.eq(2).displayed ==true}
+		$("td.buttons_class button.cancel").click()
+	}
+	
+	def "Clicking Send sends a new message"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.click()
@@ -76,20 +134,21 @@ class NewMessageSpec extends LocateSpec {
 		
 		and: "I enter messageTo and autocomplete should be visible"
 		toInput << params.get('newMessage.toInput')
-		waitFor { addressList.displayed == true }						 //addressList displayed false donuyor
+		waitFor { addressList.displayed == true }					
 		expect addressListItems.size(), greaterThan(0)
 		
 		and:"Select first and enter other parameters"
-		clickFirstItem(addressListItems)
+		addressListItems.click()
 		subjectInput << params.get('newMessage.subjectInput')
 		messageInput << params.get('newMessage.messageInput')
 		
 		and:"Click send button"
 		$("td.buttons_class button.send").click()
-		waitfor { successSent.displayed==true }
+		expect successSent.displayed, is(true)
+		waitFor {successSent.displayed==false}
 	}
 	
-	@Ignore
+
 	def "Checking also SMS sends SMS to recipient"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
@@ -105,18 +164,19 @@ class NewMessageSpec extends LocateSpec {
 		
 		and: "I enter messageTo and autocomplete should be visible"
 		toInput << params.get('newMessage.toInput')
-		waitFor { addressList.displayed == true }						 //addressList displayed false donuyor
+		waitFor { addressList.displayed == true }						
 		expect addressListItems.size(), greaterThan(0)
 		
 		and:"Select first and enter other parameters"
-		clickFirstItem(addressListItems)
+		addressListItems.click()
 		subjectInput << params.get('newMessage.subjectInput')
 		messageInput << params.get('newMessage.messageInput')
 	
 		and:"Check 'send via SMS' box and send message"
-		$("checkbox", name: "isSmsSend").value("false")				//onchange?
+		$("span.jqTransformCheckboxWrapper").click()			
 		$("td.buttons_class button.send").click()
-		waitfor { successSent.displayed==true }
+		expect successSent.displayed, is(true)
+		waitFor {successSent.displayed==false}
 	}
 }
 

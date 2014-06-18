@@ -14,12 +14,12 @@ class InboxHomePage extends WelcomePage {
         leftPanel(required: true) 		{ $("div#inbox") }
         rightPanel(required: true) 		{ $("div#messageDiv") }
 		
-		inboxPanel(required: false) 	{ $('li.INBOX-menu') }
-		sentPanel(required: false) 		{ $('li.SENT-menu')  }
-		trashPanel(required: false) 	{ $('li.TRASH-menu')  }
+		inboxPanel(required: false) 	{ $('li.INBOX_menu') }
+		sentPanel(required: false) 		{ $('li.SENT_menu')  }
+		trashPanel(required: false) 	{ $('li.TRASH_menu')  }
 		
 		messagesTab (required: true)	{ $("a#tab-mex") }
-		requestsTab (required: true)	{ $("li.tab-requests") }
+		requestsTab (required: false)	{ $("li.tab-requests") }
 			
 		searchMessage(required:true)	{ $("input#searchMessageInput") }
 		
@@ -27,17 +27,23 @@ class InboxHomePage extends WelcomePage {
 		toInput(required: false) 		 { $("input#token-input-messageTo") }
 		subjectInput(required: false) 	 { $("input#messageSubject") }
 		messageInput(required: false) 	 { $("textarea#messageContent") }
-		
-		addressList(required: false)		{ $('div.token-input-dropdown-facebook') }
-		addressListItems(required: false)	{ addressList.find('ul').children()}
+		messageDetail(required: false)		{$("div#messageDetail")}
+						
+		addressList(required: false)		{ $('div.token-input-dropdown-facebook ul') }
+		addressListItems(required: false)	{ addressList.children()}
 		
 		successSent(required: false) 		{ $("div.successMessageCheck") }
-		errorMessage(required: false)		{$("div.content-cell") }
+		errorMessage(required: false)		{$("ul#send-list-wrapper li a") }
 		errorMessageDetail(required: false)	{$("div.tooltip-alert-generic-left")}
 		
-		markBtns(required: false)			{$("a#inboxActionLink")}
-		markAsRead(required: false)			{markBtns.find('mark-read')}
-		markAsUnread(required: false)		{markBtns.find('mark-unread')}
-		markDelete(required: false)			{markBtns.find('mark-delete')}
+		selectAllBox(required: false)		{$("li.selectAll")}
+		markAsRead(required: false)			{$("div#tab-inbox-messages ul li").eq(2).children()}
+		markAsUnread(required: false)		{$("div#tab-inbox-messages ul li").eq(3).children()}
+		markDelete(required: false)			{$("div#tab-inbox-messages ul li").eq(4).children()}
+				
+		replyBtn(required: false)			{$("ul.messageTools.clearfix li").eq(3)}
+		replyAllBtn(required: false)		{$("ul.messageTools.clearfix li").eq(2)}
+		forwardBtn(required: false)			{$("ul.messageTools.clearfix li").eq(1)}
+		deleteBtn(required: false)			{$("ul.messageTools.clearfix li").eq(0)}
     }
 }

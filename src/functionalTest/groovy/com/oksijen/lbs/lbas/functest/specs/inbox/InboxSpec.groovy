@@ -20,7 +20,7 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
 class InboxSpec extends LocateSpec {
 	
 
-def "Clicking inbox tab takes me to messages page"(){
+	def "Clicking inbox tab takes me to messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.click()
@@ -33,19 +33,21 @@ def "Clicking inbox tab takes me to messages page"(){
 		waitFor {at InboxHomePage}
 	}
 	
-def "Clicking Incoming Requests tab takes me to incoming requests page"(){
-		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
-		
-		when: "I click Incoming Requests tab"
-		requestsTab.click()
-		
-		then: "Incoming Requests page should render"
-		expect requestsTab.hasClass('ui-state-active'), is(true)
-	}
-
+	def "Clicking Incoming Requests tab takes me to incoming requests page"(){
+			given: "We are at the InboxHomePage"
+			at WelcomePage
+			inboxMenu.click()
+			waitFor('slow') { at InboxHomePage}
+			
+			when: "I click Incoming Requests tab"
+			inboxPanel.click()
+			requestsTab.click()
+			
+			then: "Incoming Requests page should render"
+			expect requestsTab.hasClass('ui-state-active'), is(true)
+		}
+	
+	
 def "Clicking sent tab takes me to sent messages page"() {
 		given: "We are at the InboxHomePage"
 		at WelcomePage
@@ -73,8 +75,7 @@ def "Clicking Sent Requests tab takes me to sent requests page"(){
 		expect requestsTab.hasClass('ui-state-active'), is(true)
 	}
 	
-	
-def "Clicking trash tab takes me to deleted messages page"() {
+	def "Clicking trash tab takes me to deleted messages page"() {
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.click()
@@ -86,6 +87,7 @@ def "Clicking trash tab takes me to deleted messages page"() {
 		then:"Trash page should render"
 		waitFor {at TrashPage}
 	}
+
 	
 }
 
