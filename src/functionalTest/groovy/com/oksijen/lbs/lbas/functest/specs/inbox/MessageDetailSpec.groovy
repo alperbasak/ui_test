@@ -75,6 +75,7 @@ def "Clicking on Reply, opens reply dialog; Send, sends the message"() {
 	waitFor('fast') { hasButton($("form#sendMessage"), 'Cancel') == true }
 	
 	and:"I click Send and success dialog renders and I go back to inboxPage"
+	messageInput << params.get('messageDetail.reply')
 	$("td.buttons_class button.send").click()
 	expect successSent.displayed, is(true)
 	waitFor {successSent.displayed==false}
@@ -99,6 +100,7 @@ def "Clicking on Reply, opens reply dialog; via SMS is selected, also sends the 
 	waitFor('fast') { hasButton($("form#sendMessage"), 'Cancel') == true }
 	
 	and:"I select Via SMS checkbox, click Send and success dialog renders and I go back to inboxPage"
+	messageInput << params.get('messageDetail.reply')
 	$("span.jqTransformCheckboxWrapper").click()
 	$("td.buttons_class button.send").click()
 	expect successSent.displayed, is(true)
@@ -149,6 +151,7 @@ def "Clicking on Reply All, opens reply all dialog; Send, sends the message"() {
 	
 	and:"I check for multiple recipients; I click Send and success dialog renders"
 	expect $("ul.token-input-list-facebook").children().size(), greaterThan(2)
+	messageInput << params.get('messageDetail.replyAll')
 	$("td.buttons_class button.send").click()
 	expect successSent.displayed, is(true)
 	waitFor {successSent.displayed==false}
@@ -176,6 +179,7 @@ def "Clicking on Reply all, opens reply all dialog; via SMS is selected, also se
 	
 	and:"I select Via SMS checkbox, click Send and success dialog renders"
 	expect $("ul.token-input-list-facebook").children().size(), greaterThan(2)
+	messageInput << params.get('messageDetail.replyAll')
 	$("span.jqTransformCheckboxWrapper").click()
 	$("td.buttons_class button.send").click()
 	expect successSent.displayed, is(true)
@@ -230,6 +234,7 @@ def "Clicking on Forward, opens forward dialog; Send, sends the message"() {
 	waitFor { addressList.displayed == true }
 	expect addressListItems.size(), greaterThan(0)
 	addressListItems.click()
+	messageInput << params.get('messageDetail.forward')
 	$("td.buttons_class button.send").click()
 	expect successSent.displayed, is(true)
 	waitFor {successSent.displayed==false}
@@ -260,6 +265,7 @@ def "Clicking on Forward, opens forward dialog; via SMS is selected, also sends 
 	waitFor { addressList.displayed == true }
 	expect addressListItems.size(), greaterThan(0)
 	addressListItems.click()
+	messageInput << params.get('messageDetail.forward')
 	$("span.jqTransformCheckboxWrapper").click()
 	$("td.buttons_class button.send").click()
 	expect successSent.displayed, is(true)
