@@ -22,6 +22,8 @@ class NewMessageSpec extends LocateSpec {
 	def "Clicking cancel button closes new message dialog"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -41,6 +43,8 @@ class NewMessageSpec extends LocateSpec {
 	def "Empty recipient input returns error"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -64,6 +68,8 @@ class NewMessageSpec extends LocateSpec {
 	def "Clicking X next to name, deletes the name"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -89,6 +95,8 @@ class NewMessageSpec extends LocateSpec {
 	def "Entering over 480 characters in subject area, opens up error dialog"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -122,6 +130,8 @@ class NewMessageSpec extends LocateSpec {
 	def "Clicking Send sends a new message"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -152,6 +162,8 @@ class NewMessageSpec extends LocateSpec {
 	def "Checking also SMS sends SMS to recipient"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		

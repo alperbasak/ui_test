@@ -23,6 +23,8 @@ class InboxSpec extends LocateSpec {
 	def "Clicking inbox tab takes me to messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -34,10 +36,12 @@ class InboxSpec extends LocateSpec {
 	}
 	
 	def "Clicking Incoming Requests tab takes me to incoming requests page"(){
-			given: "We are at the InboxHomePage"
-			at WelcomePage
-			inboxMenu.click()
-			waitFor('slow') { at InboxHomePage}
+		given: "We are at the InboxHomePage"
+		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
+		inboxMenu.click()
+		waitFor('slow') { at InboxHomePage}
 			
 			when: "I click Incoming Requests tab"
 			inboxPanel.click()
@@ -51,8 +55,10 @@ class InboxSpec extends LocateSpec {
 def "Clicking sent tab takes me to sent messages page"() {
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
-		waitFor('slow') {at InboxHomePage}
+		waitFor('slow') { at InboxHomePage}
 		
 		when: "I click Sent tab"
 		sentPanel.click()
@@ -64,6 +70,8 @@ def "Clicking sent tab takes me to sent messages page"() {
 def "Clicking Sent Requests tab takes me to sent requests page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -78,6 +86,8 @@ def "Clicking Sent Requests tab takes me to sent requests page"(){
 	def "Clicking trash tab takes me to deleted messages page"() {
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		

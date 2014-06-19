@@ -23,6 +23,8 @@ class MessageNavSpec extends LocateSpec {
 	def "Clicking next arrow takes me to next messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -39,6 +41,8 @@ class MessageNavSpec extends LocateSpec {
 	def "Clicking last arrow takes me to last messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -54,6 +58,8 @@ class MessageNavSpec extends LocateSpec {
 	def "Clicking prev arrow takes me to previous messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
@@ -71,6 +77,8 @@ class MessageNavSpec extends LocateSpec {
 	def "Clicking first arrow takes me to first messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
+		inboxMenu.moveToElement()
+		waitFor('slow') {at InboxPopupMenu}
 		inboxMenu.click()
 		waitFor('slow') { at InboxHomePage}
 		
