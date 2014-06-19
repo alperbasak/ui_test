@@ -15,8 +15,12 @@ class CalendarHomePage extends WelcomePage {
 		rightPanel(required: true) 	{ $("div.right") }
 		calendarMenu(required: false)  { $("a#btn_calendar")}
 		currentDate(required: false) { $("div.fc-day-number")}
-		highlightToday(required: false) { $("td.fc-thu.fc-widget-content.fc-day17.fc-state-highlight.fc-today")}
+		highlightToday(required: false) { $("td.fc-today")}
 		weekView(required: false) { $("span.fc-button.fc-button-agendaWeek.fc-state-default")}
-		dayView(required:false) { $("span.fc-button.fc-button-agendaDay.fc-state-default.fc-corner-left.fc-state-active")}
+		dayView(required:false) { $("span.fc-button.fc-button-agendaDay")}
+		meetingSubject(required: false)  { $("span#meetingSubjectVld")}
+		meetingmonthTitle(required: false) { $("span#ui-dialog-title-dialog")}
+		monthPointer(required: false) { $("td.fc-mon.fc-widget-content.fc-day0.fc-first.fc-other-month")}
+		cancelMeetingButton(required: false) { $("button#inboxLocationRequestRejectButton")}
 	}
 }
