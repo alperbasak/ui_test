@@ -40,10 +40,16 @@ class InboxHomePage extends WelcomePage {
 		markAsRead(required: false)			{$("div#tab-inbox-messages ul li").eq(2).children()}
 		markAsUnread(required: false)		{$("div#tab-inbox-messages ul li").eq(3).children()}
 		markDelete(required: false)			{$("div#tab-inbox-messages ul li").eq(4).children()}
-				
+		markDeleteTrash(required: false)	{$("div#tab-trash ul li").eq(1).children()}
+		backToInbox(required: false)		{$("div#tab-trash ul li").eq(2).children()}
+		
 		replyBtn(required: false)			{$("ul.messageTools.clearfix li").eq(3)}
 		replyAllBtn(required: false)		{$("ul.messageTools.clearfix li").eq(2)}
 		forwardBtn(required: false)			{$("ul.messageTools.clearfix li").eq(1)}
 		deleteBtn(required: false)			{$("ul.messageTools.clearfix li").eq(0)}
+		
+		cancelTrash(required: false)		{$("div.ui-dialog").find('button.cancel')}
+		deleteTrash(required: false)		{$("div.ui-dialog").find('button.send')}
+		
     }
 }
