@@ -23,6 +23,9 @@ class WelcomePage extends LocatePage {
         inboxMenu(required: true) 		{ $('a#btn_messages') }
 		calendarMenu(required: true)	{ $('a#btn_calendar') }
         privacyMenu(required: true)		{ $('a#btn_privacy') }
+		
+		locateLogo(required:true) 		{$("div.logo")}
+		popupInbox(required: false) 	{$('ul.tab-access li',0)}
 
     }
 }

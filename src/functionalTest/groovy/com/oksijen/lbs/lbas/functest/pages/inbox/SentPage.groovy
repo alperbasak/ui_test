@@ -9,6 +9,7 @@ class SentPage extends InboxHomePage {
     static at = { mainDiv.displayed == true }
 
     static content = {
+		mainDiv(required: true) 		{ $("div#tab-sent-messages") }
 		sentMessages (required: true)	{ $('a.tab-sent-messages') }
 		sentRequests (required: true)	{ $('a.tab-sent-requests') }
 		sentTab (required: true)		{ $("li.tab-messages") }

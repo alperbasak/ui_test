@@ -23,10 +23,10 @@ class MessageNavSpec extends LocateSpec {
 	def "Clicking next arrow takes me to next messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		inboxMenu.jquery.mouseover()
+		waitFor {at InboxPopupMenu}
+		popupInbox.click()
+		waitFor { at InboxHomePage}
 		
 		when:"I check for if I'm at the first page and click next arrow"
 		waitFor('fast') {$("div#inboxPaging ul li", 0).children().hasClass('active')==true}
@@ -40,11 +40,7 @@ class MessageNavSpec extends LocateSpec {
 	
 	def "Clicking last arrow takes me to last messages page"(){
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 		
 		when:"I check for if I'm at the first page and click last arrow"
 		waitFor('fast') {$("div#inboxPaging ul li", 0).children().hasClass('active')==true}
@@ -57,11 +53,7 @@ class MessageNavSpec extends LocateSpec {
 	
 	def "Clicking prev arrow takes me to previous messages page"(){
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 		
 		when:"I check for if I'm at the last page and click prev arrow"
 		$("div#inboxPaging a.inboxPagingLink", 1).click()
@@ -76,11 +68,7 @@ class MessageNavSpec extends LocateSpec {
 	
 	def "Clicking first arrow takes me to first messages page"(){
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 		
 		when:"I check for if I'm at the last page and click first arrow"
 		$("div#inboxPaging a.inboxPagingLink", 1).click()

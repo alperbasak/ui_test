@@ -21,10 +21,10 @@ class MessageDetailSpec extends LocateSpec {
 def "Clicking on a message displays the message"() {
 		given: "We are at the InboxHomePage"
 		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		inboxMenu.jquery.mouseover()
+		waitFor {at InboxPopupMenu}
+		popupInbox.click()
+		waitFor { at InboxHomePage}
 	
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -38,11 +38,7 @@ def "Clicking on a message displays the message"() {
 
 def "Clicking on Reply, opens reply dialog; Cancel, closes dialog"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 	
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -64,11 +60,7 @@ def "Clicking on Reply, opens reply dialog; Cancel, closes dialog"() {
 
 def "Clicking on Reply, opens reply dialog; Send, sends the message"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage	
 	
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -91,11 +83,7 @@ def "Clicking on Reply, opens reply dialog; Send, sends the message"() {
 
 def "Clicking on Reply, opens reply dialog; via SMS is selected, also sends the message via SMS"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 	
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -119,11 +107,7 @@ def "Clicking on Reply, opens reply dialog; via SMS is selected, also sends the 
 
 def "Clicking on Reply All, opens reply all dialog; Cancel, closes dialog"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 	
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -145,11 +129,7 @@ def "Clicking on Reply All, opens reply all dialog; Cancel, closes dialog"() {
 
 def "Clicking on Reply All, opens reply all dialog; Send, sends the message"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 	
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -175,11 +155,7 @@ def "Clicking on Reply All, opens reply all dialog; Send, sends the message"() {
 
 def "Clicking on Reply all, opens reply all dialog; via SMS is selected, also sends the message via SMS"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 		
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -205,11 +181,7 @@ def "Clicking on Reply all, opens reply all dialog; via SMS is selected, also se
 }
 def "Clicking on Forward, opens forward dialog; Cancel, closes dialog"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 	
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -231,11 +203,7 @@ def "Clicking on Forward, opens forward dialog; Cancel, closes dialog"() {
 
 def "Clicking on Forward, opens forward dialog; Send, sends the message"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 	
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -264,11 +232,7 @@ def "Clicking on Forward, opens forward dialog; Send, sends the message"() {
 
 def "Clicking on Forward, opens forward dialog; via SMS is selected, also sends the message via SMS"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 		
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -298,11 +262,7 @@ def "Clicking on Forward, opens forward dialog; via SMS is selected, also sends 
 
 def "Clicking on Delete, opens delete success dialog"() {
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 		
 	when: "I click on a message"
 	waitFor {$("table#inboxTable tbody").children().size() > 0}

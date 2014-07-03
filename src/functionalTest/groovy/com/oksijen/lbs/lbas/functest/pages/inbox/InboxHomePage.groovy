@@ -22,7 +22,7 @@ class InboxHomePage extends WelcomePage {
 		requestsTab (required: false)	{ $("li.tab-requests") }
 			
 		searchMessage(required:true)	{ $("input#searchMessageInput") }
-		
+				
 		newMessage(required:true)		{ $("li.newMsg")}
 		toInput(required: false) 		 { $("input#token-input-messageTo") }
 		subjectInput(required: false) 	 { $("input#messageSubject") }

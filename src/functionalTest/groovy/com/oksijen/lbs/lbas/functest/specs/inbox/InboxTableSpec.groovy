@@ -21,10 +21,10 @@ class InboxTableSpec extends LocateSpec {
 	def "Checking if buttons activate on checkbox click"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		inboxMenu.jquery.mouseover()
+		waitFor {at InboxPopupMenu}
+		popupInbox.click()
+		waitFor { at InboxHomePage}
 		
 		when: "Check if buttons inactive & at least one message then select one message"
 		waitFor('fast') {markAsRead.hasClass('multi_user_button_inactive')==true}
@@ -42,11 +42,7 @@ class InboxTableSpec extends LocateSpec {
 
 	def "Clicking select all, selects all messages"(){
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 		
 		when: "Check if buttons inactive & at least one message then select all messages"
 		waitFor('fast') {markAsRead.hasClass('multi_user_button_inactive')==true}
@@ -64,12 +60,8 @@ class InboxTableSpec extends LocateSpec {
 	
 	def "Clicking Delete, Deletes selected message"(){
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
-		
+		at InboxHomePage
+	
 		when: "Check if buttons inactive & at least one message then select one message"
 		waitFor('fast') {markDelete.hasClass('multi_user_button_inactive')==true}
 		waitFor {$("table#inboxTable tbody").children().size() > 0}
@@ -84,11 +76,7 @@ class InboxTableSpec extends LocateSpec {
 	
 	def "Clicking Mark As Read, changes selected message status as read"(){
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 		
 		when: "Check if buttons inactive & at least one message then select one unread message"
 		waitFor('fast') {markAsRead.hasClass('multi_user_button_inactive')==true}
@@ -106,11 +94,7 @@ class InboxTableSpec extends LocateSpec {
 	
 	def "Clicking Mark As Unread, changes selected message status as unread"(){
 		given: "We are at the InboxHomePage"
-		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		at InboxHomePage
 		
 		when: "Check if buttons inactive & at least one message then select one read message"
 		waitFor('fast') {markAsUnread.hasClass('multi_user_button_inactive')==true}

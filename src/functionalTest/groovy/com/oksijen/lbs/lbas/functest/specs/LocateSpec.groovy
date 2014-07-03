@@ -36,11 +36,11 @@ class LocateSpec extends GebSpec {
     
 	// run before every feature method
     def setup() {
-    }          
+		    }          
 	
     // run after every feature method
     def cleanup() {
-    }
+		    }
 	
     // run after the last feature method
     def cleanupSpec() {

@@ -12,6 +12,7 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
 import com.oksijen.lbs.lbas.functest.pages.account.AccountHomePage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.InboxPopupMenu
+import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
 
 /**
  * Created by cpekyaman on 3/25/2014.
@@ -68,7 +69,7 @@ class WelcomeMenuSpec extends LocateSpec {
     	at WelcomePage
     	
         when: "I hover over inbox link"
-        inboxMenu.moveToElement()
+        inboxMenu.jquery.mouseover()
 
         then: "Inbox popup menu should be rendered"
         waitFor {at InboxPopupMenu}
@@ -95,5 +96,5 @@ class WelcomeMenuSpec extends LocateSpec {
 		then: "Privact terms page should be rendered"
 		waitFor {at PrivacyTermsHomePage}
 	}
-		
+	
 }

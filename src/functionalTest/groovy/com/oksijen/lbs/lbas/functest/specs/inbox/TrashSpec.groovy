@@ -17,15 +17,16 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
  * 
  */
 @Stepwise
-class DeleteSpec extends LocateSpec {
+class TrashSpec extends LocateSpec {
 
+	
 	def "Clicking Delete at Trash Page opens confirmation dialog; clicking cancel, cancels delete operation"() {
 		given: "We are at the TrashPage"
 		at WelcomePage
-		inboxMenu.moveToElement()
-		waitFor('slow') {at InboxPopupMenu}
-		inboxMenu.click()
-		waitFor('slow') { at InboxHomePage}
+		inboxMenu.jquery.mouseover()
+		waitFor {at InboxPopupMenu}
+		popupInbox.click()
+		waitFor { at InboxHomePage}
 		trashPanel.click()
 		waitFor {at TrashPage}
 		
@@ -40,12 +41,11 @@ class DeleteSpec extends LocateSpec {
 		cancelTrash.click()
 		waitFor {cancelTrash.displayed==false}
 		trashPanel.click()
-		
 		}
 	
 	def "Clicking Delete at Trash Page opens confirmation dialog; clicking delete, deletes message permanently"() {
 		given: "We are at the TrashPage"
-		at TrashPage	
+		at TrashPage
 		
 		when: "I select a message"
 		waitFor {$("table#trashTable tbody").children().size() > 0}
