@@ -15,5 +15,9 @@ class InboxPopupMenu extends WelcomePage {
 		popupTabs(required: true)  {$('ul.tab-access')}
 		requestsTab (required: false)	{ $("li.tab-requests") }
 		
+		locationReject(reqired: false)		{$('button#inboxLocationRequestRejectButton')}
+		locationAccept(required: false)		{$('button#inboxLocationRequestAcceptButton')}
+		defaultVisibility(required: false)	{$('div').last().find('li').last()}
+		
     }
 }

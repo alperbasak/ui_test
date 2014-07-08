@@ -60,8 +60,8 @@ class MessageNavSpec extends LocateSpec {
 		waitFor('fast') {$("div#inboxPaging ul li").last().children().hasClass('active')==true}
 		$("div#inboxPaging a.inboxPagingLink", 1).click()
 		
-		then:"I check for if I'm at the second page"
-		waitFor('fast') {$("div#inboxPaging ul li", 1).children().hasClass('active')==true}
+		then:"I check for if I'm at the previous to last page"
+		waitFor('fast') {$("div#inboxPaging ul li").last().previous().children().hasClass('active')==true}
 		inboxPanel.click()
 		}
 	
