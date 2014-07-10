@@ -46,13 +46,13 @@ class MyAvailabilitySpec extends LocateSpec {
 	at AvailabilityHomePage
 	
 	when:"I hover over info to see detailed profile"
-	$('div#plusBox').click()
+	plusBox.click()
 	$("a.info").jquery.mouseover()
 	
 	then:
-	waitFor {$('div#calendarX').displayed==true}
-	$('div#minusBox').jquery.mouseover()
-	$('div#minusBox').click()
+	waitFor {profileInfo.displayed==true}
+	minusBox.jquery.mouseover()
+	minusBox.click()
 	}
 	
 	
@@ -65,14 +65,14 @@ class MyAvailabilitySpec extends LocateSpec {
 		visible.click()
 		
 		then:"Delete one locator"
-		$('div#plusBox').click()
-		waitFor {$('table#locating tbody').children().size() > 0}
-		$('table#locating').find('a.removeLocation').click()
+		plusBox.click()
+		waitFor {tableLocator.size() > 0}
+		deleteLocator.click()
 		
 		and: "Click cancel"
 		waitFor {$('div#dialog').displayed==true}
-		$('#dialog').find('button.cancel').click()
-		waitFor {$('table#locating tbody').children().size() > 0}
+		cancelBtn.click()
+		waitFor {tableLocator.size() > 0}
 	}
 	
 	def "Deleting locator permission"(){
@@ -84,14 +84,14 @@ class MyAvailabilitySpec extends LocateSpec {
 		visible.click()
 		
 		then:"Delete one locator"
-		waitFor {$('table#locating tbody').children().size() > 0}
-		$('table#locating').find('a.removeLocation').click()
+		waitFor {tableLocator.size() > 0}
+		deleteLocator.click()
 		
 		and: "Click delete"
 		waitFor {$('div#dialog').displayed==true}
-		$('#dialog').find('button.send').click()
-		waitFor {$('div.successMessageCheck').displayed==true}
-		waitFor {$('div.successMessageCheck').displayed==false}
+		sendBtn.click()
+		waitFor {successMsg.displayed==true}
+		waitFor {successMsg.displayed==false}
 	}
 	
 	def "Cancel adding exception"(){
@@ -99,13 +99,13 @@ class MyAvailabilitySpec extends LocateSpec {
 		at AvailabilityHomePage
 		
 		when:"I click Add exception"
-		$('a#addExcp').click()
+		addExcp.click()
 		waitFor {$('#addExcp-form').displayed==true}
 		$('input#name') << params.get('addExcp.excpTitle')
 		
 		then:"Click cancel"
-		$('#dialog').find('button.cancel').click()
-		waitFor {$('table#excp').displayed==false}
+		cancelBtn.click()
+		waitFor {excpTable.displayed==false}
 	
 	}
 	
@@ -114,15 +114,15 @@ class MyAvailabilitySpec extends LocateSpec {
 		at AvailabilityHomePage
 		
 		when:"I click Add exception"
-		$('a#addExcp').click()
+		addExcp.click()
 		waitFor {$('#addExcp-form').displayed==true}
 		$('input#name') << params.get('addExcp.excpTitle')
 		
 		then:"Click Add"
-		$('#dialog').find('button.send').click()
-		waitFor {$('div#activeException').displayed==true}
+		sendBtn.click()
+		waitFor {activeExcp.displayed==true}
 		waitFor {$("span.ui-selectmenu-status").text().startsWith("Not")}
-		waitFor {$('table#excp').displayed==true}
+		waitFor {excpTable.displayed==true}
 	
 	}
 	
@@ -131,15 +131,15 @@ class MyAvailabilitySpec extends LocateSpec {
 		at AvailabilityHomePage
 		
 		when:"I click Edit exception"
-		$('a#editExceptionRow').click()
+		editExcp.click()
 		waitFor {$('#dialog').displayed==true}
 		$('input#name') << params.get('editExcp.excpTitle')
 		
 		then:"Click Cancel"
-		$('#dialog').find('button.cancel').click()
-		waitFor {$('div#activeException').displayed==true}
+		cancelBtn.click()
+		waitFor {activeExcp.displayed==true}
 		waitFor {$("span.ui-selectmenu-status").text().startsWith("Not")}
-		waitFor {$('table#excp').displayed==true}
+		waitFor {excpTable.displayed==true}
 	
 	}
 	
@@ -148,21 +148,21 @@ class MyAvailabilitySpec extends LocateSpec {
 		at AvailabilityHomePage
 		
 		when:"I click Edit exception"
-		$('a#editExceptionRow').click()
+		editExcp.click()
 		waitFor {$('#dialog').displayed==true}
 		$('input#name') << params.get('editExcp.excpTitle')
 				
 		then:"Click calender for start time"
-		$('img.ui-datepicker-trigger').click()
-		waitFor {$('div#ui-datepicker-div').displayed==true}
-		$('a.ui-datepicker-next').click()
-		$('table.ui-datepicker-calendar tbody tr',2).children().click()
+		datePicker.click()
+		waitFor {calendarSelect.displayed==true}
+		nextMonth.click()
+		dateSelect.click()
 				
 		and:"Clicking Edit will return error"
-		$('#dialog').find('button.send').click()
+		sendBtn.click()
 		waitFor {$('span#ui-dialog-title-dialog').displayed==true}
 		$('div.ui-dialog-buttonset button').click()
-		$('#dialog').find('button.cancel').click()
+		cancelBtn.click()
 		$('li#availabilityMe').click()
 	}
 
@@ -171,26 +171,26 @@ class MyAvailabilitySpec extends LocateSpec {
 		at AvailabilityHomePage
 		
 		when:"I click Edit exception"
-		$('a#editExceptionRow').click()
+		editExcp.click()
 		waitFor {$('#dialog').displayed==true}
 		$('input#name') << params.get('editExcp.excpTitle')
 				
 		then:"Edit start-end dates"
-		$('img.ui-datepicker-trigger').click()
-		waitFor {$('div#ui-datepicker-div').displayed==true}
-		$('a.ui-datepicker-next').click()
-		$('table.ui-datepicker-calendar tbody tr',2).children().click()
-		$('img.ui-datepicker-trigger').last().click()
-		waitFor {$('div#ui-datepicker-div').displayed==true}
-		$('a.ui-datepicker-next').click()
-		$('table.ui-datepicker-calendar tbody tr',2).children().click()
-		waitFor {$('div#ui-datepicker-div').displayed==false}
+		datePicker.click()
+		waitFor {calendarSelect.displayed==true}
+		nextMonth.click()
+		dateSelect.click()
+		datePicker.last().click()
+		waitFor {calendarSelect.displayed==true}
+		nextMonth.click()
+		dateSelect.click()
+		waitFor {calendarSelect.displayed==false}
 		
 		and:"Clicking Edit"
-		$('#dialog').find('button.send').click()
-		waitFor {$('div#activeException').displayed==false}
-		waitFor {$('table#excp').displayed==true}
-		waitFor {$('table#excp').find('td.first').text().contains("-Edited")}
+		sendBtn.click()
+		waitFor {activeExcp.displayed==false}
+		waitFor {excpTable.displayed==true}
+		waitFor {excpTable.find('td.first').text().contains("-Edited")}
 	
 	} 
 	
@@ -199,12 +199,12 @@ class MyAvailabilitySpec extends LocateSpec {
 		at AvailabilityHomePage
 		
 		when:"I click Delete exception"
-		$('a#removeExceptionRow').click()
+		delExcp.click()
 		
 		then:"I click cancel on delete dialog"
 		waitFor {$('div#dialog').displayed==true}
-		$('#dialog').find('button.cancel').click()
-		waitFor {$('table#excp').displayed==true}
+		cancelBtn.click()
+		waitFor {excpTable.displayed==true}
 		
 	}
 	
@@ -213,12 +213,12 @@ class MyAvailabilitySpec extends LocateSpec {
 		at AvailabilityHomePage
 		
 		when:"I click Delete exception"
-		$('a#removeExceptionRow').click()
+		delExcp.click()
 		
 		then:"I click delete on delete dialog"
 		waitFor {$('div#dialog').displayed==true}
-		$('#dialog').find('button.send').click()
-		waitFor {$('table#excp').displayed==false}
+		sendBtn.click()
+		waitFor {excpTable.displayed==false}
 		
 	}
 	
@@ -228,14 +228,14 @@ class MyAvailabilitySpec extends LocateSpec {
 		
 		when:"I uncheck email notifications checkbox"
 		$('input#notificationEmailCheck').click()
-		waitFor {$('div.ui-dialog').last().hasClass('success-dialog')==true}
-		waitFor {$('div.ui-dialog').last().hasClass('success-dialog')==false}
+		waitFor {successDialog.hasClass('success-dialog')==true}
+		waitFor {successDialog.hasClass('success-dialog')==false}
 		
 		then:"I select notification frequency"
 		$('a#notificationEmailSelect-button').click()
 		$("ul#notificationEmailSelect-menu li:not(.ui-selectmenu-item-selected)").click()
-		waitFor {$('div.ui-dialog').last().hasClass('success-dialog')==true}
-		waitFor {$('div.ui-dialog').last().hasClass('success-dialog')==false}
+		waitFor {successDialog.hasClass('success-dialog')==true}
+		waitFor {successDialog.hasClass('success-dialog')==false}
 		
 		
 	}
@@ -246,14 +246,14 @@ class MyAvailabilitySpec extends LocateSpec {
 		
 		when:"I uncheck sms notifications checkbox"
 		$('input#notificationSmsCheck').click()
-		waitFor {$('div.ui-dialog').last().hasClass('success-dialog')==true}
-		waitFor {$('div.ui-dialog').last().hasClass('success-dialog')==false}
+		waitFor {successDialog.hasClass('success-dialog')==true}
+		waitFor {successDialog.hasClass('success-dialog')==false}
 		
 		then:"I select notification frequency"
 		$('a#notificationSmsSelect-button').click()
 		$("ul#notificationSmsSelect-menu li:not(.ui-selectmenu-item-selected)").click()
-		waitFor {$('div.ui-dialog').last().hasClass('success-dialog')==true}
-		waitFor {$('div.ui-dialog').last().hasClass('success-dialog')==false}
+		waitFor {successDialog.hasClass('success-dialog')==true}
+		waitFor {successDialog.hasClass('success-dialog')==false}
 	}
 	
 }

@@ -51,11 +51,11 @@ def "Null visibility profile name returns error"() {
 	when: "I click create new profile"
 	createNew.click()
 	waitFor {$('#dialog').displayed==true}
-	saveBtn.click()
+	$('div#dialog').find('button.send').click()
 		
 	then: "Error will be returned"
 	waitFor {errorName.displayed==true}
-	cancelBtn.click()
+	$('div#dialog').find('button.cancel').click()
 	
 	}
 
@@ -67,7 +67,7 @@ def "Create new visibility profile"() {
 	createNew.click()
 	waitFor {$('#dialog').displayed==true}
 	newVisName << params.get('visibility.newProfile')
-	saveBtn.click() 
+	$('div#dialog').find('button.send').click() 
 	
 	then: "New profile will be created in a new tab"
 	profileName.click()
@@ -83,11 +83,11 @@ def "Same visibility profile name will return error"() {
 	createNew.click()
 	waitFor {$('#dialog').displayed==true}
 	newVisName << params.get('visibility.newProfile')
-	saveBtn.click()
+	$('div#dialog').find('button.send').click()
 	
 	then: "Error will be returned"
 	waitFor {errorName.displayed==true}
-	cancelBtn.click()
+	$('div#dialog').find('button.cancel').click()
 	
 	}
 
@@ -97,12 +97,12 @@ def "Adding hours to location visibility profile"() {
 	
 	when: "I click on an hour interval"
 	$('tr.fc-slot0 td').click()
-	$('a#calSave').click() 	
+	saveBtn.click() 	
 	
 	then:
-	waitFor {$('div.successMessageCheck').displayed==true}
-	waitFor {$('div.successMessageCheck').displayed==false}
-	waitFor {$('div.fc-event').hasClass('fc-event-skin')==true}
+	waitFor {successMessage.displayed==true}
+	waitFor {successMessage.displayed==false}
+	waitFor {visInterval.hasClass('fc-event-skin')==true}
 }
 
 
@@ -112,15 +112,15 @@ def "Changing hour interval in location visibility profile"() {
 	
 	when: "I drag to next hour interval"
 	interact{
-	dragAndDrop($('div.fc-event'),$('tr.fc-slot1 td'))
+	dragAndDrop(visInterval,$('tr.fc-slot1 td'))
 	}
-	$('a#calSave').click()
+	saveBtn.click()
 	
 	then:
-	waitFor {$('div.successMessageCheck').displayed==true}
-	waitFor {$('div.successMessageCheck').displayed==false}
-	assert	 $("div.fc-event").height==19
-	waitFor {$('div.fc-event').hasClass('fc-event-skin')==true}
+	waitFor {successMessage.displayed==true}
+	waitFor {successMessage.displayed==false}
+	assert	 visInterval.height==19
+	waitFor {visInterval.hasClass('fc-event-skin')==true}
 }
 
 def "Resizing to change hour interval in location visibility profile"() {
@@ -128,18 +128,18 @@ def "Resizing to change hour interval in location visibility profile"() {
 	at VisibilityPage
 	
 	when: "I click on an hour interval"
-	$('div.fc-event').jquery.mouseover()
+	visInterval.jquery.mouseover()
 	waitFor {$('div.ui-resizable-handle').displayed==true}
 	interact{
 	dragAndDrop($('div.ui-resizable-handle.ui-resizable-s'),$('tr.fc-slot8 td'))
 	}
-	$('a#calSave').click()
+	saveBtn.click()
 	
 	then:
-	waitFor {$('div.successMessageCheck').displayed==true}
-	waitFor {$('div.successMessageCheck').displayed==false}
-	assert	 $('div.fc-event').height==145
-	waitFor {$('div.fc-event').hasClass('fc-event-skin')==true}
+	waitFor {successMessage.displayed==true}
+	waitFor {successMessage.displayed==false}
+	assert	 visInterval.height==145
+	waitFor {visInterval.hasClass('fc-event-skin')==true}
 }
 
 def "Moving the interval to another day in location visibility profile"() {
@@ -148,15 +148,15 @@ def "Moving the interval to another day in location visibility profile"() {
 	
 	when: "I drag and drop an hour interval"
 	interact{
-	dragAndDrop($('div.fc-event'),$('td.fc-mon'))
+	dragAndDrop(visInterval,$('td.fc-mon'))
 	}
-	$('a#calSave').click()
+	saveBtn.click()
 	
 	then:
-	waitFor {$('div.successMessageCheck').displayed==true}
-	waitFor {$('div.successMessageCheck').displayed==false}
-	assert	 $('div.fc-event').height==145
-	waitFor {$('div.fc-event').hasClass('fc-event-skin')==true}
+	waitFor {successMessage.displayed==true}
+	waitFor {successMessage.displayed==false}
+	assert	 visInterval.height==145
+	waitFor {visInterval.hasClass('fc-event-skin')==true}
 }
 
 def "Canceling a change will not be saved to the visibility profile"() {
@@ -164,8 +164,8 @@ def "Canceling a change will not be saved to the visibility profile"() {
 	at VisibilityPage
 	
 	when: "I click on an hour interval and delete but don't save"
-	$('div.fc-event').click()
-	$("a.closeTray").click()
+	visInterval.click()
+	deletePrf.click()
 	$('a#calClear').click()
 	
 	then:
@@ -177,14 +177,14 @@ def "Deleting an interval in a location visibility profile"() {
 	at VisibilityPage
 	
 	when: "Delete and save"
-	$('div.fc-event').click()
-	$("a.closeTray").click()
-	$('a#calSave').click()
+	visInterval.click()
+	deletePrf.click()
+	saveBtn.click()
 	
 	then:
-	waitFor {$('div.successMessageCheck').displayed==true}
-	waitFor {$('div.successMessageCheck').displayed==false}
-	waitFor {$('div.fc-event').size()==0}
+	waitFor {successMessage.displayed==true}
+	waitFor {successMessage.displayed==false}
+	waitFor {visInterval.size()==0}
 }
 
 def "Deleting a visibility profile"() {
@@ -194,7 +194,7 @@ def "Deleting a visibility profile"() {
 	when: "Delete Profile and accept"
 	$('span.closeBT').last().click()
 	waitFor {$('div#dialog').displayed==true}
-	$('#dialog button.send').click()
+	$('div#dialog').find('button.send').click()
 	
 	then:
 	waitFor {$('div#dialog').displayed==false}

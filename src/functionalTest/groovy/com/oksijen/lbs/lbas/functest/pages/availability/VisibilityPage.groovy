@@ -18,9 +18,12 @@ class VisibilityPage extends WelcomePage {
 		fullTime(required:false)			{$('a#fullTime')}
 		createNew(required:false)			{$("a#tabVis_0")}
 		newVisName(required:false)			{$('#dialog').find('input#tab_title')}
-		saveBtn(required:false)				{$('#dialog').find('button.send')}
-		cancelBtn(required:false)			{$('#dialog').find('button.cancel')}
+		saveBtn(required:false)				{$('a#calSave')}
 		profileName(required:false)			{$('li.tab-profiles').last().previous()}
 		errorName(required:false)			{$('#dialog').find('.errorsDisplay')}
+		visInterval(required:false)			{$('div.fc-event')}
+		deletePrf(required:false)			{$("a.closeTray")}
+		successMessage(required:false)		{$('div.successMessageCheck')}
 	    }
 }
+
