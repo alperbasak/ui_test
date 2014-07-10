@@ -14,6 +14,7 @@ class AvailabilityHomePage extends WelcomePage {
         leftPanel(required: true) 			{ $("div#visibility") }
         rightPanel(required: true) 			{ $("div#availability-container") }
 		myVisibility(required: true)		{$("li.visibilityMe")}
+		locateMe(required:true)				{$("li.locateMe")}
 		
 		visibilityStatus(required: false)	{ $('a#visibilityStatus-button')}
 		notVisible(required: false)			{$('ul#visibilityStatus-menu li',1)}

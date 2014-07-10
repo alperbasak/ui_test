@@ -5,7 +5,7 @@ import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 /**
  * 
  */
-class VisibilityPage extends WelcomePage {
+class VisibilityPage extends AvailabilityHomePage {
     static url = "welcome"
     static at = { mainDiv.displayed == true }
 
