@@ -32,8 +32,10 @@ class IncomingReqSpec extends LocateSpec {
 		waitFor {$("table#requestedList tbody").children().size() > 0}
 		$("table#requestedList tbody").children().click()
 		waitFor {$('ul.action').hasClass("buttons_class")==true}
+		if ($('div.permanent').size()>0){
 		$('div.permanent span a').click()
 		defaultVisibility.click()
+		}
 		
 		then:"I click Reject"
 		locationReject.click()
@@ -53,8 +55,10 @@ class IncomingReqSpec extends LocateSpec {
 		waitFor {$("table#requestedList tbody").children().size() > 0}
 		$("table#requestedList tbody").children().click()
 		waitFor {$('ul.action').hasClass("buttons_class")==true}
+		if ($('div.permanent').size()>0){
 		$('div.permanent span a').click()
 		defaultVisibility.click()
+		}
 		
 		then:"I click Accept"
 		locationAccept.click()

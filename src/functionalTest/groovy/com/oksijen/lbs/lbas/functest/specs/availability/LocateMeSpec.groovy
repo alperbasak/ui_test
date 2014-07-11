@@ -25,7 +25,7 @@ def "who can locate me page is displayed"(){
 	privacyMenu.click()
 	waitFor { at AvailabilityHomePage }
 		
-	then: "Click visibility profiles and page should render"
+	then: "Click who can locate me and page should render"
 	locateMe.click()
 	waitFor { at LocateMePage }
 	}
