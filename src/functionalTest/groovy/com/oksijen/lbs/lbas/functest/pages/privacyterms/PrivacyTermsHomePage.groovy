@@ -11,5 +11,12 @@ class PrivacyTermsHomePage extends WelcomePage {
         mainDiv(required: true) 	{ $("div#PrivacyStatements") }
         leftPanel(required: true) 	{ $("div#privacyStatementLeft") }
         rightPanel(required: true) 	{ $("div#privacyStatementBody") }
+		vdfnPrivacyTab(required: true)	{$('ul.privacyStatementMenu li',0)}
+		companyPrivacyTab(required: true)	{$('ul.privacyStatementMenu li',1)}
+		successDialog(required: false)		{$('div.ui-dialog').last()}
+		showAtLogin(required:false)			{$('#dontShowPrivacySetting')}
+		showAtLoginCompany(required:false)	{$('#dontShowPrivacySettingCompany')}
+		companyPrivacyPage(required:false) {$('div#privacyStatementBox2')}
+		
     }
 }

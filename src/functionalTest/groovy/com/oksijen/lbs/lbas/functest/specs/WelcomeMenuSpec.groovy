@@ -6,7 +6,6 @@ import static spock.util.matcher.HamcrestSupport.*
 
 import com.oksijen.lbs.lbas.functest.pages.calendar.CalendarHomePage
 import com.oksijen.lbs.lbas.functest.pages.map.MapHomePage
-import com.oksijen.lbs.lbas.functest.pages.privacy.PrivacyHomePage
 import com.oksijen.lbs.lbas.functest.pages.privacyterms.PrivacyTermsHomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
 import com.oksijen.lbs.lbas.functest.pages.account.AccountHomePage

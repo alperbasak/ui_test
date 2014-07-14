@@ -20,7 +20,11 @@ class LoginPage extends Page {
         loginError(required: true) { $('div#loginError') }
         
         loginButton(required: true, wait: true, to: [WelcomePage, LoginPage]) {
-            $("input#btn_login")
-        }
+            $("input#btn_login")}
+			
+		loginPrivacy(required: true, wait: true) {
+				$("input#btn_login")
+        
     }
+}
 }
