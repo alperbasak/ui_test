@@ -12,6 +12,7 @@ import com.oksijen.lbs.lbas.functest.pages.account.AccountHomePage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.InboxPopupMenu
 import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
+import com.oksijen.lbs.lbas.functest.pages.availability.AvailabilityHomePage
 
 /**
  * Created by cpekyaman on 3/25/2014.
@@ -49,7 +50,7 @@ class WelcomeMenuSpec extends LocateSpec {
         privacyMenu.click()
 
         then: "Privacy page should be rendered"
-        waitFor {at PrivacyHomePage}
+        waitFor {at AvailabilityHomePage}
     }
     
 	def "Inbox should be rendered when menu is clicked"() {

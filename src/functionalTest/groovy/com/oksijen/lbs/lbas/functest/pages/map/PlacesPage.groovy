@@ -22,5 +22,7 @@ class PlacesPage extends MapHomePage {
         
         tooltip(required: false, cache: false) { $("div.toolTipContainer") }
         tooltipClose(required: false, cache: false) { _slink('Close', tooltip.find('div.toolTipHeader')) }
+		
+		successDialog(required:false)	{$('.success-dialog')}
     }
 }

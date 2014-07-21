@@ -11,5 +11,14 @@ class AssetsPage extends MapHomePage {
     	link(required: true) 		{ $('a#btn_tab-assets') }
         searchInput(required: true) { $("input#search_assets") }
         contents(required: true) 	{ $("div.contents") }
+		
+		tooltip(required: false, cache: false) { $("div.toolTipContainer") }
+		tooltipClose(required: false, cache: false) { _slink('Close', tooltip.find('div.toolTipHeader')) }
+		permissionSend(required:false)			{$('div.ui-dialog-buttonset button',1)}
+		
+		viewReport(required: false) 		{$("div.buttonsForReport a").last()}
+		locReportDiv(required: false) 		{$('div#locReportTableDiv')}
+		locReportHist(required: false)		{$('div#locReportUserList ul')}
+		locReportUser(required: false)		{ $('div#locReportUserList div')}
     }
 }
