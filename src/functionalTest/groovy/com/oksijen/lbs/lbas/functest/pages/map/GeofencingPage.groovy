@@ -18,5 +18,7 @@ class GeofencingPage extends MapHomePage {
         alarms(required: true)			{ $("div#tab-geofencing-alarms") }        
         geofencesBtn(required: true) 	{ $("a#btn_tab-geofencing-geofences") }
         geofences(required: true) 		{ $("div#tab-geofencing-geofences") }
+		
+		successDialog(required:false)	{$('.success-dialog')}
     }
 }
