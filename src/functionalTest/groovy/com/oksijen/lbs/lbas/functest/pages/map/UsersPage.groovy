@@ -64,5 +64,8 @@ class UsersPage extends MapHomePage {
 		groupMembers(required:false)	{$('ul.tabs.clearfix li',1)}
 		groupPermissions(required:false)	{$('ul.tabs.clearfix li',2)}
 		groupAdmin(required:false)	{$('ul.tabs.clearfix li',3)}
+		
+		addressList(required: false)		{ $('div.token-input-dropdown-facebook ul') }
+		addressListItems(required: false)	{ addressList.children()}
     }
 }

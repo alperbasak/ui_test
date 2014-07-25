@@ -26,5 +26,8 @@ class RoutesPage extends MapHomePage {
 		
 		addressList(required: false)		{ $('div.token-input-dropdown-facebook ul') }
 		addressListItems(required: false)	{ addressList.children()}
+		
+		tooltip(required: false, cache: false) { $("div.toolTipContainer") }
+		tooltipClose(required: false, cache: false) { _slink('Close', tooltip.find('div.toolTipHeader')) }
     }
 }
