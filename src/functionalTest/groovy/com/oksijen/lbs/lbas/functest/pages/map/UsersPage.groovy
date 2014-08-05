@@ -51,7 +51,7 @@ class UsersPage extends MapHomePage {
 		deleteUser(required:false)		{$("ul#userActionList2-menu").find("li.userActionList11",0).children()}
 		editUser(required:false)		{$("ul#userActionList2-menu").find("li.userActionList11",1).children()}
 		moveToNewGroup(required:false)		{$("ul#userActionList2-menu").find("li.userActionList10 a")}
-		createNewGroup(required:false)		{$("ul#userActionList-menu").find("li.userActionList4 a")}
+		createNewGroup(required:false)		{$("ul#userActionList2-menu").find("li.userActionList4 a")}
 		editGroup(required:false)		{$("ul#userActionList2-menu").find("li.userActionList5 a")}
 		requestPermission(required:false)		{$("ul#userActionList2-menu").find("li.userActionList1 a")}
 		shareMyLocation(required:false)		{$("ul#userActionList2-menu").find("li.userActionList11",2).children()}

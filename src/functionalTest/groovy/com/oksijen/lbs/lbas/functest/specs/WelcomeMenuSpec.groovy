@@ -53,17 +53,6 @@ class WelcomeMenuSpec extends LocateSpec {
         waitFor {at AvailabilityHomePage}
     }
     
-	def "Inbox should be rendered when menu is clicked"() {
-		given: "We are at the WelcomePage"
-		at WelcomePage
-		
-		when: "I click inbox link"
-		inboxMenu.click()
-
-		then: "Inbox page should be rendered"
-		waitFor {at InboxHomePage}
-	}
-   
 	def "Popup should be rendered when mouse hovered over it "() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
@@ -88,7 +77,7 @@ class WelcomeMenuSpec extends LocateSpec {
 	
 	def "Privacy statements should be rendered when privacy statements button is clicked"() {
 		given: "We are at the WelcomePage"
-	at WelcomePage
+		at WelcomePage
 		
 		when: "I click Privacy Statement button"
 		privacyTerms.click()
@@ -97,4 +86,16 @@ class WelcomeMenuSpec extends LocateSpec {
 		waitFor {at PrivacyTermsHomePage}
 	}
 	
+	def "Inbox should be rendered when menu is clicked"() {
+		given: "We are at the WelcomePage"
+		at WelcomePage
+		
+		when: "I click inbox link"
+		inboxMenu.jquery.mouseover()
+		waitFor {at InboxPopupMenu}
+		$('a.inbox').click()
+
+		then: "Inbox page should be rendered"
+		waitFor {at InboxHomePage}
+	}
 }

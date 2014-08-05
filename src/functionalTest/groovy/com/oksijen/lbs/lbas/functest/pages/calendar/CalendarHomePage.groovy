@@ -20,7 +20,7 @@ class CalendarHomePage extends WelcomePage {
 		dayView(required:false) { $("span.fc-button.fc-button-agendaDay")}
 		meetingSubject(required: false)  { $("span#meetingSubjectVld")}
 		meetingmonthTitle(required: false) { $("span#ui-dialog-title-dialog")}
-		monthPointer(required: false) { $("td.fc-mon.fc-widget-content.fc-day0.fc-first.fc-other-month")}
+		monthPointer(required: false) { $("td.fc-mon")}
 		cancelMeetingButton(required: false) { $("button#inboxLocationRequestRejectButton")}
 	}
 }

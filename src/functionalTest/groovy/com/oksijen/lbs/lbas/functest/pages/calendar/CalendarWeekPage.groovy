@@ -14,7 +14,7 @@ class CalendarWeekPage extends CalendarHomePage {
 		mainDiv(required: true) 	{ $("div#calendar") }
 		timePanel(required: true) 	{ $("th.fc-agenda-axis.fc-widget-header") }
 		dateWeek(required: true)	{ $("span.fc-header-title")}
-		weekPointer(required: false) { $("tr.fc-slot13.fc-minor")}
+		weekPointer(required: false) { $("tr.fc-slot13 td div")}
 		meetingTitle(required: false) { $("div#dialog.ui-dialog-content.ui-widget-content")}
 		cancelMeetingButton(required: false) { $("button#inboxLocationRequestRejectButton")}
 	}

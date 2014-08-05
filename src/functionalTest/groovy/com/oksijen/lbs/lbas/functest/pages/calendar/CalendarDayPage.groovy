@@ -14,8 +14,9 @@ class CalendarDayPage extends CalendarHomePage {
 		mainDiv(required: true) 	{ $("div#calendar") }
 		leftPane(required: true) 	{ $("div.fc-view.fc-view-agendaDay.fc-agenda") }
 		dateDay(required: true)	{ $("span.fc-header-title")}
-		dayPointer(required: false) { $("tr.fc-slot13.fc-minor")}
-		meetingdayTitle(required: false) { $("div#dialog.ui-dialog-content.ui-widget-content")}
+		dayPointer(required: false) { $("div.fc-view-agendaDay").find("tr.fc-slot13 td")}
+		meetingdayTitle(required: false) { $(".noClose")}
 		cancelMeetingButton(required: false) { $("button#inboxLocationRequestRejectButton")}
+		monthView(required: false) {$('span.fc-button-month')}
 	}
 }

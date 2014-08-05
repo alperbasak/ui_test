@@ -78,7 +78,7 @@ sourceSets {
 // ext. prefix is used for defining custom project properties
 // these are the drivers we will use for functional testing
 ext.locateUrl = "http://lbas.oksijen.com/lbas20/"
-ext.drivers = ['chrome', 'ie']
+ext.drivers = ['chrome', 'ie', 'firefox']
 ext.driverPaths = [
     'chrome' 	: "$projectDir\\driver\\chromedriver.exe",
     'ie'		: "$projectDir\\driver\\IEDriverServer.exe"
@@ -86,7 +86,7 @@ ext.driverPaths = [
 
 dependencies {
     def gebVersion = "0.9.2"
-    def seleniumVersion = "2.39.0"
+    def seleniumVersion = "2.42.0"
 
     // main project dependencies
     compile 'org.codehaus.groovy:groovy-all:2.1.9'

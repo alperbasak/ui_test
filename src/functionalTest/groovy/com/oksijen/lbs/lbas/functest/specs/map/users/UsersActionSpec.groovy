@@ -33,7 +33,7 @@ class UsersActionSpec extends LocateSpec {
 		waitFor {$('div#error-view-user').displayed==true}
 		$('a.cancel-button').click()
 		actionListClose.click()
-		$('li.generalActions a').click()
+		$('#userActionList-menu li a').click()
 	}
 	
 	def "Creating a new user, successful create"() {
@@ -91,7 +91,7 @@ class UsersActionSpec extends LocateSpec {
 		then:"New dialog opens and I select group"
 		waitFor {$('.addExcpPos').displayed==true}
 		$('a.usersMoveToGroupDropdown').click()
-		$('ul.usersMoveToGroupDropdown li').last().click()
+		$('ul.usersMoveToGroupDropdown li',1).click()
 		$('a.apply-button').click()
 		
 		and:"Success dialog is shown"
@@ -105,7 +105,7 @@ class UsersActionSpec extends LocateSpec {
 		at UsersPage
 		
 		when: "I select a group of users and delete"
-		$('input.groupId.check-box').click()
+		$('div.contents ul li',1).find('input').click()
 		actionListClose2.click()
 		deleteUser.click()
 		
@@ -118,13 +118,13 @@ class UsersActionSpec extends LocateSpec {
 		waitFor {successDialog.displayed==false}
 	
 			}
-	
+	@Ignore
 	def "Create a new group"() {
 		given:"We are at the UsersPage"
 		at UsersPage
 		
 		when: "I click create a new group from actions menu"
-		actionListClose.click()
+		actionListClose2.click()
 		createNewGroup.click()
 		
 		then:"New group dialog opens"
@@ -146,8 +146,7 @@ class UsersActionSpec extends LocateSpec {
 		
 		and:"Edit group admins"
 		groupAdmin.click()
-		$('a#groupAdminChangeLink').click()
-		waitFor {$('#groupAdminChangeCombo').displayed==true}
+		waitFor {$('#groupAdminUsers').displayed==true}
 		$('a.send-button').click()
 		if($('.confirmation').displayed==true){
 			$('.confirmation').find('.ui-dialog-buttonset button',1).click()
@@ -160,7 +159,7 @@ class UsersActionSpec extends LocateSpec {
 		}
 		waitFor{at UsersPage}
 	}
-	
+	@Ignore
 	def "Edit group"(){
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -187,6 +186,7 @@ class UsersActionSpec extends LocateSpec {
 
 		and:"Edit group admins"
 		groupAdmin.click()
+		waitFor {$('#groupAdminUsers').displayed==true}
 		$('a.send-button').click()
 		
 		and:"Success dialog is shown"
@@ -194,13 +194,14 @@ class UsersActionSpec extends LocateSpec {
 		waitFor {successDialog.displayed==false}
 	
 			}
-		
+	@Ignore
 	def "Requesting permission to locate user"(){
 		given: "We are at the UsersPage"
 		at UsersPage
 		
 		when:"I select a user and make a request"
-		groupOpenClose.click()
+		$('div.contents ul li').last().find('img.openClose').click()
+		waitFor {$('ul.users').displayed==true}
 		nolocatableUsers.find('input.user').click()
 		actionListClose2.click()
 		requestPermission.click()
@@ -215,13 +216,13 @@ class UsersActionSpec extends LocateSpec {
 		$('button.ui-button').click()
 
 		}
-	
+	@Ignore
 	def "Share my location with a user"() {
 		given:"We are at the UsersPage"
 		at UsersPage
 		
 		when:"I select a user and share my location"
-		groupOpenClose.click()
+		$('div.contents ul li').last().find('img.openClose').click()
 		$('input.user.check-box').click()
 		actionListClose2.click()
 		shareMyLocation.click()

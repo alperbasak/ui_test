@@ -84,36 +84,31 @@ class CalendarSpec extends LocateSpec {
 		then: "Calendar daily view page should render"
 		waitFor { at CalendarDayPage }
 		expect dateDay.displayed, is(true)
-		calendarMenu.click()
-		
+				
 	}
 	
 	def "A new meeting window is opened on monthly view"(){
-		at WelcomePage
-		mapMenu.click()
-		waitFor { at WelcomePage }
-		calendarMenu.click()
+		given:"at CalendarPage"
+		at CalendarDayPage
 		
 		when: "a cell is clicked"
-		waitFor('slow') {at CalendarHomePage}
-		
+		monthView.click()
+		waitFor {at CalendarHomePage}
 		monthPointer.click()
-
+		
 		then: "New event dialog should render"
 		expect meetingmonthTitle.displayed, is(true)
 		
 		and: "click cancel buton"
 		cancelMeetingButton.click() 
-		calendarMenu.click()
+		
 	}
 	
 	def "A new meeting window is opened on weekly view"(){
-		at WelcomePage
-		calendarMenu.click()
+		given:"at CalendarPage"
+		at CalendarHomePage
 
 		when: "a cell is clicked"
-		waitFor {at CalendarHomePage}
-		
 		weekView.click()
 		waitFor('slow') {at CalendarWeekPage}
 				
@@ -121,24 +116,20 @@ class CalendarSpec extends LocateSpec {
 
 		then: "New event dialog should render"
 		waitFor { at CalendarWeekPage }
-		expect meetingTitle.displayed, is(true)
+		waitFor {meetingTitle.displayed==true}
 		
 		and: "click cancel buton"
 		cancelMeetingButton.click()
-		calendarMenu.click()
-	}
-	
-	def "A new meeting window is opened on daily view"(){
-		mapMenu.click()
-		waitFor { at WelcomePage }
-		calendarMenu.click()
-
-		when: "a cell is clicked"
-		waitFor {at CalendarHomePage}
 		
+	}
+
+	def "A new meeting window is opened on daily view"(){
+		given:"at CalendarPage"
+		at CalendarWeekPage
+		
+		when: "a cell is clicked"
 		dayView.click()
 		waitFor('slow') {at CalendarDayPage}
-				
 		dayPointer.click()
 
 		then: "New event dialog should render"
