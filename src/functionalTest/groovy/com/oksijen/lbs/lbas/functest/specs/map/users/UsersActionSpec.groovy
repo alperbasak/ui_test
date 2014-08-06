@@ -62,7 +62,8 @@ class UsersActionSpec extends LocateSpec {
 	at UsersPage
 	
 	when:"I select a user and edit"
-	groupOpenClose.click()
+	searchInput<<params.get('newUser.name')
+	waitFor {$('span.searchReset').displayed==true}
 	$('input.user.check-box').click()
 	actionListClose2.click()
 	editUser.click()
@@ -83,8 +84,12 @@ class UsersActionSpec extends LocateSpec {
 		at UsersPage
 	
 		when: "I select a user and move to another group"
-		groupOpenClose.click()
-		$('input.user.check-box').click()
+		searchInput<< " "
+		waitFor {$('ul.users').displayed==true}	
+		if ($("#tab-users_count").text()=="0 selected"){
+			$('input.user.check-box').click()
+		}
+		waitFor {actionListClose2.displayed==true}
 		actionListClose2.click()
 		moveToNewGroup.click()
 	

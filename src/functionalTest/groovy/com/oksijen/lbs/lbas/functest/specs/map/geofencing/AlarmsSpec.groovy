@@ -39,7 +39,7 @@ class AlarmsSpec extends LocateSpec {
 		and:
 		$('ul.tabs.clearfix li',2).click()
 		waitFor {$('div#alarmTargetsList').displayed==true}
-		$('#alarmTargetsSearchInput') << params.get('newUser.name')
+		$('#alarmTargetsSearchInput') << params.get('users.Request')
 		waitFor {$('div#eventtarget_autocomplete ul li').size()>0}
 		$('li.ui-menu-item a').click()
 	
@@ -47,7 +47,7 @@ class AlarmsSpec extends LocateSpec {
 		$('ul.tabs.clearfix li',3).click()
 		waitFor {$('#alarmNotificationForm').displayed==true}
 		$('#notifyByEmail').click()
-		$('#notificationTargetsSearchInput') << params.get('newUser.name')
+		$('#notificationTargetsSearchInput') << params.get('users.Request')
 		waitFor {$('#notiftarget_autocomplete ul li').size()>0}
 		$('#notiftarget_autocomplete ul li',1).find('a').click()
 			
