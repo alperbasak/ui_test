@@ -17,6 +17,8 @@ class AdminHomePage extends WelcomePage {
 		groupMan(required: true) 	{$('ul.adminMenu li',3)}
 		selectMenu(required:false)	{$('a.ui-selectmenu')}
 		addGroup(required:false)	{$('a',text:"Add group")}
+		addAsset(required:false)	{$('a',text:"Add asset")}
+		addAssetGroup(required:false){$('a',text:"Add asset group")}
 		apply(required:false)		{$('.toolbar-apply')}
 		
 		groupDialog(required:false)	{$('.newGroupOvl')}
@@ -36,5 +38,13 @@ class AdminHomePage extends WelcomePage {
 		
 		sendDialog(required:false)		{$('a.send-button')}
 		successDialog(required:false)	{$('.success-dialog')}
+		
+		assetMan(required: true) 	{$('ul.adminMenu li',2)}
+		assetName(required:false)	{$('input',id:'lbasAsset.name')}
+		assetModel(required:false)	{$('input',id:'lbasAsset.surname')}
+		assetAllocated(required:false)	{$('#allocatedToFullName')}
+		saveGroup(required:false)		{$('#adminEditGroup').find('a.send-button')}
+		
+		assetProfile(required:false)	{$('#assetVisibilityProfile table tbody tr')}
     }
 }

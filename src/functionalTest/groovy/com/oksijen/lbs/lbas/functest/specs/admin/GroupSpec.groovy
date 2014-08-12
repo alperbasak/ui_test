@@ -10,6 +10,8 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.admin.*
+import com.oksijen.lbs.lbas.functest.pages.map.*
+import com.oksijen.lbs.lbas.functest.pages.calendar.*
 
 
 /**
@@ -125,6 +127,7 @@ def "Edit group, remove one admin from group admins"(){									////DEVELOPMENT 
 	waitFor {groupDialog.displayed==true}
 	groupAdminTab.click()
 	waitFor {admin.displayed==true}
+	assert groupAdminUsers.size()==5
 	groupAdminUsers[0].click()
 	arrowRemove.click()
 	waitFor('fast')	{groupAdminUsers.size()==4}
@@ -148,6 +151,7 @@ def "Edit group, add one admin to group admins"(){									////DEVELOPMENT NEEDE
 	waitFor {groupDialog.displayed==true}
 	groupAdminTab.click()
 	waitFor {admin.displayed==true}
+	assert groupAdminUsers.size()==4
 	addAdmins[0].click()
 	arrowAdd.click()
 	waitFor('fast')	{groupAdminUsers.size()==5}
@@ -159,5 +163,260 @@ def "Edit group, add one admin to group admins"(){									////DEVELOPMENT NEEDE
 		
 	}
 
+def "Create an asset group, select one admin"(){
+	given:"We are at Group Management Page"
+	at AdminHomePage
+	
+	when:"I select Add Asset Group from dropdown and click apply"
+	selectMenu.click()
+	addAssetGroup.click()
+	apply.click()
+	
+	then:"New group dialog opens and I select only one admin"
+	waitFor {groupDialog.displayed==true}
+	groupName<<"NewAssetGroup1"
 
+	and: "Check for only one admin and save"									
+	groupAdminTab.click()
+	waitFor {admin.displayed==true}
+	assert groupAdminUsers.size()==1
+	sendDialog.click()
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
+
+	}
+
+@Ignore
+def "Create an asset group, select multi admin"(){							////DEVELOPMENT NEEDED
+	given:"We are at Group Management Page"
+	at AdminHomePage
+	
+	when:"I select Add Asset Group from dropdown and click apply"
+	selectMenu.click()
+	addAssetGroup.click()
+	apply.click()
+	
+	then:"New asset group dialog opens and I select only one admin"
+	waitFor {groupDialog.displayed==true}
+	groupName<<"NewAssetGroup2"
+	
+	and: "Add more than one admin and save"
+	groupAdminTab.click()
+	waitFor {admin.displayed==true}
+	assert allAdmins.size()>4
+	interact{
+		keyDown(Keys.SHIFT)
+	allAdmins[0].click()
+	allAdmins[3].click()
+		keyUp(Keys.SHIFT)
+	}
+	arrowAdd.click()
+	
+	waitFor('fast') {groupAdminUsers.size()==5}
+	sendDialog.click()
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
+
+	}
+
+@Ignore
+def "Edit asset group, remove one admin from group admins"(){									////DEVELOPMENT NEEDED
+	given:"We are at Group Management Page"
+	at AdminHomePage
+	
+	when:"I edit multi admin asset group"
+	$('td.name',text:'NewAssetGroup2').parent().find('a.btn-update').click()
+	
+	then:"Dialog opens and I remove one admin"
+	waitFor {groupDialog.displayed==true}
+	groupAdminTab.click()
+	waitFor {admin.displayed==true}
+	assert groupAdminUsers.size()==5
+	groupAdminUsers[0].click()
+	arrowRemove.click()
+	waitFor('fast')	{groupAdminUsers.size()==4}
+	
+	and:"Save"
+	sendDialog.click()
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
+		
+	}
+
+@Ignore
+def "Edit asset group, add one admin to group admins"(){									////DEVELOPMENT NEEDED
+	given:"We are at Group Management Page"
+	at AdminHomePage
+	
+	when:"I edit multi admin asset group"
+	$('td.name',text:'NewAssetGroup2').parent().find('a.btn-update').click()
+	
+	then:"Dialog opens and I add one admin"
+	waitFor {groupDialog.displayed==true}
+	groupAdminTab.click()
+	waitFor {admin.displayed==true}
+	assert groupAdminUsers.size()==4
+	addAdmins[0].click()
+	arrowAdd.click()
+	waitFor('fast')	{groupAdminUsers.size()==5}
+	
+	and:"Save"
+	sendDialog.click()
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
+		
+	}
+
+def "Create a new enterprise category"(){
+	given: "We are at the PlacesPage"
+	at AdminHomePage
+	$('#btn_map').click()
+	$('a#btn_tab-places').click()
+	at PlacesPage
+	$('#btn_tab-places-enterprise').click()
+	waitFor {$('#tab-places-enterprise').hasClass('ui-tabs-hide')==false}
+	
+	when:"I click new category"
+	$('#btn_tab-places_newCategory').click()
+	waitFor {$('#tabs_in_enterpriseCategoryDialog').displayed==true}
+	
+	then:"I enter category details"
+	$('#categoryDetailForm_categoryName') << params.get('newCategoryName')
+	$('a#tab2').click()
+	waitFor {$('#updateCatPermission').displayed==true}
+	$('#permissionSearchInput') << params.get('users.Request')
+	waitFor {$('div#wp_autocomplete').displayed==true}
+	$('div#wp_autocomplete').find('li.ui-menu-item a').click()
+
+	and:"Add permissions"
+	$('#changePermissions0').click()
+	$('#changePermissions1').click()
+	$('#changePermissions2').click()
+	$('#changePermissions3').click()
+	$('#changePermissions4').click()
+	$('#changePermissions5').click()
+	$('#changePermissions6').click()
+	$('span.ui-button-text',text:'Save').click()
+	
+	and:"Success dialog is shown"
+	waitFor {$('.dialog.undefined').displayed==true}
+	$('.undefined').find('.ui-dialog-buttonset button').click()
+	if ($('#tabs_in_enterpriseCategoryDialog').displayed==true){
+		$('span.ui-button-text',text:'Cancel').click()
+	}
+	}
+
+def "Edit enterprise category"(){
+	given: "We are at the PlacesPage"
+	at PlacesPage
+		
+	when:"I select a category to edit"
+	waitFor{$('.placeCategory').displayed==true}
+	$('#tab-places-enterprise').find('input.placeId').click()
+	$('#editCategoryGroupAction').click()
+	waitFor {$('.newCategoryPopUp').displayed==true}
+	$('#categoryDetailForm_categoryName') << params.get('editUser.name')
+	
+	then:"I add a new user with admin rights"
+	$('a#tab3').click()
+	waitFor {$('#CategoryAdmin').displayed==true}
+	$('lm').last().click()
+	waitFor {$('#changeCategoryAdmin').displayed==true}
+	$('a.head').click()
+	waitFor{$('ul.ui-accordion-content').displayed==true}
+	$('ul.ui-accordion-content li a').click()
+	$('#changeCategoryAdmin').find('lm',title:'Save').click()
+	waitFor{$('#navigationCatAdmin').displayed==false}
+	$('.newCategoryPopUp').find('span',text:'Update').click()
+	
+	and:"Success dialog is shown"
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
+	
+	}
+
+def "Show enterprise category on map"(){
+	given: "We are at the PlacesPage"
+	at PlacesPage
+	
+	when:"I add multiple places to an enterprise category"
+	searchInput << 'Ankara'
+	waitFor('fast') { autocompleteList.displayed == true }
+	
+	then:
+	expect autocompleteListItems.size(), greaterThan(0)
+	clickFirstItem(autocompleteListItems)
+	waitFor('fast') { tooltip.displayed == true }
+	expect hasLink(tooltip, 'Save Place'), is(true)
+	$('a',text:'Save Place').click()
+	waitFor {$('#edit_loc_dialog').displayed==true}
+	$('#editPoiName')<<'Place1'
+	$('#edit_loc_tab2_link').click()
+	waitFor {$('#enterpriseOpen').displayed==true}
+	$('#selectEntCategoriesCheckContainer ul li input').click()
+	$('#addLocationButton').click()
+	waitFor {$('.dialog.undefined').displayed==true}
+	$('.undefined').find('.ui-dialog-buttonset button').click()
+	
+	when:
+	searchInput << 'Istanbul'
+	waitFor('fast') { autocompleteList2.displayed == true }
+	
+	then:
+	expect autocompleteListItems2.size(), greaterThan(0)
+	clickFirstItem(autocompleteListItems2)
+	waitFor('fast') { tooltip.displayed == true }
+	expect hasLink(tooltip, 'Save Place'), is(true)
+	$('a',text:'Save Place').click()
+	waitFor {$('#edit_loc_dialog').displayed==true}
+	$('#editPoiName')<<'Place2'
+	$('#edit_loc_tab2_link').click()
+	waitFor {$('#enterpriseOpen').displayed==true}
+	$('#selectEntCategoriesCheckContainer ul li input').click()
+	$('#addLocationButton').click()
+	waitFor {$('.dialog.undefined').displayed==true}
+	$('.undefined').find('.ui-dialog-buttonset button').click()
+	
+	and:"I show the places on map"
+	$('#tab-places-enterprise').find('input.placeId').click()
+	waitFor {$('.placeCategory ul li').size()>1}
+	$('#btn_tab-places_showOnMap').click()
+	waitFor{$('canvas').size()>1}
+	waitFor('fast') { tooltip.displayed == true }
+		
+	}
+
+def "Setup a meeting at a place"(){
+	given: "We are at the PlacesPage"
+	at PlacesPage
+	
+	when:"I click Setup Meeting"
+	waitFor('fast') { tooltip.displayed == true }
+	waitFor{hasLink(tooltip, 'Save Place')==true}
+	$('a',text:'Setup Meeting').click()
+	
+	then:"Meeting dialog opens"
+	waitFor{$('.dialog.noClose').displayed==true}
+	$('#meetingSubject')<<'TestMeeting'
+	$('#inboxLocationRequestAcceptButton').click()
+	
+	and:"Success dialog is shown"
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
+	
+	and:"Delete meeting"
+	calendar.click()
+	waitFor {at CalendarHomePage}
+	$('span',text:'TestMeeting').click()
+	waitFor{$('.meeting-detail').displayed==true}
+	$('.ui-dialog-buttonset button')[2].click()
+	waitFor{$('.delete-text').displayed==true}
+	$('.buttons_class').find('button.send').click()
+	
+	and:"Success dialog is shown"
+	waitFor {$('.noCloseNoOk').displayed==true}
+	waitFor {$('.noCloseNoOk').displayed==false}
+		
+	
+	}
 }

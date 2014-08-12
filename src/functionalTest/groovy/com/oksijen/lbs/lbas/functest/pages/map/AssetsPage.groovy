@@ -20,5 +20,6 @@ class AssetsPage extends MapHomePage {
 		locReportDiv(required: false) 		{$('div#locReportTableDiv')}
 		locReportHist(required: false)		{$('div#locReportUserList ul')}
 		locReportUser(required: false)		{ $('div#locReportUserList div')}
+		adminBtn(required:false)		{$('a#btn_admin')}
     }
 }

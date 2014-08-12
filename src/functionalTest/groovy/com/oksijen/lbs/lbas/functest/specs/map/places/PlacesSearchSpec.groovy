@@ -9,7 +9,7 @@ import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
 
 /**
- * Created by cpekyaman on 3/25/2014.
+ * 
  */
 @Stepwise
 class PlacesSearchSpec extends LocateSpec {

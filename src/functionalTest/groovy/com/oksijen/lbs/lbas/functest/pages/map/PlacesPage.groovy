@@ -12,6 +12,8 @@ class PlacesPage extends MapHomePage {
         searchInput(required: true) 	 		{ $("input#search_places") }
         autocompleteList(required: false)		{ $('ul.ui-autocomplete').last() }
         autocompleteListItems(required: false)	{ autocompleteList.find('li.ui-menu-item') }
+		autocompleteList2(required: false)		{$('#edit_loc_dialog').previous('.placesSearchResults')}
+		autocompleteListItems2(required: false)	{autocompleteList2.find('li')}
                 
         header(required: true)		{ $("div.subtabsCover") }
         contents(required: true)	{ $("div.subtabs") }
@@ -24,6 +26,8 @@ class PlacesPage extends MapHomePage {
         tooltipClose(required: false, cache: false) { _slink('Close', tooltip.find('div.toolTipHeader')) }
 		
 		successDialog(required:false)	{$('.success-dialog')}
+		
+		calendar(required:true)		{$('#btn_calendar')}
 		
     }
 }
