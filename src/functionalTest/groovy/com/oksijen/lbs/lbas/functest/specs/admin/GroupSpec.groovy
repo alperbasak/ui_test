@@ -69,9 +69,11 @@ def "Create a group, select one admin"(){
 
 	}
 
-@Ignore
-def "Create a group, select multi admin"(){							////DEVELOPMENT NEEDED
-	given:"We are at Group Management Page"															
+def "Create a group, select multi admin"(){							
+	given:"We are at Group Management Page"		
+	adminBtn.click()
+	at AdminHomePage
+	groupMan.click()
 	at AdminHomePage
 	
 	when:"I select Add Group from dropdown and click apply"
@@ -100,12 +102,10 @@ def "Create a group, select multi admin"(){							////DEVELOPMENT NEEDED
 	groupAdminTab.click()
 	waitFor {admin.displayed==true}
 	assert allAdmins.size()>4
-	interact{
-		keyDown(Keys.SHIFT)	
 	allAdmins[0].click()
+	allAdmins[1].click()
+	allAdmins[2].click()
 	allAdmins[3].click()
-		keyUp(Keys.SHIFT)
-	}
 	arrowAdd.click()
 	
 	waitFor('fast') {groupAdminUsers.size()==5}
@@ -115,8 +115,8 @@ def "Create a group, select multi admin"(){							////DEVELOPMENT NEEDED
 
 	}
 
-@Ignore
-def "Edit group, remove one admin from group admins"(){									////DEVELOPMENT NEEDED
+
+def "Edit group, remove one admin from group admins"(){									
 	given:"We are at Group Management Page"
 	at AdminHomePage
 	
@@ -139,8 +139,8 @@ def "Edit group, remove one admin from group admins"(){									////DEVELOPMENT 
 		
 	}
 
-@Ignore
-def "Edit group, add one admin to group admins"(){									////DEVELOPMENT NEEDED
+
+def "Edit group, add one admin to group admins"(){									
 	given:"We are at Group Management Page"
 	at AdminHomePage
 	
@@ -152,7 +152,7 @@ def "Edit group, add one admin to group admins"(){									////DEVELOPMENT NEEDE
 	groupAdminTab.click()
 	waitFor {admin.displayed==true}
 	assert groupAdminUsers.size()==4
-	addAdmins[0].click()
+	allAdmins[0].click()
 	arrowAdd.click()
 	waitFor('fast')	{groupAdminUsers.size()==5}
 	
@@ -186,8 +186,7 @@ def "Create an asset group, select one admin"(){
 
 	}
 
-@Ignore
-def "Create an asset group, select multi admin"(){							////DEVELOPMENT NEEDED
+def "Create an asset group, select multi admin"(){							
 	given:"We are at Group Management Page"
 	at AdminHomePage
 	
@@ -204,12 +203,10 @@ def "Create an asset group, select multi admin"(){							////DEVELOPMENT NEEDED
 	groupAdminTab.click()
 	waitFor {admin.displayed==true}
 	assert allAdmins.size()>4
-	interact{
-		keyDown(Keys.SHIFT)
 	allAdmins[0].click()
+	allAdmins[1].click()
+	allAdmins[2].click()
 	allAdmins[3].click()
-		keyUp(Keys.SHIFT)
-	}
 	arrowAdd.click()
 	
 	waitFor('fast') {groupAdminUsers.size()==5}
@@ -219,8 +216,8 @@ def "Create an asset group, select multi admin"(){							////DEVELOPMENT NEEDED
 
 	}
 
-@Ignore
-def "Edit asset group, remove one admin from group admins"(){									////DEVELOPMENT NEEDED
+
+def "Edit asset group, remove one admin from group admins"(){									
 	given:"We are at Group Management Page"
 	at AdminHomePage
 	
@@ -243,8 +240,8 @@ def "Edit asset group, remove one admin from group admins"(){									////DEVELO
 		
 	}
 
-@Ignore
-def "Edit asset group, add one admin to group admins"(){									////DEVELOPMENT NEEDED
+
+def "Edit asset group, add one admin to group admins"(){									
 	given:"We are at Group Management Page"
 	at AdminHomePage
 	
@@ -256,7 +253,7 @@ def "Edit asset group, add one admin to group admins"(){									////DEVELOPMENT
 	groupAdminTab.click()
 	waitFor {admin.displayed==true}
 	assert groupAdminUsers.size()==4
-	addAdmins[0].click()
+	allAdmins[0].click()
 	arrowAdd.click()
 	waitFor('fast')	{groupAdminUsers.size()==5}
 	
@@ -407,7 +404,7 @@ def "Setup a meeting at a place"(){
 	and:"Delete meeting"
 	calendar.click()
 	waitFor {at CalendarHomePage}
-	$('span',text:'TestMeeting').click()
+	$('span.fc-event-title',text:'TestMeeting').click()
 	waitFor{$('.meeting-detail').displayed==true}
 	$('.ui-dialog-buttonset button')[2].click()
 	waitFor{$('.delete-text').displayed==true}
@@ -417,6 +414,31 @@ def "Setup a meeting at a place"(){
 	waitFor {$('.noCloseNoOk').displayed==true}
 	waitFor {$('.noCloseNoOk').displayed==false}
 		
+	}
+
+def "Delete Groups"(){
+	given:"We are at Group Management Page"		
+	adminBtn.click()
+	at AdminHomePage
+	groupMan.click()
+	at AdminHomePage
+	
+	when:"I select all added groups"
+	$('td.name',text:'NewGroup1').parent().find('input').click()
+	$('td.name',text:'NewGroup2').parent().find('input').click()
+	$('td.name',text:'NewAssetGroup1').parent().find('input').click()
+	$('td.name',text:'NewAssetGroup2').parent().find('input').click()
+	
+	then:"I select Delete from dropdown menu"
+	selectMenu[1].click()
+	delete.click()
+	apply.click()
+	
+	waitFor{$('.confirmation').displayed==true}
+	$('#dialog').find('span',text:'OK').click()
+	and:"Success dialog is shown"
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
 	
 	}
 }

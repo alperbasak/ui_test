@@ -11,8 +11,6 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.admin.*
 import com.oksijen.lbs.lbas.functest.pages.map.*
-import com.oksijen.lbs.lbas.functest.pages.calendar.*
-
 
 /**
  * 
@@ -33,32 +31,38 @@ def "Asset Management Page is displayed"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	}
 
-def "Add asset to a new group"(){
+def "Edit asset in the group"(){
 	given:"We are the Asset Tab"
 	at AdminHomePage
-	
-	when:"I click Add asset"
-	selectMenu.click()
-	addAsset.click()
-	apply.click()
+
+	when:"I click Edit asset"
+	$('tr').has('td.name',text:'AssetTrackingTest').find('a.btn-update').click()
 	waitFor {$('.editAssetDialog').displayed==true}
-		
-	then:"I enter necessary info and create a new asset group"
-	assetName<<"AssetTrackingTest"
-	assetModel<<"Model"
-	assetAllocated<<"Alper"
-	waitFor{$('ul.ui-autocomplete li').size()>0}
-	$('a.ui-corner-all')[0].click()
-	$('a.link-new').click() 
-	waitFor{$('.newGroupOvl').displayed==true}
-	groupName<<"GroupTrackingTest"
-	saveGroup.click()
-	waitFor {successDialog.displayed==true}
-	waitFor {successDialog.displayed==false}
+//	when:"I click Add asset"
+//	selectMenu.click()
+//	addAsset.click()
+//	apply.click()
+//	waitFor {$('.editAssetDialog').displayed==true}
+//		
+//	then:"I enter necessary info and create a new asset group"
+//	assetName<<"AssetTrackingTest"
+//	assetModel<<"Model"
+//	assetAllocated<<"Alper"
+//	waitFor{$('ul.ui-autocomplete li').size()>0}
+//	$('a.ui-corner-all')[0].click()
+//	$('a.link-new').click() 
+//	waitFor{$('.newGroupOvl').displayed==true}
+//	groupName<<"GroupTrackingTest"
+//	saveGroup.click()
+//	waitFor {successDialog.displayed==true}
+//	waitFor {successDialog.displayed==false}
 	
-	and:"Tracking Settings PPT:off VC:0"
+	then:"Tracking Settings PPT:off VC:0"
 	$('ul.tabs li')[1].click()
 	waitFor{$('#assetTracking').displayed==true}
+	if ($('#permanentPeriodicTracking',value:'true').size()>0){
+		$('#permanentPeriodicTracking').click()
+	}
 	waitFor{$('#permanentPeriodicTracking').value()==false}
 	$('#assetVisibilityType',value:'none').click()
 	sendDialog.click()
@@ -71,8 +75,9 @@ def "Add asset to a new group"(){
 	$('#btn_tab-assets').click()
 	$('#refreshAssets').click()
 	waitFor {at AssetsPage}
-	$('span',text:'GroupTrackingTest').click()
-	$('span',text:'AssetTrackingTest Model').click()
+	waitFor{$('span.groupName',text:'GroupTrackingTest').displayed==true}
+	$('span.groupName',text:'GroupTrackingTest').click()
+	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==true}
 	
@@ -106,31 +111,34 @@ def "Tracking Settings PPT:on VC:0"(){
 	$('#btn_tab-assets').click()
 	$('#refreshAssets').click()
 	waitFor {at AssetsPage}
-	$('span',text:'GroupTrackingTest').click()
-	$('span',text:'AssetTrackingTest Model').click()
+	waitFor{$('span.groupName',text:'GroupTrackingTest').displayed==true}
+	$('span.groupName',text:'GroupTrackingTest').click()
+	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==false}
 	$('a',name:'btn_item_locate').click()
 	waitFor{tooltip.displayed==true}
-	if($('.locateSingleUser').displayed){
-		$('span.ui-button-text').click()
-		waitFor{$('.locateSingleUser').displayed==false}
-		}
+//	if($('button.ui-button-text-only').displayed){
+//		$('button.ui-button-text-only').click()
+//		waitFor{$('.locateSingleUser').displayed==false}
+//		}
 	
 	and:"Create Report"
 	$('.toolTipBottom li',1).click()
 	waitFor{$('.locationReportRequestPermission').displayed==true}
 	$('span.ui-button-text',text:"Create").click()
 	waitFor {$('div#reportTopCover').displayed==true}
-	if($('.locateSingleUser').displayed){
-		$('span.ui-button-text').click()
+	if($('span.ui-button-text').displayed){
+		$('button.ui-button-text-only').click()
 		waitFor{$('.locateSingleUser').displayed==false}
 		}
-	$('div.buttonsForReport a').has('span',text:contains('view report')).click()
-	waitFor{$('#locReportUserList').displayed==true}
-	$('#locReportUserList').click()
-	waitFor{$('#locReportUserList ul').displayed==true}
 	
+	viewReport.click()
+	waitFor {$('div#locReportListDiv').displayed==true}
+	locReportUser.click()
+	waitFor {locReportHist.displayed==true}
+	locReportUser.click()
+
 	and:"Go back to Asset Management page"
 	$('#btn_map_clear').click()
 	adminBtn.click()
@@ -149,7 +157,7 @@ def "Tracking Settings PPT:off VC:Company"(){
 	
 	then:"I change periodic tracking"
 	$('ul.tabs li')[1].click()
-	waitFor{$('#permanentPeriodicTracking').value()==true}
+	waitFor{$('#permanentPeriodicTracking').value()=='true'}
 	$('#permanentPeriodicTracking').click()
 	$('#assetVisibilityType',value:'company').click()
 	sendDialog.click()
@@ -162,8 +170,9 @@ def "Tracking Settings PPT:off VC:Company"(){
 	$('#btn_tab-assets').click()
 	$('#refreshAssets').click()
 	waitFor {at AssetsPage}
-	$('span',text:'GroupTrackingTest').click()
-	$('span',text:'AssetTrackingTest Model').click()
+	waitFor{$('span.groupName',text:'GroupTrackingTest').displayed==true}
+	$('span.groupName',text:'GroupTrackingTest').click()
+	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==true}
 	
@@ -198,24 +207,26 @@ def "Tracking Settings PPT:on VC:Company"(){
 	$('#btn_tab-assets').click()
 	$('#refreshAssets').click()
 	waitFor {at AssetsPage}
-	$('span',text:'GroupTrackingTest').click()
-	$('span',text:'AssetTrackingTest Model').click()
+	waitFor {$('span.groupName',text:'GroupTrackingTest').displayed==true}
+	$('span.groupName',text:'GroupTrackingTest').click()
+	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==false}
 	$('a',name:'btn_item_locate').click()
 	waitFor{tooltip.displayed==true}
-	if($('.locateSingleUser').displayed){
-		$('span.ui-button-text').click()
-		waitFor{$('.locateSingleUser').displayed==false}
-		}
+//	if($('button.ui-button-text-only').displayed){
+//		$('button.ui-button-text-only').click()
+//		waitFor{$('.locateSingleUser').displayed==false}
+//		}
 	
 	and:"Create Report"
 	$('.toolTipBottom li',1).click()
 	waitFor{$('.locationReportRequestPermission').displayed==true}
-	$('span.ui-button-text',text:"Create").click()
+	waitFor{$('form#requestReportPermission').displayed==true}
+	$('div.ui-dialog-buttonset button')[1].click()
 	waitFor {$('div#reportTopCover').displayed==true}
-	if($('.locateSingleUser').displayed){
-		$('span.ui-button-text').click()
+	if($('span.ui-button-text').displayed){
+		$('button.ui-button-text-only').click()
 		waitFor{$('.locateSingleUser').displayed==false}
 		}
 	$('div.buttonsForReport a.multi_user_button',1).click()
@@ -241,40 +252,40 @@ def "Tracking Settings PPT:off VC:Custom"(){
 	
 	then:"I change periodic tracking"
 	$('ul.tabs li')[1].click()
-	waitFor{$('#permanentPeriodicTracking').value()==true}
+	waitFor{$('#permanentPeriodicTracking').value()=='true'}
 	$('#permanentPeriodicTracking').click()
 	$('#assetVisibilityType',value:'permanent').click()
 	waitFor{$('div#permanent').displayed==true}
 	
 	assetProfile[0].find('input.checkBox').click()
-	assetProfile[0].find('fromTime div input.inputText.time.hours')<<"08"
-	assetProfile[0].find('fromTime div input.inputText.time.mins')<<"00"
-	assetProfile[0].find('toTime div input.inputText.time.hours')<<"17"
-	assetProfile[0].find('toTime div input.inputText.time.mins')<<"00"
+	assetProfile[0].find('.fromTime div input.inputText.time.hours')<<"08"
+	assetProfile[0].find('.fromTime div input.inputText.time.mins')<<"00"
+	assetProfile[0].find('.toTime div input.inputText.time.hours')<<"17"
+	assetProfile[0].find('.toTime div input.inputText.time.mins')<<"00"
 	
 	assetProfile[1].find('input.checkBox').click()
-	assetProfile[1].find('fromTime div input.inputText.time.hours')<<"08"
-	assetProfile[1].find('fromTime div input.inputText.time.mins')<<"00"
-	assetProfile[1].find('toTime div input.inputText.time.hours')<<"17"
-	assetProfile[1].find('toTime div input.inputText.time.mins')<<"00"
+	assetProfile[1].find('.fromTime div input.inputText.time.hours')<<"08"
+	assetProfile[1].find('.fromTime div input.inputText.time.mins')<<"00"
+	assetProfile[1].find('.toTime div input.inputText.time.hours')<<"17"
+	assetProfile[1].find('.toTime div input.inputText.time.mins')<<"00"
 	
 	assetProfile[2].find('input.checkBox').click()
-	assetProfile[2].find('fromTime div input.inputText.time.hours')<<"08"
-	assetProfile[2].find('fromTime div input.inputText.time.mins')<<"00"
-	assetProfile[2].find('toTime div input.inputText.time.hours')<<"17"
-	assetProfile[2].find('toTime div input.inputText.time.mins')<<"00"
+	assetProfile[2].find('.fromTime div input.inputText.time.hours')<<"08"
+	assetProfile[2].find('.fromTime div input.inputText.time.mins')<<"00"
+	assetProfile[2].find('.toTime div input.inputText.time.hours')<<"17"
+	assetProfile[2].find('.toTime div input.inputText.time.mins')<<"00"
 	
 	assetProfile[3].find('input.checkBox').click()
-	assetProfile[3].find('fromTime div input.inputText.time.hours')<<"08"
-	assetProfile[3].find('fromTime div input.inputText.time.mins')<<"00"
-	assetProfile[3].find('toTime div input.inputText.time.hours')<<"17"
-	assetProfile[3].find('toTime div input.inputText.time.mins')<<"00"
+	assetProfile[3].find('.fromTime div input.inputText.time.hours')<<"08"
+	assetProfile[3].find('.fromTime div input.inputText.time.mins')<<"00"
+	assetProfile[3].find('.toTime div input.inputText.time.hours')<<"17"
+	assetProfile[3].find('.toTime div input.inputText.time.mins')<<"00"
 	
 	assetProfile[4].find('input.checkBox').click()
-	assetProfile[4].find('fromTime div input.inputText.time.hours')<<"08"
-	assetProfile[4].find('fromTime div input.inputText.time.mins')<<"00"
-	assetProfile[4].find('toTime div input.inputText.time.hours')<<"17"
-	assetProfile[4].find('toTime div input.inputText.time.mins')<<"00"
+	assetProfile[4].find('.fromTime div input.inputText.time.hours')<<"08"
+	assetProfile[4].find('.fromTime div input.inputText.time.mins')<<"00"
+	assetProfile[4].find('.toTime div input.inputText.time.hours')<<"17"
+	assetProfile[4].find('.toTime div input.inputText.time.mins')<<"00"
 	
 	sendDialog.click()
 	waitFor {successDialog.displayed==true}
@@ -286,8 +297,9 @@ def "Tracking Settings PPT:off VC:Custom"(){
 	$('#btn_tab-assets').click()
 	$('#refreshAssets').click()
 	waitFor {at AssetsPage}
-	$('span',text:'GroupTrackingTest').click()
-	$('span',text:'AssetTrackingTest Model').click()
+	waitFor{$('span.groupName',text:'GroupTrackingTest').displayed==true}
+	$('span.groupName',text:'GroupTrackingTest').click()
+	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==true}
 	
@@ -322,24 +334,26 @@ def "Tracking Settings PPT:on VC:Custom"(){
 	$('#btn_tab-assets').click()
 	$('#refreshAssets').click()
 	waitFor {at AssetsPage}
-	$('span',text:'GroupTrackingTest').click()
-	$('span',text:'AssetTrackingTest Model').click()
+	waitFor {$('span.groupName',text:'GroupTrackingTest').displayed==true}
+	$('span.groupName',text:'GroupTrackingTest').click()
+	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==false}
 	$('a',name:'btn_item_locate').click()
 	waitFor{tooltip.displayed==true}
-	if($('.locateSingleUser').displayed){
-		$('span.ui-button-text').click()
+	if($('span.ui-button-text').displayed){
+		$('button.ui-button-text-only').click()
 		waitFor{$('.locateSingleUser').displayed==false}
 		}
 	
 	and:"Create Report"
 	$('.toolTipBottom li',1).click()
 	waitFor{$('.locationReportRequestPermission').displayed==true}
+	waitFor{$('form#requestReportPermission').displayed==true}
 	$('span.ui-button-text',text:"Create").click()
 	waitFor {$('div#reportTopCover').displayed==true}
-	if($('.locateSingleUser').displayed){
-		$('span.ui-button-text').click()
+	if($('span.ui-button-text').displayed){
+		$('button.ui-button-text-only').click()
 		waitFor{$('.locateSingleUser').displayed==false}
 		}
 	$('div.buttonsForReport a.multi_user_button',1).click()
@@ -367,14 +381,14 @@ def "Tracking Settings PPT:on VC:Unlocatable Custom"(){
 	then:"I enable permanent periodic tracking"
 	$('ul.tabs li')[1].click()
 	waitFor{$('#assetTracking').displayed==true}
-	waitFor{$('#permanentPeriodicTracking').value()==true}
+	waitFor{$('#permanentPeriodicTracking').value()=='true'}
 	
 	assetProfile[0].find('input.checkBox').click()
 	assetProfile[0].find('input.checkBox').click()
-	assetProfile[0].find('fromTime div input.inputText.time.hours')<<"01"
-	assetProfile[0].find('fromTime div input.inputText.time.mins')<<"00"
-	assetProfile[0].find('toTime div input.inputText.time.hours')<<"02"
-	assetProfile[0].find('toTime div input.inputText.time.mins')<<"00"
+	assetProfile[0].find('.fromTime div input.inputText.time.hours')<<"01"
+	assetProfile[0].find('.fromTime div input.inputText.time.mins')<<"00"
+	assetProfile[0].find('.toTime div input.inputText.time.hours')<<"02"
+	assetProfile[0].find('.toTime div input.inputText.time.mins')<<"00"
 	assetProfile[1].find('input.checkBox').click()
 	assetProfile[2].find('input.checkBox').click()
 	assetProfile[3].find('input.checkBox').click()
@@ -390,8 +404,9 @@ def "Tracking Settings PPT:on VC:Unlocatable Custom"(){
 	$('#btn_tab-assets').click()
 	$('#refreshAssets').click()
 	waitFor {at AssetsPage}
-	$('span',text:'GroupTrackingTest').click()
-	$('span',text:'AssetTrackingTest Model').click()
+	waitFor {$('span.groupName',text:'GroupTrackingTest').displayed==true}
+	$('span.groupName',text:'GroupTrackingTest').click()
+	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==true}
 	
@@ -413,7 +428,7 @@ def "Tracking Settings PPT:off VC:Specific"(){
 	
 	then:"I change periodic tracking"
 	$('ul.tabs li')[1].click()
-	waitFor{$('#permanentPeriodicTracking').value()==true}
+	waitFor{$('#permanentPeriodicTracking').value()=='true'}
 	$('#permanentPeriodicTracking').click()
 	$('#assetVisibilityType',value:'specific').click()
 	waitFor{$('div#specific').displayed==true}
@@ -431,8 +446,9 @@ def "Tracking Settings PPT:off VC:Specific"(){
 	$('#btn_tab-assets').click()
 	$('#refreshAssets').click()
 	waitFor {at AssetsPage}
-	$('span',text:'GroupTrackingTest').click()
-	$('span',text:'AssetTrackingTest Model').click()
+	waitFor {$('span.groupName',text:'GroupTrackingTest').displayed==true}
+	$('span.groupName',text:'GroupTrackingTest').click()
+	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==true}
 	
@@ -447,7 +463,7 @@ def "Tracking Settings PPT:off VC:Specific"(){
 def "Tracking Settings PPT:on VC:Specific"(){
 	given:"We are the Asset Tab"
 	at AdminHomePage
-	
+
 	when:"I click Edit asset"
 	$('tr').has('td.name',text:'AssetTrackingTest').find('a.btn-update').click()
 	waitFor {$('.editAssetDialog').displayed==true}
@@ -467,24 +483,26 @@ def "Tracking Settings PPT:on VC:Specific"(){
 	$('#btn_tab-assets').click()
 	$('#refreshAssets').click()
 	waitFor {at AssetsPage}
-	$('span',text:'GroupTrackingTest').click()
-	$('span',text:'AssetTrackingTest Model').click()
+	waitFor {$('span.groupName',text:'GroupTrackingTest').displayed==true}
+	$('span.groupName',text:'GroupTrackingTest').click()
+	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==false}
 	$('a',name:'btn_item_locate').click()
 	waitFor{tooltip.displayed==true}
-	if($('.locateSingleUser').displayed){
-		$('span.ui-button-text').click()
+	if($('span.ui-button-text').displayed){
+		$('button.ui-button-text-only').click()
 		waitFor{$('.locateSingleUser').displayed==false}
 		}
 
 	and:"Create Report"
 	$('.toolTipBottom li',1).click()
 	waitFor{$('.locationReportRequestPermission').displayed==true}
-	$('span.ui-button-text',text:"Create").click()
+	waitFor{$('form#requestReportPermission').displayed==true}
+	$('div.ui-dialog-buttonset button')[1].click()
 	waitFor {$('div#reportTopCover').displayed==true}
-	if($('.locateSingleUser').displayed){
-		$('span.ui-button-text').click()
+	if($('span.ui-button-text').displayed){
+		$('button.ui-button-text-only').click()
 		waitFor{$('.locateSingleUser').displayed==false}
 		}
 	$('div.buttonsForReport a.multi_user_button',1).click()
@@ -500,7 +518,7 @@ def "Tracking Settings PPT:on VC:Specific"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-
+@Ignore
 def "Delete asset and group"(){
 	given:"We are the Asset Tab"
 	at AdminHomePage

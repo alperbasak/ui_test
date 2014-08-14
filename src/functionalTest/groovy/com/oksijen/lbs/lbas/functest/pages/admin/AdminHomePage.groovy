@@ -16,12 +16,13 @@ class AdminHomePage extends WelcomePage {
 		
 		groupMan(required: true) 	{$('ul.adminMenu li',3)}
 		selectMenu(required:false)	{$('a.ui-selectmenu')}
-		addGroup(required:false)	{$('a',text:"Add group")}
-		addAsset(required:false)	{$('a',text:"Add asset")}
-		addAssetGroup(required:false){$('a',text:"Add asset group")}
+		addGroup(required:false)	{$('li a',text:"Add group")}
+		addAsset(required:false)	{$('li a',text:"Add asset")}
+		addAssetGroup(required:false){$('li a',text:"Add asset group")}
 		apply(required:false)		{$('.toolbar-apply')}
+		delete(required:false)		{$('li a',text:"Delete")}
 		
-		groupDialog(required:false)	{$('.newGroupOvl')}
+		groupDialog(required:false)	{$('.addExcpPos')}
 		groupName(required:false)	{$('input',id:startsWith('lbasGroup'))}
 		groupDetailsTab(required:false)		{$('ul.tabs.clearfix li',0)}
 		groupMembersTab(required:false)		{$('ul.tabs.clearfix li',1)}
@@ -33,8 +34,8 @@ class AdminHomePage extends WelcomePage {
 		admin(required:false)			{$('form#groupAdmin')}
 		groupAdminUsers(required:false)	{$('select#groupAdminUsers option')}
 		
-		arrowAdd(required:false)		{$('a.action-arrow.add')}
-		arrowRemove(required:false)		{$('a.action-arrow.remove')}
+		arrowAdd(required:false)		{$('#groupAdmin').find('a.action-arrow.add')}
+		arrowRemove(required:false)		{$('#groupAdmin').find('a.action-arrow.remove')}
 		
 		sendDialog(required:false)		{$('a.send-button')}
 		successDialog(required:false)	{$('.success-dialog')}
