@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.*
 import static spock.util.matcher.HamcrestSupport.*
 import org.openqa.selenium.Keys
 
+import com.oksijen.lbs.lbas.functest.util.TestParams
 import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
@@ -18,57 +19,8 @@ import com.oksijen.lbs.lbas.functest.pages.calendar.*
  * 
  */
 @Stepwise
-class GroupSpec extends LocateSpec {
-    
-def "Group Management Page is displayed"(){
-	given: "We are at the WelcomePage"
-	at WelcomePage
-		
-	when: "I click Admin tab"
-	adminBtn.click()
-	waitFor { at AdminHomePage }
-		
-	then: "Click Group Management and page should render"
-	groupMan.click()
-	waitFor { rightPanel.find('h1').text().contains('Gr') }
-	}
-
-def "Create a group, select one admin"(){
-	given:"We are at Group Management Page"
-	at AdminHomePage
-	
-	when:"I select Add Group from dropdown and click apply"
-	selectMenu.click()
-	addGroup.click()
-	apply.click()
-	
-	then:"New group dialog opens and I select only one admin"
-	waitFor {groupDialog.displayed==true}
-	groupName<<"NewGroup1"
-	groupPermissionsTab.click()
-	waitFor {permissions.displayed==true}
-	
-	def checkboxes= permissions.find('input',type:"checkbox")
-	checkboxes[0].click()
-	checkboxes[1].click()
-	checkboxes[2].click()
-	checkboxes[3].click()
-	checkboxes[4].click()
-	checkboxes[5].click()
-	checkboxes[6].click()
-	checkboxes[7].click()
-	checkboxes[8].click()
-	
-	and: "Check for only one admin and save"
-	groupAdminTab.click()
-	waitFor {admin.displayed==true}
-	assert groupAdminUsers.size()==1
-	sendDialog.click()
-	waitFor {successDialog.displayed==true}
-	waitFor {successDialog.displayed==false}
-
-	}
-
+class SecondAdminSpec extends LocateSpec {
+    @Ignore
 def "Create a group, select multi admin"(){							
 	given:"We are at Group Management Page"		
 	adminBtn.click()
@@ -81,9 +33,18 @@ def "Create a group, select multi admin"(){
 	addGroup.click()
 	apply.click()
 	
-	then:"New group dialog opens and I select only one admin"
+	then:"Add members"
 	waitFor {groupDialog.displayed==true}
-	groupName<<"NewGroup2"
+	groupName<<"SecondAdminGroup"
+	groupMembersTab.click()
+	waitFor{members.displayed==true}
+	waitFor{allMembers.size()>0}
+	$('select#selected option',text:'GroupAdmin1 Test').click()
+	$('select#selected option',text:'GroupAdmin2 Test').click()
+	$('select#selected option',text:'GroupAdmin3 Test').click()
+	memberAdd.click()
+	
+	and:"New group dialog opens and I select only one admin"
 	groupPermissionsTab.click()
 	waitFor {permissions.displayed==true}
 	
@@ -101,173 +62,144 @@ def "Create a group, select multi admin"(){
 	and: "Add more than one admin and save"
 	groupAdminTab.click()
 	waitFor {admin.displayed==true}
-	assert allAdmins.size()>4
-	allAdmins[0].click()
-	allAdmins[1].click()
-	allAdmins[2].click()
-	allAdmins[3].click()
+	$('select#allAdminUsers option',text:'GroupAdmin1 Test').click()
+	$('select#allAdminUsers option',text:'GroupAdmin2 Test').click()
+	$('select#allAdminUsers option',text:'GroupAdmin3 Test').click()
 	arrowAdd.click()
 	
-	waitFor('fast') {groupAdminUsers.size()==5}
+	waitFor('fast') {groupAdminUsers.size()>1}
 	sendDialog.click()
+	waitFor {$('.confirmation').displayed==true}
+	$('span.ui-button-text',text:'OK').click()
 	waitFor {successDialog.displayed==true}
 	waitFor {successDialog.displayed==false}
 
 	}
 
+def "Logout and login with 2nd admin"(){
+	given:"We are at Group Management Page"	
+//	at AdminHomePage
+	at WelcomePage
+	$('a#btn_logout').click()
+	waitFor {at LoginPage}
+		
+	when:"I login with 2nd admin"
+	username='admin1'
+	password=params.get('password')
+	loginButton.click()
+	waitFor {at WelcomePage}
+	
+	then:"Only the group with admin rights should be seen"
+	waitFor {$('#tab-users').find('div.contents ul li').size()==1}
 
-def "Edit group, remove one admin from group admins"(){									
-	given:"We are at Group Management Page"
-	at AdminHomePage
+	}
+
+def "Locate users with other admin"(){
+	given:"We are at Users Page"
+	at UsersPage
 	
-	when:"I edit multi admin group"
-	$('td.name',text:'NewGroup2').parent().find('a.btn-update').click()
+	when:"I select the group and click locate"
+	$('input.groupId').click()
+	$('a#btn_tab-users_showOnMap').click()
 	
-	then:"Dialog opens and I remove one admin"
-	waitFor {groupDialog.displayed==true}
-	groupAdminTab.click()
-	waitFor {admin.displayed==true}
-	assert groupAdminUsers.size()==5
-	groupAdminUsers[0].click()
-	arrowRemove.click()
-	waitFor('fast')	{groupAdminUsers.size()==4}
+	then:"I see the location of the users on the map"
+	waitFor{tooltip.displayed==true}
+	tooltipClose.click()
+	waitFor{tooltip.displayed==false}
 	
-	and:"Save"
-	sendDialog.click()
+	}
+
+def "Create location reports with other admin"(){
+	given:"We are at Users Page"
+	at UsersPage
+	
+	when:"I select a group and click create report"
+	if ($('#btn_tab-users_createReport').hasClass('multi_user_button_inactive')){
+		$('input.groupId').click()
+		}
+	waitFor{$('#btn_tab-users_createReport').hasClass('multi_user_button')==true}
+	$('#btn_tab-users_createReport').click()
+	waitFor{$('.locationReportRequestPermission').displayed==true}
+	permissionSend.click()
+	
+	then:"Tooltip opens and view report"
+	waitFor{$('#reportTopCover').displayed==true}
+	viewReport.click()
+	waitFor{$('#locReportUserList div').size()>1}
+	$('#locReportUserList div').last().click()
+	waitFor{$('#locReportUserList ul').last().displayed==true}
+	$('#btn_map_clear').click()
+	waitFor{tooltip.displayed==false}
+	}
+
+def "Send a message to all group members"(){
+	given:"We are at Users Page"
+	at UsersPage
+	
+	when:"I select a group and click create report"
+	if ($('#btn_tab-users_sendMessage').hasClass('multi_user_button_inactive')){
+		$('input.groupId').click()
+		}
+	waitFor{$('#btn_tab-users_sendMessage').hasClass('multi_user_button')==true}
+	$('#btn_tab-users_sendMessage').click()
+	waitFor{$('.userSendMessage').displayed==true}
+	
+	then:"Send message to group"
+	$('td.buttons_class button')[0].click()
+	waitFor {successSent.displayed==true}
+	waitFor {successSent.displayed==false}
+	}
+
+def "Other admin can create new user"(){
+	given:"We are at Users Page"
+	at UsersPage
+	
+	when:"I open actions and click create new user"
+	$('#userActionList5-button').click()
+	waitFor{$('#userActionList5-menu').displayed==true}
+	$('#userActionList5-menu li.userActionList2').click()
+	
+	then:"Enter user details and create new user"
+	waitFor{$('.addExcpPos').displayed==true}
+	userName << params.get('newUser.name')
+	userSurname << params.get('newUser.surname')
+	userMail << params.get('newUser.email')
+	$('a.send-button').click()
+	
+	and:"Success dialog is shown"
 	waitFor {successDialog.displayed==true}
 	waitFor {successDialog.displayed==false}
 		
 	}
 
-
-def "Edit group, add one admin to group admins"(){									
-	given:"We are at Group Management Page"
-	at AdminHomePage
+def "Other Admin can edit User"(){
+	given:
+	at UsersPage
 	
-	when:"I edit multi admin group"
-	$('td.name',text:'NewGroup2').parent().find('a.btn-update').click()
+	when:"I select a user and edit"
+	searchInput<<params.get('newUser.name')
+	waitFor {$('span.searchReset').displayed==true}
+	if ($('#userActionList2-button').displayed==false){
+		$('input.user.check-box').click()
+		}
+	waitFor{$('#userActionList2-button').displayed==true}
+	actionListClose2.click()
+	editUser.click()
 	
-	then:"Dialog opens and I add one admin"
-	waitFor {groupDialog.displayed==true}
-	groupAdminTab.click()
-	waitFor {admin.displayed==true}
-	assert groupAdminUsers.size()==4
-	allAdmins[0].click()
-	arrowAdd.click()
-	waitFor('fast')	{groupAdminUsers.size()==5}
+	then:"Editing dialog opens"
+	waitFor {$('.addExcpPos').displayed==true}
+	userName << params.get('editUser.name')
+	$('a.send-button').click()
 	
-	and:"Save"
-	sendDialog.click()
+	and:"Success dialog is shown"
 	waitFor {successDialog.displayed==true}
 	waitFor {successDialog.displayed==false}
-		
-	}
-
-def "Create an asset group, select one admin"(){
-	given:"We are at Group Management Page"
-	at AdminHomePage
 	
-	when:"I select Add Asset Group from dropdown and click apply"
-	selectMenu.click()
-	addAssetGroup.click()
-	apply.click()
-	
-	then:"New group dialog opens and I select only one admin"
-	waitFor {groupDialog.displayed==true}
-	groupName<<"NewAssetGroup1"
-
-	and: "Check for only one admin and save"									
-	groupAdminTab.click()
-	waitFor {admin.displayed==true}
-	assert groupAdminUsers.size()==1
-	sendDialog.click()
-	waitFor {successDialog.displayed==true}
-	waitFor {successDialog.displayed==false}
-
-	}
-
-def "Create an asset group, select multi admin"(){							
-	given:"We are at Group Management Page"
-	at AdminHomePage
-	
-	when:"I select Add Asset Group from dropdown and click apply"
-	selectMenu.click()
-	addAssetGroup.click()
-	apply.click()
-	
-	then:"New asset group dialog opens and I select only one admin"
-	waitFor {groupDialog.displayed==true}
-	groupName<<"NewAssetGroup2"
-	
-	and: "Add more than one admin and save"
-	groupAdminTab.click()
-	waitFor {admin.displayed==true}
-	assert allAdmins.size()>4
-	allAdmins[0].click()
-	allAdmins[1].click()
-	allAdmins[2].click()
-	allAdmins[3].click()
-	arrowAdd.click()
-	
-	waitFor('fast') {groupAdminUsers.size()==5}
-	sendDialog.click()
-	waitFor {successDialog.displayed==true}
-	waitFor {successDialog.displayed==false}
-
-	}
-
-
-def "Edit asset group, remove one admin from group admins"(){									
-	given:"We are at Group Management Page"
-	at AdminHomePage
-	
-	when:"I edit multi admin asset group"
-	$('td.name',text:'NewAssetGroup2').parent().find('a.btn-update').click()
-	
-	then:"Dialog opens and I remove one admin"
-	waitFor {groupDialog.displayed==true}
-	groupAdminTab.click()
-	waitFor {admin.displayed==true}
-	assert groupAdminUsers.size()==5
-	groupAdminUsers[0].click()
-	arrowRemove.click()
-	waitFor('fast')	{groupAdminUsers.size()==4}
-	
-	and:"Save"
-	sendDialog.click()
-	waitFor {successDialog.displayed==true}
-	waitFor {successDialog.displayed==false}
-		
-	}
-
-
-def "Edit asset group, add one admin to group admins"(){									
-	given:"We are at Group Management Page"
-	at AdminHomePage
-	
-	when:"I edit multi admin asset group"
-	$('td.name',text:'NewAssetGroup2').parent().find('a.btn-update').click()
-	
-	then:"Dialog opens and I add one admin"
-	waitFor {groupDialog.displayed==true}
-	groupAdminTab.click()
-	waitFor {admin.displayed==true}
-	assert groupAdminUsers.size()==4
-	allAdmins[0].click()
-	arrowAdd.click()
-	waitFor('fast')	{groupAdminUsers.size()==5}
-	
-	and:"Save"
-	sendDialog.click()
-	waitFor {successDialog.displayed==true}
-	waitFor {successDialog.displayed==false}
-		
 	}
 
 def "Create a new enterprise category"(){
 	given: "We are at the PlacesPage"
-	at AdminHomePage
-	$('#btn_map').click()
+	at UsersPage
 	$('a#btn_tab-places').click()
 	at PlacesPage
 	$('#btn_tab-places-enterprise').click()
@@ -281,10 +213,8 @@ def "Create a new enterprise category"(){
 	$('#categoryDetailForm_categoryName') << params.get('newCategoryName')
 	$('a#tab2').click()
 	waitFor {$('#updateCatPermission').displayed==true}
-	$('#permissionSearchInput') << params.get('users.Request')
-	waitFor {$('div#wp_autocomplete').displayed==true}
-	$('div#wp_autocomplete').find('li.ui-menu-item a').click()
-
+	$('span.groupName',text:'SecondAdminGroup').parent().parent().find('input.groupIdCat')click()
+	
 	and:"Add permissions"
 	$('#changePermissions0').click()
 	$('#changePermissions1').click()
@@ -427,7 +357,7 @@ def "Delete enterprise category"(){
 	waitFor {$('#tab-places-enterprise').hasClass('ui-tabs-hide')==false}
 	
 	when:"I select enterprise category and delete"
-	if (enterprisePlace.value()==false){
+	if (enterprisePlace.value()==false){ 
 	enterprisePlace.click()
 	}
 	$('a#btn_tab-places_Delete').click()
@@ -441,29 +371,37 @@ def "Delete enterprise category"(){
 //	$('div.ui-dialog-buttonset button span',text:'OK').click()
 }
 
-def "Delete Groups"(){
-	given:"We are at Group Management Page"		
-	adminBtn.click()
-	at AdminHomePage
-	groupMan.click()
-	at AdminHomePage
+def "Delete User"(){
+	given:"We are at the UsersPage"
+	at PlacesPage	
+	$('a#btn_logout').click()
+	waitFor {at LoginPage}
+		
+	when:"I login with company admin"
+	username=params.get('username')
+	password=params.get('password')
+	loginButton.click()
+	waitFor {at UsersPage}
+
+	then: "I select the edited user and delete"
+	searchInput<<params.get('newUser.name')
+	searchInput<<params.get('editUser.name')
+	waitFor {$('span.searchReset').displayed==true}
+	if ($('#userActionList2-button').displayed==false){
+		$('input.user.check-box').click()
+		}
+	waitFor{$('#userActionList2-button').displayed==true}
+	actionListClose2.click()
+	deleteUser.click()
 	
-	when:"I select all added groups"
-	$('td.name',text:'NewGroup1').parent().find('input').click()
-	$('td.name',text:'NewGroup2').parent().find('input').click()
-	$('td.name',text:'NewAssetGroup1').parent().find('input').click()
-	$('td.name',text:'NewAssetGroup2').parent().find('input').click()
+	and:"Delete confimation dialog opens"
+	waitFor {$('#dialog').displayed==true}
+	$('div.ui-dialog-buttonset button',0).click()
 	
-	then:"I select Delete from dropdown menu"
-	selectMenu[1].click()
-	delete.click()
-	apply.click()
-	
-	waitFor{$('.confirmation').displayed==true}
-	$('#dialog').find('span',text:'OK').click()
 	and:"Success dialog is shown"
 	waitFor {successDialog.displayed==true}
 	waitFor {successDialog.displayed==false}
+
+		}
 	
-	}
 }

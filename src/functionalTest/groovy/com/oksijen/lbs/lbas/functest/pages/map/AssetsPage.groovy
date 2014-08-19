@@ -21,5 +21,16 @@ class AssetsPage extends MapHomePage {
 		locReportHist(required: false)		{$('div#locReportUserList ul')}
 		locReportUser(required: false)		{ $('div#locReportUserList div')}
 		adminBtn(required:false)		{$('a#btn_admin')}
+		
+		allAssets(required:false)	{$('#tab-assets').find('.contents ul li')}
+		assetGroup(required:false)	{$('span.groupName',text:'AA').parent().parent().find('input.groupId')}
+		assetArrow(required:false)	{$('span.groupName',text:'AA').parent().parent().find('img.openClose')}
+		
+		locatableAssets(required:false)	{$('div#tab-assets div.contents ul li').not(".noLocatableItems")}
+		showLocatable(required:false)	{$('ul#filter_all_tab-assets-menu li',1)}
+		nolocatableUsers(required:false)	{$('ul.users li.noLocatableItems')}
+		
+		
+		
     }
 }

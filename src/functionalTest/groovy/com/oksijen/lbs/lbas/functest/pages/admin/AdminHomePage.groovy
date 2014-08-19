@@ -30,10 +30,13 @@ class AdminHomePage extends WelcomePage {
 		groupAdminTab(required:false)		{$('ul.tabs.clearfix li',3)}
 
 		permissions(required:false)		{$('form#updateGroupPermissions')}
+		members(required:false)			{$('form#updateGroupMembers')}
+		allMembers(required:false)		{$('select#selected option')}
 		allAdmins(required:false)		{$('select#allAdminUsers option')}
 		admin(required:false)			{$('form#groupAdmin')}
 		groupAdminUsers(required:false)	{$('select#groupAdminUsers option')}
 		
+		memberAdd(required:false)		{$('#updateGroupMembers').find('a.action-arrow.add')}
 		arrowAdd(required:false)		{$('#groupAdmin').find('a.action-arrow.add')}
 		arrowRemove(required:false)		{$('#groupAdmin').find('a.action-arrow.remove')}
 		

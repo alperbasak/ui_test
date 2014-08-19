@@ -28,6 +28,7 @@ class PlacesPage extends MapHomePage {
 		successDialog(required:false)	{$('.success-dialog')}
 		
 		calendar(required:true)		{$('#btn_calendar')}
+		enterprisePlace(required:false)	{$('span.groupName',text:'aa-Edited').parent().parent().find('input.placeId')}
 		
     }
 }

@@ -67,5 +67,8 @@ class UsersPage extends MapHomePage {
 		
 		addressList(required: false)		{ $('div.token-input-dropdown-facebook ul') }
 		addressListItems(required: false)	{ addressList.children()}
+		successSent(required: false) 		{ $("div.successMessageCheck") }
+		
+		locatableGroup(required:false)		{$('div#tab-users div.contents ul li').not(".noLocatableItems")}
     }
 }

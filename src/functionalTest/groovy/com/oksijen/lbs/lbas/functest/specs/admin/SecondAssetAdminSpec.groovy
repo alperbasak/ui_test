@@ -1,4 +1,4 @@
-package com.oksijen.lbs.lbas.functest.specs.map.assets
+package com.oksijen.lbs.lbas.functest.specs.admin
 
 import spock.lang.*
 import static org.hamcrest.Matchers.*
@@ -10,9 +10,52 @@ import com.oksijen.lbs.lbas.functest.pages.map.MapHomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
 
 @Stepwise
-class AssetsSpec extends LocateSpec {
+class SecondAssetAdminSpec extends LocateSpec {
   
-	 def "Select an asset group and locate them all"(){
+	def "Add another admin to an asset group"(){
+		given:"We are at asset management page"
+		at WelcomePage
+		$('a#btn_admin').click()
+		waitFor {at AdminHomePage}
+		groupMan.click()
+		at AdminHomePage
+		
+		when:
+		$('td.name',text:'AA').parent().find('a.btn-update').click()
+		
+		then:"Dialog opens and I add one admin"
+		waitFor {groupDialog.displayed==true}
+		groupAdminTab.click()
+		waitFor {admin.displayed==true}
+		assert groupAdminUsers.size()==1
+		allAdmins[0].click()
+		arrowAdd.click()
+		waitFor('fast')	{groupAdminUsers.size()==2}
+		
+		and:"Save"
+		sendDialog.click()
+		waitFor {successDialog.displayed==true}
+		waitFor {successDialog.displayed==false}
+		
+	}
+		
+	def "Logout and login with 2nd admin"(){
+		given:"We are at Group Management Page"
+		at AdminHomePage
+		$('a#btn_logout').click()
+		waitFor {at LoginPage}
+			
+		when:"I login with 2nd admin"
+		username='admin1'
+		password=params.get('password')
+		loginButton.click()
+		
+		then:
+		waitFor {at WelcomePage}
+		
+		}
+	
+	 def "Select an asset group and locate them all with new admin"(){
 		given: "We are at the AssetsPage"
 		at MapHomePage
 		assetsTab.click()
@@ -84,6 +127,49 @@ class AssetsSpec extends LocateSpec {
 		$('#refreshAssets').click()
 		waitFor{allAssets.size()>0}
 	}
-
-}
+	
+	def "Login as admin"(){
+		given:"We are at Group Management Page"
+		at AssetsPage
+		$('a#btn_logout').click()
+		waitFor {at LoginPage}
+			
+		when:"I login with 2nd admin"
+		username=params.get('username')
+		password=params.get('password')
+		loginButton.click()
+		
+		then:
+		waitFor {at WelcomePage}
+		
+		}
+	
+	def "Revoke 2nd admin rights"(){
+		given:"We are at asset management page"
+		at WelcomePage
+		$('a#btn_admin').click()
+		waitFor {at AdminHomePage}
+		groupMan.click()
+		at AdminHomePage
+		
+		when:
+		$('td.name',text:'AA').parent().find('a.btn-update').click()
+		
+		then:"Dialog opens and I remove other admin"
+		waitFor {groupDialog.displayed==true}
+		groupAdminTab.click()
+		waitFor {admin.displayed==true}
+		assert groupAdminUsers.size()==2
+		groupAdminUsers[1].click()
+		arrowRemove.click()
+		waitFor('fast')	{groupAdminUsers.size()==1}
+		
+		and:"Save"
+		sendDialog.click()
+		waitFor {successDialog.displayed==true}
+		waitFor {successDialog.displayed==false}
+		
+	}
+	}
+	
 
