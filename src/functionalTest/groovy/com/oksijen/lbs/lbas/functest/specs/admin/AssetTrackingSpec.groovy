@@ -524,7 +524,7 @@ def "Delete asset and group"(){
 	at AdminHomePage
 	
 	when:"I delete asset"
-	$('td.name',text:'AssetTrackingTest').parent().find('a.btn_delete').click()
+	$('td.name',text:'AssetTrackingTest').parent().find('a.btn-delete').click()
 
 	then:"Delete dialog opens"
 	waitFor{$('.noClose').displayed==true}
@@ -534,7 +534,7 @@ def "Delete asset and group"(){
 	
 	and:"Delete Asset Group"
 	groupMan.click()
-	$('td.name',text:'GroupTrackingTest').parent().find('a.btn_delete').click()
+	$('td.name',text:'GroupTrackingTest').parent().find('a.btn-delete').click()
 	waitFor{$('.noClose').displayed==true}
 	$('#dialog').find('a.graphicBtn.violet').click()
 	waitFor {successDialog.displayed==true}

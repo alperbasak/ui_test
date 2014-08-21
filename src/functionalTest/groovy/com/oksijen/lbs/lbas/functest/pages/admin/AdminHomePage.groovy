@@ -15,6 +15,7 @@ class AdminHomePage extends WelcomePage {
         rightPanel(required: true) 	{ $("div#adminContent") }
 		
 		groupMan(required: true) 	{$('ul.adminMenu li',3)}
+		companyMan(required: true) 	{$('ul.adminMenu li',0)}
 		selectMenu(required:false)	{$('a.ui-selectmenu')}
 		addGroup(required:false)	{$('li a',text:"Add group")}
 		addAsset(required:false)	{$('li a',text:"Add asset")}
@@ -48,7 +49,12 @@ class AdminHomePage extends WelcomePage {
 		assetModel(required:false)	{$('input',id:'lbasAsset.surname')}
 		assetAllocated(required:false)	{$('#allocatedToFullName')}
 		saveGroup(required:false)		{$('#adminEditGroup').find('a.send-button')}
+		assetDialog(required:false)	{$('.editAssetDialog')}
+		assetGroupMenu(required:false)	{$('#saveAsset_selectedGroup-button')}
+		assetGroup(required:false)		{$('#saveAsset_selectedGroup-menu').find('a',text:'AA')}
 		
 		assetProfile(required:false)	{$('#assetVisibilityProfile table tbody tr')}
+		companyWorkingHours(required:false)	{$('div.text',text:contains('Company working'))}
+		companyVisibility(required:false)	{$('#defaultVisibilityProfile').find('tr')}
     }
 }
