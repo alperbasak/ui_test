@@ -31,8 +31,8 @@ class MultiAssetSpec extends LocateSpec {
 		at AssetsPage
 		
 		when:"I select a group and click Locate"
-		locatableAssets[2].find('input.groupId').click()
-		locatableAssets[1].find('input.groupId').click()
+		locatableAssets[4].find('input.groupId').click()
+		locatableAssets[3].find('input.groupId').click()
 		$('a#btn_tab-assets_showOnMap').click()
 		
 		then:"Tooltip should be displayed"
@@ -57,12 +57,12 @@ class MultiAssetSpec extends LocateSpec {
 		at AssetsPage
 		
 		when:"I select a group and click Locate"
-		locatableAssets[0].find('input.groupId').click()
-		if(locatableAssets[2].find('input.groupId').value()==false){
-			locatableAssets[2].find('input.groupId').click()
+		locatableAssets[2].find('input.groupId').click()
+		if(locatableAssets[4].find('input.groupId').value()==false){
+			locatableAssets[4].find('input.groupId').click()
 			}
-			if(locatableAssets[1].find('input.groupId').value()==false){
-			locatableAssets[1].find('input.groupId').click()
+			if(locatableAssets[3].find('input.groupId').value()==false){
+			locatableAssets[3].find('input.groupId').click()
 			}
 		$('a#btn_tab-assets_showOnMap').click()
 		
@@ -82,22 +82,22 @@ class MultiAssetSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		expect tooltip.displayed, is(false)
 		}
-	@Ignore
+	
 	def "Select five asset group and locate them all"(){
 		given: "We are at the AssetsPage"
 		at AssetsPage
 		
 		when:"I select a group and click Locate"
-		locatableAssets[4].find('input.groupId').click()
+		locatableAssets[1].find('input.groupId').click()
+		locatableAssets[0].find('input.groupId').click()
+		if(locatableAssets[4].find('input.groupId').value()==false){
+			locatableAssets[4].find('input.groupId').click()
+			}
+		if(locatableAssets[3].find('input.groupId').value()==false){
 		locatableAssets[3].find('input.groupId').click()
+			}
 		if(locatableAssets[2].find('input.groupId').value()==false){
 			locatableAssets[2].find('input.groupId').click()
-			}
-		if(locatableAssets[1].find('input.groupId').value()==false){
-		locatableAssets[1].find('input.groupId').click()
-			}
-		if(locatableAssets[0].find('input.groupId').value()==false){
-			locatableAssets[0].find('input.groupId').click()
 			}
 		$('a#btn_tab-assets_showOnMap').click()
 		

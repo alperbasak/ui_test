@@ -32,8 +32,8 @@ class MultiGroupSpec extends LocateSpec {
 		at UsersPage
 		
 		when:"I select first two locatable groups"
-		locatableGroup[2].find('input.groupId').click()
-		locatableGroup[1].find('input.groupId').click()
+		locatableGroup[4].find('input.groupId').click()
+		locatableGroup[3].find('input.groupId').click()
 			
 		then:"Show on map"
 		$('#btn_tab-users_showOnMap').click()
@@ -57,12 +57,12 @@ class MultiGroupSpec extends LocateSpec {
 		waitFor {nolocatableUsers.displayed==false}
 		
 		when:"I select first three locatable groups"
-		locatableGroup[0].find('input.groupId').click()
-		if(locatableGroup[2].find('input.groupId').value()==false){
 		locatableGroup[2].find('input.groupId').click()
+		if(locatableGroup[4].find('input.groupId').value()==false){
+		locatableGroup[4].find('input.groupId').click()
 		}
-		if(locatableGroup[1].find('input.groupId').value()==false){
-		locatableGroup[1].find('input.groupId').click()
+		if(locatableGroup[3].find('input.groupId').value()==false){
+		locatableGroup[3].find('input.groupId').click()
 		}
 				
 		then:"Show on map"
@@ -81,24 +81,24 @@ class MultiGroupSpec extends LocateSpec {
 		waitFor{tooltip.displayed == false }
 		
 		}
-	@Ignore
+	
 	def "Select five groups and locate"(){
 		given:"at Users page"
 		at UsersPage
 		waitFor {nolocatableUsers.displayed==false}
 		
 		when:"I select first five locatable groups"
-		locatableGroup[4].find('input.groupId').click()
-		locatableGroup[3].find('input.groupId').click()
+		locatableGroup[1].find('input.groupId').click()
+		locatableGroup[0].find('input.groupId').click()
 			
+		if(locatableGroup[4].find('input.groupId').value()==false){
+		locatableGroup[4].find('input.groupId').click()
+		}
+		if(locatableGroup[3].find('input.groupId').value()==false){
+		locatableGroup[3].find('input.groupId').click()
+		}
 		if(locatableGroup[2].find('input.groupId').value()==false){
 		locatableGroup[2].find('input.groupId').click()
-		}
-		if(locatableGroup[1].find('input.groupId').value()==false){
-		locatableGroup[1].find('input.groupId').click()
-		}
-		if(locatableGroup[0].find('input.groupId').value()==false){
-		locatableGroup[0].find('input.groupId').click()
 		}
 				
 		then:"Show on map"
