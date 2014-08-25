@@ -10,6 +10,7 @@ import com.oksijen.lbs.lbas.functest.util.TestParams
 
 import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
+import com.oksijen.lbs.lbas.functest.pages.inbox.*
 
 /**
  * Base class for all specs to extend.
@@ -94,4 +95,39 @@ class LocateSpec extends GebSpec {
     	js.exec "\$('select#${id}').selectmenu('value', '${val}');"
     	js.exec "\$('select#${id}').selectmenu('change');"
     }
+	
+	def acceptRequest(req, acc)	{
+		$('#btn_logout').click()
+		waitFor{at LoginPage}
+		username << req
+		password << params.get('password')
+		loginButton.click()
+		waitFor {at WelcomePage}
+		$('#search_users')<< acc
+		waitFor {$('span.searchReset').displayed==true}
+		$('li.noLocatableItems').find('a.globalSearchButton').click()
+		waitFor{$('.reqPermission').displayed==true}
+		$('div.ui-dialog-buttonset button',1).click()
+		waitFor{$('.dialog.undefined').displayed==true}
+		$('div.ui-dialog-buttonset button').click()
+		$('#btn_logout').click()
+		waitFor{at LoginPage}
+		username << acc
+		password << params.get('password')
+		loginButton.click()
+		waitFor {at WelcomePage}
+		inboxMenu.jquery.mouseover()
+		waitFor {at InboxPopupMenu}
+		popupTabs.$('li',1).click()
+		waitFor { requestsTab.hasClass('ui-state-active')==true}
+		waitFor {$("table#requestedList tbody").children().size() > 0}
+		$("table#requestedList tbody").children().click()
+		waitFor {$('ul.action').hasClass("buttons_class")==true}
+		locationAccept.click()
+		waitFor {$('div.ui-dialog').displayed==true}
+		waitFor {$('body').hasClass('div.ui-dialog')==false}
+		}
+	
+	
+	
 }

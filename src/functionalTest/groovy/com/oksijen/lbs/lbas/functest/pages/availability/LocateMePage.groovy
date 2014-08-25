@@ -13,7 +13,7 @@ class LocateMePage extends AvailabilityHomePage {
         mainDiv(required: true) 			{$("div#privacy") }
         leftPanel(required: true) 			{$("div#visibility") }
         rightPanel(required: true) 			{$("div#whoLocate-container") }
-		allPermission(required:false)		{$('table#whoLocateMe').find('tr.makeHover')}
+		allPermission(required:false)		{$('table#whoLocateMe').find('tr.makeHover td.eight',0)}
 		permPermission(required:false)		{$('table#whoLocateMe').find('tr.makeHover', type: "permanent")}
 		tempPermission(required:false)		{$('table#whoLocateMe').find('tr.makeHover', type: "temporary")}
 		

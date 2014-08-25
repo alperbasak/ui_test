@@ -95,8 +95,8 @@ class UsersActionSpec extends LocateSpec {
 	
 		then:"New dialog opens and I select group"
 		waitFor {$('.addExcpPos').displayed==true}
-		$('a.usersMoveToGroupDropdown').click()
-		$('ul.usersMoveToGroupDropdown li',1).click()
+		$('#dialog').find('span.ui-selectmenu-status').click()
+		$('ul.usersMoveToGroupDropdown li a',text:'ToBeDeleted').click()
 		$('a.apply-button').click()
 		
 		and:"Success dialog is shown"
@@ -110,7 +110,7 @@ class UsersActionSpec extends LocateSpec {
 		at UsersPage
 		
 		when: "I select a group of users and delete"
-		$('div.contents ul li',1).find('input').click()
+		$('span.groupName',text:'ToBeDeleted').parent().parent().find('input').click()
 		actionListClose2.click()
 		deleteUser.click()
 		

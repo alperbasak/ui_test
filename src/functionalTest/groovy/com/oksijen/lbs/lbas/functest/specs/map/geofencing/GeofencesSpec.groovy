@@ -92,7 +92,7 @@ class GeofencesSpec extends LocateSpec {
 		waitFor {successDialog.displayed==false}
 		
 		}
-	
+	@Ignore
 	def "Delete a geofence"(){
 		given: "We are at the GeofencesPage"
 		at GeofencesPage

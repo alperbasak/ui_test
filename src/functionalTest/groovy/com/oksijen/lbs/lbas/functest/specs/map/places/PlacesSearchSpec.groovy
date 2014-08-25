@@ -83,7 +83,7 @@ class PlacesSearchSpec extends LocateSpec {
 		$('#categoryDetailForm_categoryName') << params.get('newCategoryName')
 		$('a#tab2').click()
 		waitFor {$('#updateCatPermission').displayed==true}
-		$('#permissionSearchInput') << params.get('newUser.name')
+		$('#permissionSearchInput') << 'Alper'
 		waitFor {$('div#wp_autocomplete').displayed==true}
 		$('div#wp_autocomplete').find('li.ui-menu-item a').click()
 	
@@ -201,7 +201,7 @@ class PlacesSearchSpec extends LocateSpec {
 		then:"I add permissions"
 		$('a#tab2').click()
 		waitFor {$('#updateCatPermission').displayed==true}
-		$('#permissionSearchInput') << params.get('newUser.name')
+		$('#permissionSearchInput') << 'Alper'
 		waitFor {$('div#wp_autocomplete').displayed==true}
 		$('div#wp_autocomplete').find('li.ui-menu-item a').last().click()
 	

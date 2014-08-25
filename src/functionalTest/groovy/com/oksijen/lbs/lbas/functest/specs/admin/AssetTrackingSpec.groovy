@@ -516,6 +516,20 @@ def "Tracking Settings PPT:on VC:Specific"(){
 	waitFor { at AdminHomePage }
 	assetMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
+	$('tr').has('td.name',text:'AssetTrackingTest').find('a.btn-update').click()
+	waitFor {$('.editAssetDialog').displayed==true}
+	
+	and:"Tracking Settings PPT:off VC:0"
+	$('ul.tabs li')[1].click()
+	waitFor{$('#assetTracking').displayed==true}
+	if ($('#permanentPeriodicTracking',value:'true').size()>0){
+		$('#permanentPeriodicTracking').click()
+	}
+	waitFor{$('#permanentPeriodicTracking').value()==false}
+	$('#assetVisibilityType',value:'none').click()
+	sendDialog.click()
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
 	
 	}
 @Ignore

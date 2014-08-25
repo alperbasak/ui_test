@@ -59,7 +59,7 @@ class UsersSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		resetInput.click()
     }
-	
+	@Ignore
 	def "Make a locating request to another user"(){
 		given: "We are at the UsersPage"
 		at UsersPage
@@ -103,7 +103,7 @@ class UsersSpec extends LocateSpec {
 		at UsersPage
 		
 		when:"I click send message icon"
-		groupOpenClose.click()
+//		groupOpenClose.click()
 		locatableUsers.find('img.openClose').click()
 		waitFor {locatableUsers.find('ul.item_details').displayed==true}
 		detailMessage.click()
@@ -227,6 +227,14 @@ class UsersSpec extends LocateSpec {
 		then:"Select All locatable users"
 		$('input#select_all_tab-users').click()
 		$('a#btn_tab-users_showOnMap').click()
+		if($('.dialogError').displayed==true){
+			waitFor{$('.dialogError').find('.ui-dialog-buttonset button').displayed==true}
+			$('.dialogError').find('.ui-dialog-buttonset button').click()
+			waitFor{$('.dialogError').displayed==false}
+			waitFor{$('.locateSingleUser').find('.ui-dialog-buttonset button').displayed==true}
+			$('.locateSingleUser').find('.ui-dialog-buttonset button').click()
+			waitFor{$('.locateSingleUser').displayed==false}
+		}
 		
 		and: "Tooltip should be shown on map"
 		waitFor('fast') { tooltip.displayed == true }

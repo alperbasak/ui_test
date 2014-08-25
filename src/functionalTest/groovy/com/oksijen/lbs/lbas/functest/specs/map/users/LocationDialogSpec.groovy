@@ -38,13 +38,13 @@ class LocationDialogSpec extends LocateSpec {
 		expect hasLink(tooltip, 'Setup Meeting'), is(true)
 		
 		when: "I click Show nearest users"
-		$('a',text:"Show Nearest Users").click()
+		$('ul.toolTipRight li a',text:"Show Nearest Users").click()
 		waitFor {$('.undefined').displayed==true}
 		
 		then: "I select largest radius"
 		$('#select-radius-button').click()
 		$('#select-radius-menu li').last().click()
-		$('.show').click()
+		$('div.ui-dialog-buttonset').find('.show').click()
 		
 		and:"Nearby users will be shown"
 		waitFor('fast') { tooltip.displayed == true }
@@ -135,7 +135,8 @@ class LocationDialogSpec extends LocateSpec {
 		
 		and:"Delete saved location"
 		$('#tab-places-personal').find('span.openClose').click()
-		$('#tab-places-personal').find('input.place').click()
+		waitFor{$('#tab-places-personal').find('ul.places').displayed==true}
+		$('#tab-places-personal').find('ul.places').find('input.place').click()
 		$('#btn_tab-places_Delete').click()
 		waitFor {$('.undefined').displayed==true}
 		$('span',text:"OK").click()

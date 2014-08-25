@@ -38,8 +38,13 @@ class MyAvailabilitySpec extends LocateSpec {
 		
 		then:"No one can view your location"
 		waitFor {  $("div#plusBox div").text().startsWith("No one")}
-				
+		
+		and:"Set it back to visible"
+		visibilityStatus.click()
+		visible.click()
+		waitFor {$("div#plusBox div").text().startsWith("No one")==false}
 	}
+	
 	
 	def "When mouse is hovered over i, visibility profile is shown"(){
 	given:"We are at the My availability page"
@@ -93,6 +98,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {successMsg.displayed==true}
 		waitFor {successMsg.displayed==false}
 	}
+	
 	
 	def "Cancel adding exception"(){
 		given:"We are at the My availability page"
@@ -225,15 +231,15 @@ class MyAvailabilitySpec extends LocateSpec {
 	def "Changing e-mail notifications"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
-		
-		when:"I uncheck email notifications checkbox"
-		$('input#notificationEmailCheck').click()
+				
+		when:"I select notification frequency"
+		$('a#notificationEmailSelect-button').click()
+		$("ul#notificationEmailSelect-menu li:not(.ui-selectmenu-item-selected)").click()
 		waitFor {successDialog.hasClass('success-dialog')==true}
 		waitFor {successDialog.hasClass('success-dialog')==false}
 		
-		then:"I select notification frequency"
-		$('a#notificationEmailSelect-button').click()
-		$("ul#notificationEmailSelect-menu li:not(.ui-selectmenu-item-selected)").click()
+		then:"I uncheck email notifications checkbox"
+		$('input#notificationEmailCheck').click()
 		waitFor {successDialog.hasClass('success-dialog')==true}
 		waitFor {successDialog.hasClass('success-dialog')==false}
 		
@@ -244,16 +250,19 @@ class MyAvailabilitySpec extends LocateSpec {
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
 		
-		when:"I uncheck sms notifications checkbox"
-		$('input#notificationSmsCheck').click()
-		waitFor {successDialog.hasClass('success-dialog')==true}
-		waitFor {successDialog.hasClass('success-dialog')==false}
-		
-		then:"I select notification frequency"
+		when:"I select notification frequency"
 		$('a#notificationSmsSelect-button').click()
 		$("ul#notificationSmsSelect-menu li:not(.ui-selectmenu-item-selected)").click()
 		waitFor {successDialog.hasClass('success-dialog')==true}
 		waitFor {successDialog.hasClass('success-dialog')==false}
+		
+		then:"I uncheck sms notifications checkbox"
+		$('input#notificationSmsCheck').click()
+		waitFor {successDialog.hasClass('success-dialog')==true}
+		waitFor {successDialog.hasClass('success-dialog')==false}
+		
+		and:
+		acceptRequest('alper2', 'alper')	
 	}
 	
 }

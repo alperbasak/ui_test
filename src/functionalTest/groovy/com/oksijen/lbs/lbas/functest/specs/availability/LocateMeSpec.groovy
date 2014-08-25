@@ -113,18 +113,20 @@ def "Editing permissions"(){
 	
 	when:"I click edit"
 	allPermission.jquery.mouseover()
-	waitFor {$('a.edit').displayed==true}
-	$('a.edit').click()
+	waitFor {allPermission.find('a.edit').displayed==true}
+	allPermission.find('a.edit').click()
 	waitFor {$('#dialog').displayed==true}
 	
 	then:"I change visibility profile"
+	waitFor{$('a#visPro-button').displayed==true}
 	$('a#visPro-button').click()
+	waitFor{$('.ui-selectmenu-open').displayed==true}
 	$('ul#visPro-menu li').last().click()
 	$('div #dialog').find('input#allow_report').click()
 	sendBtn.click()
 
 	and:"Check if profile and reporting is changed"
-	waitFor {$('td.seventh div').hasClass('iconCheck')==false}
+	waitFor {allPermission.find('td.seventh div').hasClass('iconCheck')==false}
 	waitFor {$('table#whoLocateMe').find('p.textt').text().contains('default')}
 	
 }
@@ -135,15 +137,16 @@ def "Deleting permissions"(){
 	
 	when:"I click delete"
 	allPermission.jquery.mouseover()
-	waitFor {$('a.delete').displayed==true}
-	$('a.delete').click()
+	waitFor {allPermission.find('a.delete').displayed==true}
+	allPermission.find('a.delete').click()
 	waitFor {$('#dialog').displayed==true}
 	
 	then:"I click delete"
 	sendBtn.click()
 	waitFor {$('#dialog').displayed==false}
-	assert allPermission.size()==0
 	
+	and:
+	acceptRequest('alper2', 'alper')	
 }
 
 

@@ -19,7 +19,6 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
 @Stepwise
 class SentReqSpec extends LocateSpec {
 
-	
 	def "Sending a reminder to a pending request"(){
 		given:"I am at Sent Requests Page"
 		at WelcomePage

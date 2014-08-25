@@ -92,12 +92,12 @@ class AlarmsSpec extends LocateSpec {
 		waitFor {$('.editAlarmDialog').displayed==true}
 		waitFor {$('#alarmDetailsForm').displayed==true}
 		$('input#alarmName') << "-Edited"	
-		$('ul.tabs.clearfix li',1).click()
-		waitFor {$('#alarmGeofencesForm').displayed==true}
 		$('ul.tabs.clearfix li',2).click()
 		waitFor {$('div#alarmTargetsList').displayed==true}
 		$('ul.tabs.clearfix li',3).click()
 		waitFor {$('#alarmNotificationForm').displayed==true}
+		$('ul.tabs.clearfix li',1).click()
+		waitFor {$('#alarmGeofencesForm').displayed==true}
 		
 		then: "I click save and all edits will be saved"
 		$('a.send-button').click()

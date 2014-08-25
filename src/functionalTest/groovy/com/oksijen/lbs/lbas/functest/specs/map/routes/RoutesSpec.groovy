@@ -145,7 +145,7 @@ class RoutesSpec extends LocateSpec {
 		then:"I click Share and and a dialog opens"
 		$('a#btn_routes_Share').click()
 		waitFor {$('.shareRouteDialog').displayed==true}
-		$('input#token-input-messageTo') << params.get('newUser.name')
+		$('input#token-input-messageTo') << 'AlperTest'
 		waitFor { addressList.displayed == true }					
 		expect addressListItems.size(), greaterThan(0)
 		addressListItems.click()
