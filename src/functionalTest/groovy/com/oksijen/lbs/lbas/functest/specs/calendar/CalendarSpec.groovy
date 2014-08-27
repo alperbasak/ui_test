@@ -10,10 +10,12 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.calendar.*
 
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 /**
  * 
  */
+@RetryOnFailure(times=5)
 @Stepwise
 class CalendarSpec extends LocateSpec {
     

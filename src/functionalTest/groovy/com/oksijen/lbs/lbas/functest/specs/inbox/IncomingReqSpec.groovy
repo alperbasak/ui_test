@@ -11,6 +11,10 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.*
+import com.oksijen.lbs.lbas.functest.pages.availability.*
+
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 
 
 /**
@@ -19,13 +23,20 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
 @Stepwise
 class IncomingReqSpec extends LocateSpec {
 
-	
+	@RetryOnFailure(times=5)
 	def "Rejecting Location Permission Request"(){
 		given:"I am at Incoming Requests Page"
-		at WelcomePage
+		request('user4','alper')
+		request('alper3','alper')
+		$('#btn_logout').click()
+		waitFor{at LoginPage}
+		username << params.get('username')
+		password << params.get('password')
+		loginButton.click()
+		waitFor {at WelcomePage}
 		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
-		popupTabs.$('li',1).click()
+		waitFor{$('.menu-popup').displayed==true}
+		$('ul.tab-access').find('li',1).click()
 		waitFor { requestsTab.hasClass('ui-state-active')==true}
 		
 		when: "I select default visibility profile"
@@ -42,29 +53,35 @@ class IncomingReqSpec extends LocateSpec {
 		waitFor {$('div.ui-dialog').displayed==true}
 		waitFor {$('body').hasClass('div.ui-dialog')==false}
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Accepting Location Permission Request"(){				
 		given:"I am at Incoming Requests Page"
-		at WelcomePage
-		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
-		popupTabs.$('li',1).click()
 		waitFor { requestsTab.hasClass('ui-state-active')==true}
 		
-		when: "I select default visibility profile"
-		waitFor {$("table#requestedList tbody").children().size() > 0}
+		when: "I select default visibility profile and accept"
+		if($("table#requestedList tbody").children().size() > 0){
 		$("table#requestedList tbody").children().click()
 		waitFor {$('ul.action').hasClass("buttons_class")==true}
 		if ($('div.permanent').size()>0){
 		$('div.permanent span a').click()
 		defaultVisibility.click()
 		}
-		
-		then:"I click Accept"
 		locationAccept.click()
 		waitFor {$('div.ui-dialog').displayed==true}
 		waitFor {$('body').hasClass('div.ui-dialog')==false}
+		}
+		then:"Delete permission"
+		$('#btn_privacy').click()
+		waitFor { at AvailabilityHomePage }
+		locateMe.click()
+		waitFor { at LocateMePage }
 		
+		$('tr.makeHover',username:'user4 user4').jquery.mouseover()
+		waitFor {$('tr.makeHover',username:'user4 user4').find('a.delete').displayed==true}
+		$('tr.makeHover',username:'user4 user4').find('a.delete').click()
+		waitFor {$('#dialog').displayed==true}
+		sendBtn.click()
+		waitFor {$('#dialog').displayed==false}
 		}
 		
 	}

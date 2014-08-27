@@ -11,7 +11,8 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.map.MapHomePage
 import com.oksijen.lbs.lbas.functest.pages.map.GeofencingPage
 import com.oksijen.lbs.lbas.functest.pages.map.geofencing.*
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class GeofencesSpec extends LocateSpec {
 	@Ignore
@@ -46,7 +47,7 @@ class GeofencesSpec extends LocateSpec {
 		waitFor {successDialog.displayed==true}
 		waitFor {successDialog.displayed==false}
     }
-	
+	@RetryOnFailure(times=5)
 	def "I can show a geofence by clicking on the name"(){
 		given: "We are at the GeofencesPage"
 		at MapHomePage
@@ -106,13 +107,13 @@ class GeofencesSpec extends LocateSpec {
 		waitFor {successDialog.displayed==true}
 		waitFor {successDialog.displayed==false}
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Display multiple geofences on map"(){
 		given: "We are at the GeofencesPage"
 		at GeofencesPage
 		
 		when:"I select multiple geofences and click show on map from actionlist"
-		waitFor {$('ul#geofenceList li').size()>3}
+		waitFor {$('ul#geofenceList li').size()>2}
 		$('ul#geofenceList li',0).find('input.check-box').click()
 		$('ul#geofenceList li',1).find('input.check-box').click()
 		$('ul#geofenceList li',2).find('input.check-box').click()

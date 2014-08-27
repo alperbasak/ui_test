@@ -11,6 +11,9 @@ import com.oksijen.lbs.lbas.functest.util.TestParams
 import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.*
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
+
 
 
 /**
@@ -18,12 +21,12 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
  */
 @Stepwise
 class NewMessageSpec extends LocateSpec {
-	
+	@RetryOnFailure(times=5)
 	def "Clicking cancel button closes new message dialog"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
+		waitFor{$('.menu-popup').displayed==true}
 		popupInbox.click()
 		waitFor { at InboxHomePage}
 		
@@ -39,7 +42,7 @@ class NewMessageSpec extends LocateSpec {
 		waitFor('fast') { hasButton($("form#sendMessage"), 'Send') == false }
 		waitFor('fast') { hasButton($("form#sendMessage"), 'Cancel') == false }
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Empty recipient input returns error"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -60,7 +63,7 @@ class NewMessageSpec extends LocateSpec {
 		waitFor('fast')	{ errorMessageDetail.eq(0).displayed == true}
 		$("td.buttons_class button.cancel").click()
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Clicking X next to name, deletes the name"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -83,7 +86,7 @@ class NewMessageSpec extends LocateSpec {
 		$("ul.token-input-list-facebook li span").click()
 		waitFor("fast") {$("ul.token-input-list-facebook").children().size()==1}
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Entering over 480 characters in subject area, opens up error dialog"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -114,7 +117,7 @@ class NewMessageSpec extends LocateSpec {
 		waitFor('fast') {  errorMessageDetail.eq(2).displayed ==true}
 		$("td.buttons_class button.cancel").click()
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Clicking Send sends a new message"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -142,7 +145,7 @@ class NewMessageSpec extends LocateSpec {
 		waitFor {successSent.displayed==false}
 	}
 	
-
+	@RetryOnFailure(times=5)
 	def "Checking also SMS sends SMS to recipient"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage

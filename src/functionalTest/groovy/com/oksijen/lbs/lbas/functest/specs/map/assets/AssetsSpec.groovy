@@ -8,10 +8,11 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 
 import com.oksijen.lbs.lbas.functest.pages.map.MapHomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class AssetsSpec extends LocateSpec {
-  
+	@RetryOnFailure(times=5)
 	 def "Select an asset group and locate them all"(){
 		given: "We are at the AssetsPage"
 		at MapHomePage
@@ -40,7 +41,7 @@ class AssetsSpec extends LocateSpec {
 		$('#refreshAssets').click()
 		waitFor{allAssets.size()>0}
 		}
-	
+	 @RetryOnFailure(times=5)
 	def "Create location report of an asset"(){	
 		given:"At AssetsPage"
 		at AssetsPage

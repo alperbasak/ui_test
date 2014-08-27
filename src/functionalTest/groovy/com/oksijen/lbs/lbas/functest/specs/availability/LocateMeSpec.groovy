@@ -10,13 +10,15 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.availability.*
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 
 /**
  * 
  */
 @Stepwise
 class LocateMeSpec extends LocateSpec {
-    
+	@RetryOnFailure(times=5)
 def "who can locate me page is displayed"(){
 	given: "We are at the WelcomePage"
 	at WelcomePage
@@ -30,6 +32,7 @@ def "who can locate me page is displayed"(){
 	waitFor { at LocateMePage }
 	}
 
+@RetryOnFailure(times=5)
 def "Filter by kind of request option allows me to show only the permanent permissions"(){
 
 	given:"We are at who can locate me page"
@@ -56,7 +59,7 @@ def "Filter by kind of request option allows me to show only the permanent permi
 	filterBy.click()
 	allFilter.click()
 	}
-
+@RetryOnFailure(times=5)
 def "Clicking View will open location requests history"(){
 
 	given:"We are at who can locate me page"
@@ -76,20 +79,21 @@ def "Clicking View will open location requests history"(){
 	closeView.click()
 	waitFor {$('#dialog').displayed==false}
 }
-
+@RetryOnFailure(times=5)
 def "When mouse is hovered over i, visibility profile is shown"(){
 	given:"We are at who can locate me page"
 	at LocateMePage
 	
 	when:"I hover over info to see detailed profile"
-	$("a.info").jquery.mouseover()
-	
+	interact {
+		moveToElement($("a.info"))
+	}
 	then:
 	waitFor {profileInfo.displayed==true}
 	$('li.locateMe').click()
 	waitFor {profileInfo.displayed==false}
 	}
-
+@RetryOnFailure(times=5)
 def "Changing location update notifications"(){
 	given:"We are at who can locate me page"
 	at LocateMePage
@@ -106,13 +110,15 @@ def "Changing location update notifications"(){
 	waitFor {successDialog.hasClass('success-dialog')==false}
 	
 }
-
+@RetryOnFailure(times=5)
 def "Editing permissions"(){
 	given:"We are at who can locate me page"
 	at LocateMePage
 	
 	when:"I click edit"
-	allPermission.jquery.mouseover()
+	interact {
+		moveToElement(allPermission)
+	}
 	waitFor {allPermission.find('a.edit').displayed==true}
 	allPermission.find('a.edit').click()
 	waitFor {$('#dialog').displayed==true}
@@ -130,13 +136,15 @@ def "Editing permissions"(){
 	waitFor {$('table#whoLocateMe').find('p.textt').text().contains('default')}
 	
 }
-
+@RetryOnFailure(times=5)
 def "Deleting permissions"(){
 	given:"We are at who can locate me page"
 	at LocateMePage
 	
 	when:"I click delete"
-	allPermission.jquery.mouseover()
+	interact {
+		moveToElement(allPermission)
+	}
 	waitFor {allPermission.find('a.delete').displayed==true}
 	allPermission.find('a.delete').click()
 	waitFor {$('#dialog').displayed==true}
@@ -144,13 +152,12 @@ def "Deleting permissions"(){
 	then:"I click delete"
 	sendBtn.click()
 	waitFor {$('#dialog').displayed==false}
-	
-	and:
-	acceptRequest('alper2', 'alper')	
 }
 
-
-
-
-
+@RetryOnFailure(times=5)
+def "Re-request"(){
+	when:
+	$('#btn_map').click()
+	then:
+	shareLoc('alpertest')	}
 }

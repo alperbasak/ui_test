@@ -9,10 +9,11 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.map.MapHomePage
 import com.oksijen.lbs.lbas.functest.pages.map.GeofencingPage
 import com.oksijen.lbs.lbas.functest.pages.map.geofencing.*
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class AlarmsSpec extends LocateSpec {
-
+	@RetryOnFailure(times=5)
 	def "Create a new alarm"(){
 		given:"We are at the AlarmsPage"
 		at MapHomePage
@@ -57,7 +58,7 @@ class AlarmsSpec extends LocateSpec {
 		waitFor {successDialog.displayed==true}
 		waitFor {successDialog.displayed==false}
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Detailed alarm info dialog is displayed when clicked on the name"(){
 		given:"We are at the AlarmsPage"
 		at GeofencingPage
@@ -82,7 +83,7 @@ class AlarmsSpec extends LocateSpec {
 		$('a.cancel-button').click()
 		waitFor {$('.editAlarmDialog').displayed==false}
 		}
-
+	@RetryOnFailure(times=5)
 	def "Editing alarm will open editing dialog"(){
 		given:"We are at the AlarmsPage"
 		at GeofencingPage
@@ -104,7 +105,7 @@ class AlarmsSpec extends LocateSpec {
 		waitFor {successDialog.displayed==true}
 		waitFor {successDialog.displayed==false}
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Deleting alarm"(){
 		given:"We are at the AlarmsPage"
 		at GeofencingPage

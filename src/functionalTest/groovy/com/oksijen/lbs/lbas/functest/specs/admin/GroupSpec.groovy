@@ -13,13 +13,15 @@ import com.oksijen.lbs.lbas.functest.pages.admin.*
 import com.oksijen.lbs.lbas.functest.pages.map.*
 import com.oksijen.lbs.lbas.functest.pages.calendar.*
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 
 /**
  * 
  */
 @Stepwise
 class GroupSpec extends LocateSpec {
-    
+	@RetryOnFailure(times=5)
 def "Group Management Page is displayed"(){
 	given: "We are at the WelcomePage"
 	at WelcomePage
@@ -31,8 +33,27 @@ def "Group Management Page is displayed"(){
 	then: "Click Group Management and page should render"
 	groupMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Gr') }
+	if($('td.name',text:'NewGroup1').displayed==true){
+	$('td.name',text:'NewGroup1').parent().find('input').click()
+	if($('td.name',text:'NewGroup2').displayed==true){
+	$('td.name',text:'NewGroup2').parent().find('input').click()
+	if($('td.name',text:'NewAssetGroup1').displayed==true){
+	$('td.name',text:'NewAssetGroup1').parent().find('input').click()
+	if($('td.name',text:'NewAssetGroup2').displayed==true){
+	$('td.name',text:'NewAssetGroup2').parent().find('input').click()}}}
+	selectMenu[1].click()
+	delete.click()
+	apply.click()
+	
+	waitFor{$('.confirmation').displayed==true}
+	$('#dialog').find('span',text:'OK').click()
+	and:"Success dialog is shown"
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
 	}
-
+	
+	}
+@RetryOnFailure(times=5)
 def "Create a group, select one admin"(){
 	given:"We are at Group Management Page"
 	at AdminHomePage
@@ -68,7 +89,7 @@ def "Create a group, select one admin"(){
 	waitFor {successDialog.displayed==false}
 
 	}
-
+@RetryOnFailure(times=5)
 def "Create a group, select multi admin"(){							
 	given:"We are at Group Management Page"		
 	adminBtn.click()
@@ -115,7 +136,7 @@ def "Create a group, select multi admin"(){
 
 	}
 
-
+@RetryOnFailure(times=5)
 def "Edit group, remove one admin from group admins"(){									
 	given:"We are at Group Management Page"
 	at AdminHomePage
@@ -139,7 +160,7 @@ def "Edit group, remove one admin from group admins"(){
 		
 	}
 
-
+@RetryOnFailure(times=5)
 def "Edit group, add one admin to group admins"(){									
 	given:"We are at Group Management Page"
 	at AdminHomePage
@@ -162,7 +183,7 @@ def "Edit group, add one admin to group admins"(){
 	waitFor {successDialog.displayed==false}
 		
 	}
-
+@RetryOnFailure(times=5)
 def "Create an asset group, select one admin"(){
 	given:"We are at Group Management Page"
 	at AdminHomePage
@@ -185,7 +206,7 @@ def "Create an asset group, select one admin"(){
 	waitFor {successDialog.displayed==false}
 
 	}
-
+@RetryOnFailure(times=5)
 def "Create an asset group, select multi admin"(){							
 	given:"We are at Group Management Page"
 	at AdminHomePage
@@ -216,7 +237,7 @@ def "Create an asset group, select multi admin"(){
 
 	}
 
-
+@RetryOnFailure(times=5)
 def "Edit asset group, remove one admin from group admins"(){									
 	given:"We are at Group Management Page"
 	at AdminHomePage
@@ -240,7 +261,7 @@ def "Edit asset group, remove one admin from group admins"(){
 		
 	}
 
-
+@RetryOnFailure(times=5)
 def "Edit asset group, add one admin to group admins"(){									
 	given:"We are at Group Management Page"
 	at AdminHomePage
@@ -263,10 +284,9 @@ def "Edit asset group, add one admin to group admins"(){
 	waitFor {successDialog.displayed==false}
 		
 	}
-
+@RetryOnFailure(times=5)
 def "Create a new enterprise category"(){
 	given: "We are at the PlacesPage"
-	at AdminHomePage
 	$('#btn_map').click()
 	$('a#btn_tab-places').click()
 	at PlacesPage
@@ -274,6 +294,17 @@ def "Create a new enterprise category"(){
 	waitFor {$('#tab-places-enterprise').hasClass('ui-tabs-hide')==false}
 	
 	when:"I click new category"
+	if($('span.groupName',text:'aa').displayed==true){
+		enterprisePlace.click()
+		$('a#btn_tab-places_Delete').click()
+		waitFor{$('.dialog.undefined').displayed==true}
+		$('div.ui-dialog-buttonset button').click()
+		waitFor{$('#ui-dialog-title-dialog', text:'Delete').displayed==false}
+		waitFor{$('#ui-dialog-title-dialog', text:'Success').displayed==true}
+		waitFor{$('div.ui-dialog-buttonset button span',text:'OK').displayed==true}
+		$('#btn_tab-places-recents').click()
+		$('#btn_tab-places-enterprise').click()
+	}
 	$('#btn_tab-places_newCategory').click()
 	waitFor {$('#tabs_in_enterpriseCategoryDialog').displayed==true}
 	
@@ -302,7 +333,7 @@ def "Create a new enterprise category"(){
 		$('span.ui-button-text',text:'Cancel').click()
 	}
 	}
-
+@RetryOnFailure(times=5)
 def "Edit enterprise category"(){
 	given: "We are at the PlacesPage"
 	at PlacesPage
@@ -331,7 +362,7 @@ def "Edit enterprise category"(){
 	waitFor {successDialog.displayed==false}
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Show enterprise category on map"(){
 	given: "We are at the PlacesPage"
 	at PlacesPage
@@ -382,7 +413,7 @@ def "Show enterprise category on map"(){
 	waitFor('fast') { tooltip.displayed == true }
 		
 	}
-
+@RetryOnFailure(times=5)
 def "Setup a meeting at a place"(){
 	given: "We are at the PlacesPage"
 	at PlacesPage
@@ -415,7 +446,7 @@ def "Setup a meeting at a place"(){
 	waitFor {$('.noCloseNoOk').displayed==false}
 		
 	}
-
+@RetryOnFailure(times=5)
 def "Delete enterprise category"(){
 	given: "We are at the PlacesPage"
 	at CalendarHomePage
@@ -440,7 +471,7 @@ def "Delete enterprise category"(){
 	waitFor{$('div.ui-dialog-buttonset button span',text:'OK').displayed==true}
 //	$('div.ui-dialog-buttonset button span',text:'OK').click()
 }
-
+@RetryOnFailure(times=5)
 def "Delete Groups"(){
 	given:"We are at Group Management Page"		
 	adminBtn.click()

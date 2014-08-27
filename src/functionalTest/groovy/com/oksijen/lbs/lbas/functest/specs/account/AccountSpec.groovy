@@ -10,10 +10,13 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.account.*
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 
 /**
  * 
  */
+@RetryOnFailure(times=3)
 @Stepwise
 class AccountSpec extends LocateSpec {
     

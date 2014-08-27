@@ -117,17 +117,43 @@ class LocateSpec extends GebSpec {
 		loginButton.click()
 		waitFor {at WelcomePage}
 		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
-		popupTabs.$('li',1).click()
-		waitFor { requestsTab.hasClass('ui-state-active')==true}
+		waitFor{$('.menu-popup').displayed==true}
+		$('ul.tab-access').find('li',1).click()
+		waitFor { $("li.tab-requests").hasClass('ui-state-active')==true}
 		waitFor {$("table#requestedList tbody").children().size() > 0}
 		$("table#requestedList tbody").children().click()
 		waitFor {$('ul.action').hasClass("buttons_class")==true}
-		locationAccept.click()
+		$('button#inboxLocationRequestAcceptButton').click()
 		waitFor {$('div.ui-dialog').displayed==true}
 		waitFor {$('body').hasClass('div.ui-dialog')==false}
 		}
 	
+	def request(req, acc) {
+		$('#btn_logout').click()
+		waitFor{at LoginPage}
+		username << req
+		password << params.get('password')
+		loginButton.click()
+		waitFor {at WelcomePage}
+		$('#search_users')<< acc
+		waitFor {$('span.searchReset').displayed==true}
+		if($('span.globalSearchText',0).hasClass('pendingRequestRight')==false){
+		$('li.noLocatableItems').find('a.globalSearchButton').click()
+		waitFor{$('.reqPermission').displayed==true}
+		$('div.ui-dialog-buttonset button',1).click()
+		waitFor{$('.dialog.undefined').displayed==true}
+		$('div.ui-dialog-buttonset button').click()
+		}
+	}
 	
-	
+	def shareLoc(user){
+		waitFor{at WelcomePage}
+		$('#search_users')<< user
+		waitFor {$('span.searchReset').displayed==true}
+		$('ul.users li').find('span.openClose').click()
+		waitFor{$('ul.item_details').displayed==true}
+		$('a.share_my_location').click()
+		waitFor('fast') { $('.shareMyLocationBox').displayed == true }
+		$(".ui-dialog-buttonset button").click()
+	}
 }

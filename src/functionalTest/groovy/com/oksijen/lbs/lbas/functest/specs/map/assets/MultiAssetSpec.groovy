@@ -8,10 +8,11 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 
 import com.oksijen.lbs.lbas.functest.pages.map.MapHomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class MultiAssetSpec extends LocateSpec {
-  
+	@RetryOnFailure(times=5)
 	def "Show only locatable assets"() {
 		given:"We are at the UsersPage"
 		at MapHomePage
@@ -25,7 +26,7 @@ class MultiAssetSpec extends LocateSpec {
 		then:"Only locatable users will be shown"
 		waitFor {nolocatableUsers.displayed==false}
 	}
-	
+	@RetryOnFailure(times=5)
 	 def "Select two asset group and locate them all"(){
 		given: "We are at the AssetsPage"
 		at AssetsPage
@@ -51,7 +52,7 @@ class MultiAssetSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		expect tooltip.displayed, is(false)
 		}
-	
+	 @RetryOnFailure(times=5)
 	def "Select three asset group and locate them all"(){	
 		given: "We are at the AssetsPage"
 		at AssetsPage
@@ -82,7 +83,7 @@ class MultiAssetSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		expect tooltip.displayed, is(false)
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Select five asset group and locate them all"(){
 		given: "We are at the AssetsPage"
 		at AssetsPage

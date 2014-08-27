@@ -10,13 +10,14 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.availability.*
 
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 /**
  * 
  */
 @Stepwise
 class MyAvailabilitySpec extends LocateSpec {
-    
+	@RetryOnFailure(times=5)
 	def "My availability page is displayed"(){
 		given: "We are at the WelcomePage"
 		at WelcomePage
@@ -26,15 +27,18 @@ class MyAvailabilitySpec extends LocateSpec {
 		
 		then: "My Availability page should render"
 		waitFor { at AvailabilityHomePage }
+		
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Updating visibility changes the visibility status"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
 		
 		when:"I change visibility to Not visible"
 		visibilityStatus.click()
+		waitFor{$('.ui-selectmenu-open').displayed==true}
 		notVisible.click()
+		$('#btn_privacy').click()
 		
 		then:"No one can view your location"
 		waitFor {  $("div#plusBox div").text().startsWith("No one")}
@@ -45,22 +49,24 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {$("div#plusBox div").text().startsWith("No one")==false}
 	}
 	
-	
+	@RetryOnFailure(times=5)
 	def "When mouse is hovered over i, visibility profile is shown"(){
 	given:"We are at the My availability page"
 	at AvailabilityHomePage
 	
 	when:"I hover over info to see detailed profile"
+	if($('#profiles').displayed==false){
 	plusBox.click()
-	$("a.info").jquery.mouseover()
-	
+	}
+	interact {
+		moveToElement($("a.info"))
+	}
 	then:
 	waitFor {profileInfo.displayed==true}
-	minusBox.jquery.mouseover()
 	minusBox.click()
 	}
 	
-	
+	@RetryOnFailure(times=5)
 	def "Cancel deleting locator permission"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -79,7 +85,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		cancelBtn.click()
 		waitFor {tableLocator.size() > 0}
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Deleting locator permission"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -99,7 +105,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {successMsg.displayed==false}
 	}
 	
-	
+	@RetryOnFailure(times=5)
 	def "Cancel adding exception"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -114,7 +120,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {excpTable.displayed==false}
 	
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Add exception"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -123,6 +129,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		addExcp.click()
 		waitFor {$('#addExcp-form').displayed==true}
 		$('input#name') << params.get('addExcp.excpTitle')
+		$('#start-time .hours')=='00'
 		
 		then:"Click Add"
 		sendBtn.click()
@@ -131,7 +138,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {excpTable.displayed==true}
 	
 	}
-	
+	@RetryOnFailure(times=5)
 		def "Cancel Edit exception"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -148,7 +155,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {excpTable.displayed==true}
 	
 	}
-	
+		@RetryOnFailure(times=5)
 	def "Entering a later start time than end time returns error while editing exception"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -171,7 +178,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		cancelBtn.click()
 		$('li#availabilityMe').click()
 	}
-
+	@RetryOnFailure(times=5)
 	def "Edit exception to a later time"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -199,7 +206,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {excpTable.find('td.first').text().contains("-Edited")}
 	
 	} 
-	
+	@RetryOnFailure(times=5)
 	def "Cancel Delete exception"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -213,7 +220,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {excpTable.displayed==true}
 		
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Delete exception"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -227,7 +234,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {excpTable.displayed==false}
 		
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Changing e-mail notifications"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -245,7 +252,7 @@ class MyAvailabilitySpec extends LocateSpec {
 		
 		
 	}
-
+	@RetryOnFailure(times=5)
 		def "Changing sms notifications"(){
 		given:"We are at the My availability page"
 		at AvailabilityHomePage
@@ -261,9 +268,14 @@ class MyAvailabilitySpec extends LocateSpec {
 		waitFor {successDialog.hasClass('success-dialog')==true}
 		waitFor {successDialog.hasClass('success-dialog')==false}
 		
-		and:
-		acceptRequest('alper2', 'alper')	
-	}
+}
+
+@RetryOnFailure(times=5)
+def "Re-request"(){
+	when:
+	$('#btn_map').click()
+	then:
+	shareLoc('alpertest')	}
 	
 }
 

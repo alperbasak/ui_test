@@ -12,6 +12,9 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.*
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
+
 
 /**
  * 
@@ -19,12 +22,12 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
 @Stepwise
 class TrashSpec extends LocateSpec {
 
-	
+	@RetryOnFailure(times=5)
 	def "Clicking Delete at Trash Page opens confirmation dialog; clicking cancel, cancels delete operation"() {
 		given: "We are at the TrashPage"
 		at WelcomePage
 		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
+		waitFor{$('.menu-popup').displayed==true}
 		popupInbox.click()
 		waitFor { at InboxHomePage}
 		trashPanel.click()
@@ -42,7 +45,7 @@ class TrashSpec extends LocateSpec {
 		waitFor {cancelTrash.displayed==false}
 		trashPanel.click()
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Clicking Delete at Trash Page opens confirmation dialog; clicking delete, deletes message permanently"() {
 		given: "We are at the TrashPage"
 		at TrashPage
@@ -58,7 +61,7 @@ class TrashSpec extends LocateSpec {
 		waitFor {deleteTrash.displayed==false}
 		trashPanel.click()
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Clicking Back to inbox at Trash Page returns the message back to inbox"() {
 		given: "We are at the TrashPage"
 		at TrashPage
@@ -73,7 +76,7 @@ class TrashSpec extends LocateSpec {
 		waitFor('fast') {backToInbox.hasClass('multi_user_button_inactive')==true}
 		trashPanel.click()
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Selecting All and clicking Back to inbox at Trash Page returns all selected messages back to inbox"() {
 		given: "We are at the TrashPage"
 		at TrashPage
@@ -89,7 +92,7 @@ class TrashSpec extends LocateSpec {
 		trashPanel.click()
 		}
 	
-	
+	@RetryOnFailure(times=5)
 	def "Clicking Select all and Delete at Trash Page opens confirmation dialog; clicking delete, deletes all selected messages permanently"() {
 		given: "We are at the TrashPage"
 		at TrashPage

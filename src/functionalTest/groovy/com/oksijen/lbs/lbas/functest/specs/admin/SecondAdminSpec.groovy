@@ -15,6 +15,8 @@ import com.oksijen.lbs.lbas.functest.pages.map.*
 import com.oksijen.lbs.lbas.functest.pages.calendar.*
 
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 /**
  * 
  */
@@ -75,7 +77,7 @@ def "Create a group, select multi admin"(){
 	waitFor {successDialog.displayed==false}
 
 	}
-
+@RetryOnFailure(times=5)
 def "Logout and login with 2nd admin"(){
 	given:"We are at Group Management Page"	
 //	at AdminHomePage
@@ -93,7 +95,7 @@ def "Logout and login with 2nd admin"(){
 	waitFor {$('#tab-users').find('div.contents ul li').size()==1}
 
 	}
-
+@RetryOnFailure(times=5)
 def "Locate users with other admin"(){
 	given:"We are at Users Page"
 	at UsersPage
@@ -108,7 +110,7 @@ def "Locate users with other admin"(){
 	waitFor{tooltip.displayed==false}
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Create location reports with other admin"(){
 	given:"We are at Users Page"
 	at UsersPage
@@ -131,7 +133,7 @@ def "Create location reports with other admin"(){
 	$('#btn_map_clear').click()
 	waitFor{tooltip.displayed==false}
 	}
-
+@RetryOnFailure(times=5)
 def "Send a message to all group members"(){
 	given:"We are at Users Page"
 	at UsersPage
@@ -149,7 +151,7 @@ def "Send a message to all group members"(){
 	waitFor {successSent.displayed==true}
 	waitFor {successSent.displayed==false}
 	}
-
+@RetryOnFailure(times=5)
 def "Other admin can create new user"(){
 	given:"We are at Users Page"
 	at UsersPage
@@ -171,7 +173,7 @@ def "Other admin can create new user"(){
 	waitFor {successDialog.displayed==false}
 		
 	}
-
+@RetryOnFailure(times=5)
 def "Other Admin can edit User"(){
 	given:
 	at UsersPage
@@ -196,7 +198,7 @@ def "Other Admin can edit User"(){
 	waitFor {successDialog.displayed==false}
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Create a new enterprise category"(){
 	given: "We are at the PlacesPage"
 	at UsersPage
@@ -232,7 +234,7 @@ def "Create a new enterprise category"(){
 		$('span.ui-button-text',text:'Cancel').click()
 	}
 	}
-
+@RetryOnFailure(times=5)
 def "Edit enterprise category"(){
 	given: "We are at the PlacesPage"
 	at PlacesPage
@@ -261,7 +263,7 @@ def "Edit enterprise category"(){
 	waitFor {successDialog.displayed==false}
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Show enterprise category on map"(){
 	given: "We are at the PlacesPage"
 	at PlacesPage
@@ -312,7 +314,7 @@ def "Show enterprise category on map"(){
 	waitFor('fast') { tooltip.displayed == true }
 		
 	}
-
+@RetryOnFailure(times=5)
 def "Setup a meeting at a place"(){
 	given: "We are at the PlacesPage"
 	at PlacesPage
@@ -345,7 +347,7 @@ def "Setup a meeting at a place"(){
 	waitFor {$('.noCloseNoOk').displayed==false}
 		
 	}
-
+@RetryOnFailure(times=5)
 def "Delete enterprise category"(){
 	given: "We are at the PlacesPage"
 	at CalendarHomePage
@@ -370,7 +372,7 @@ def "Delete enterprise category"(){
 	waitFor{$('div.ui-dialog-buttonset button span',text:'OK').displayed==true}
 //	$('div.ui-dialog-buttonset button span',text:'OK').click()
 }
-
+@RetryOnFailure(times=5)
 def "Delete User"(){
 	given:"We are at the UsersPage"
 	at PlacesPage	

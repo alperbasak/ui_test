@@ -26,6 +26,10 @@ class WelcomePage extends LocatePage {
 		
 		locateLogo(required:true) 		{$("div.logo")}
 		popupInbox(required: false) 	{$('ul.tab-access li',0)}
+		defaultVisibility(required: false)	{$('div').last().find('li').last()}
+		requestsTab (required: false)	{ $("li.tab-requests") }
+		locationReject(reqired: false)		{$('button#inboxLocationRequestRejectButton')}
+		locationAccept(required: false)		{$('button#inboxLocationRequestAcceptButton')}
 
     }
 }

@@ -12,19 +12,22 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.*
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
+
 
 /**
  * 
  */
 @Stepwise
 class SentReqSpec extends LocateSpec {
-
+	@RetryOnFailure(times=5)
 	def "Sending a reminder to a pending request"(){
 		given:"I am at Sent Requests Page"
 		at WelcomePage
 		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
-		popupTabs.$('li',3).click()
+		waitFor{$('.menu-popup').displayed==true}
+		$('ul.tab-access').find('li',3).click()
 		waitFor {at SentPage}
 		waitFor { requestsTab.hasClass('ui-state-active')==true}
 		
@@ -43,12 +46,13 @@ class SentReqSpec extends LocateSpec {
 		}
 		
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Sending a reminder to an accepted request"(){
 		given:"I am at Sent Requests Page"
-		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
-		popupTabs.$('li',3).click()
+		at SentPage
+		$('li.SENT_menu').click()
+		waitFor { sentTab.hasClass('ui-state-active')==true}
+		requestsTab.click()
 		waitFor {at SentPage}
 		waitFor { requestsTab.hasClass('ui-state-active')==true}
 		
@@ -67,13 +71,13 @@ class SentReqSpec extends LocateSpec {
 		}
 		
 		}
-		
+	@RetryOnFailure(times=5)
 	def "Deleting a sent request"(){
 		given:"I am at Sent Requests Page"
-		at WelcomePage
-		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
-		popupTabs.$('li',3).click()
+		at SentPage
+		$('li.SENT_menu').click()
+		waitFor { sentTab.hasClass('ui-state-active')==true}
+		requestsTab.click()
 		waitFor {at SentPage}
 		waitFor { requestsTab.hasClass('ui-state-active')==true}
 		
@@ -87,8 +91,7 @@ class SentReqSpec extends LocateSpec {
 //		waitFor {successSent.displayed==true}
 //		waitFor {successSent.displayed==false}
 		}
-		
-	
+			
 }
 
 

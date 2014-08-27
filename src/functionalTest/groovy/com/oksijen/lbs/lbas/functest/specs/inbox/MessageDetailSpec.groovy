@@ -10,6 +10,9 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.*
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
+
 
 /**
  * 
@@ -17,12 +20,12 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
 @Stepwise
 class MessageDetailSpec extends LocateSpec {
 	
-	
+	@RetryOnFailure(times=5)
 def "Clicking on a message displays the message"() {
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
+		waitFor{$('.menu-popup').displayed==true}
 		popupInbox.click()
 		waitFor { at InboxHomePage}
 	
@@ -35,7 +38,7 @@ def "Clicking on a message displays the message"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-
+@RetryOnFailure(times=5)
 def "Clicking on Reply, opens reply dialog; Cancel, closes dialog"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -57,7 +60,7 @@ def "Clicking on Reply, opens reply dialog; Cancel, closes dialog"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-
+@RetryOnFailure(times=5)
 def "Clicking on Reply, opens reply dialog; Send, sends the message"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage	
@@ -80,7 +83,7 @@ def "Clicking on Reply, opens reply dialog; Send, sends the message"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-
+@RetryOnFailure(times=5)
 def "Clicking on Reply, opens reply dialog; via SMS is selected, also sends the message via SMS"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -104,7 +107,7 @@ def "Clicking on Reply, opens reply dialog; via SMS is selected, also sends the 
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-
+@RetryOnFailure(times=5)
 def "Clicking on Reply All, opens reply all dialog; Cancel, closes dialog"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -126,7 +129,7 @@ def "Clicking on Reply All, opens reply all dialog; Cancel, closes dialog"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-
+@RetryOnFailure(times=5)
 def "Clicking on Reply All, opens reply all dialog; Send, sends the message"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -152,7 +155,7 @@ def "Clicking on Reply All, opens reply all dialog; Send, sends the message"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-
+@RetryOnFailure(times=5)
 def "Clicking on Reply all, opens reply all dialog; via SMS is selected, also sends the message via SMS"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -179,6 +182,7 @@ def "Clicking on Reply all, opens reply all dialog; via SMS is selected, also se
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
+@RetryOnFailure(times=5)
 def "Clicking on Forward, opens forward dialog; Cancel, closes dialog"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -200,7 +204,7 @@ def "Clicking on Forward, opens forward dialog; Cancel, closes dialog"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-
+@RetryOnFailure(times=5)
 def "Clicking on Forward, opens forward dialog; Send, sends the message"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -229,7 +233,7 @@ def "Clicking on Forward, opens forward dialog; Send, sends the message"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-
+@RetryOnFailure(times=5)
 def "Clicking on Forward, opens forward dialog; via SMS is selected, also sends the message via SMS"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -259,7 +263,7 @@ def "Clicking on Forward, opens forward dialog; via SMS is selected, also sends 
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-
+@RetryOnFailure(times=5)
 def "Clicking on Delete, opens delete success dialog"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage

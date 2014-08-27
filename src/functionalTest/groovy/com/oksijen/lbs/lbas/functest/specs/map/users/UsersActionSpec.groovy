@@ -8,13 +8,14 @@ import org.openqa.selenium.Keys
 import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 /**
  * 
  */
 @Stepwise
 class UsersActionSpec extends LocateSpec {
-	
+	@RetryOnFailure(times=5)
 	def "Creating a new user, empty input returns error"() {
 		given:"We are at the UsersPage"
 		at MapHomePage
@@ -35,7 +36,7 @@ class UsersActionSpec extends LocateSpec {
 		actionListClose.click()
 		$('#userActionList-menu li a').click()
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Creating a new user, successful create"() {
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -57,7 +58,7 @@ class UsersActionSpec extends LocateSpec {
 			
 	}			
 	
-
+	@RetryOnFailure(times=5)
 	def "Edit User"(){
 	at UsersPage
 	
@@ -78,7 +79,7 @@ class UsersActionSpec extends LocateSpec {
 	waitFor {successDialog.displayed==false}
 	
 }
-	
+	@RetryOnFailure(times=5)
 	def "Move a user to another group"(){
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -104,7 +105,7 @@ class UsersActionSpec extends LocateSpec {
 		waitFor {successDialog.displayed==false}
 		
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Delete multiple Users"(){
 		given:"We are at the UsersPage"
 		at UsersPage

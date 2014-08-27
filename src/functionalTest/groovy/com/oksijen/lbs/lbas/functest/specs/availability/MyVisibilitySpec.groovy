@@ -10,13 +10,16 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.availability.*
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
+
 
 /**
  * 
  */
 @Stepwise
 class MyVisibilitySpec extends LocateSpec {
-    
+	@RetryOnFailure(times=5)
 def "My visibility profiles page is displayed"(){
 	given: "We are at the WelcomePage"
 	at WelcomePage
@@ -29,7 +32,7 @@ def "My visibility profiles page is displayed"(){
 	myVisibility.click()
 	waitFor { at VisibilityPage }
 	}
-
+@RetryOnFailure(times=5)
 def "Switching to full day view enlarges the agenda table"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -43,7 +46,7 @@ def "Switching to full day view enlarges the agenda table"() {
 	waitFor {fullTime.hasClass('selected')==true}
 	assert agendaTable.size()==48
 	}
-
+@RetryOnFailure(times=5)
 def "Null visibility profile name returns error"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -58,7 +61,7 @@ def "Null visibility profile name returns error"() {
 	$('div#dialog').find('button.cancel').click()
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Create new visibility profile"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -74,7 +77,7 @@ def "Create new visibility profile"() {
 	assert profileName.find('a span').text()==params.get('visibility.newProfile')
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Same visibility profile name will return error"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -90,7 +93,7 @@ def "Same visibility profile name will return error"() {
 	$('div#dialog').find('button.cancel').click()
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Adding hours to location visibility profile"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -105,7 +108,7 @@ def "Adding hours to location visibility profile"() {
 	waitFor {visInterval.hasClass('fc-event-skin')==true}
 }
 
-
+@RetryOnFailure(times=5)
 def "Changing hour interval in location visibility profile"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -122,7 +125,7 @@ def "Changing hour interval in location visibility profile"() {
 	assert	 visInterval.height==19
 	waitFor {visInterval.hasClass('fc-event-skin')==true}
 }
-
+@RetryOnFailure(times=5)
 def "Resizing to change hour interval in location visibility profile"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -141,7 +144,7 @@ def "Resizing to change hour interval in location visibility profile"() {
 	assert	 visInterval.height==145
 	waitFor {visInterval.hasClass('fc-event-skin')==true}
 }
-
+@RetryOnFailure(times=5)
 def "Moving the interval to another day in location visibility profile"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -158,7 +161,7 @@ def "Moving the interval to another day in location visibility profile"() {
 	assert	 visInterval.height==145
 	waitFor {visInterval.hasClass('fc-event-skin')==true}
 }
-
+@RetryOnFailure(times=5)
 def "Canceling a change will not be saved to the visibility profile"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -171,7 +174,7 @@ def "Canceling a change will not be saved to the visibility profile"() {
 	then:
 	waitFor {$('div.fc-view').size()>0}
 }
-
+@RetryOnFailure(times=5)
 def "Deleting an interval in a location visibility profile"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage
@@ -186,7 +189,7 @@ def "Deleting an interval in a location visibility profile"() {
 	waitFor {successMessage.displayed==false}
 	waitFor {visInterval.size()==0}
 }
-
+@RetryOnFailure(times=5)
 def "Deleting a visibility profile"() {
 	given:"We are at Visibility profile page"
 	at VisibilityPage

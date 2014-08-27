@@ -12,6 +12,8 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.*
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 
 /**
  * 
@@ -19,12 +21,12 @@ import com.oksijen.lbs.lbas.functest.pages.inbox.*
 @Stepwise
 class InboxSpec extends LocateSpec {
 	
-
+	@RetryOnFailure(times=5)
 	def "Clicking inbox tab takes me to messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
+		waitFor{$('.menu-popup').displayed==true}
 		popupInbox.click()
 		waitFor { at InboxHomePage}
 		
@@ -34,7 +36,7 @@ class InboxSpec extends LocateSpec {
 		then: "Inbox page should render"
 		waitFor {at InboxHomePage}
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Clicking Incoming Requests tab takes me to incoming requests page"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -47,7 +49,7 @@ class InboxSpec extends LocateSpec {
 		inboxPanel.click()
 		}
 	
-	
+	@RetryOnFailure(times=5)
 	def "Clicking sent tab takes me to sent messages page"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -59,7 +61,7 @@ class InboxSpec extends LocateSpec {
 		waitFor {at SentPage}
 		inboxPanel.click()
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Clicking Sent Requests tab takes me to sent requests page"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -73,7 +75,7 @@ class InboxSpec extends LocateSpec {
 		waitFor {requestsTab.hasClass('ui-state-active')==true}
 		inboxPanel.click()
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Clicking trash tab takes me to deleted messages page"() {
 		given: "We are at the InboxHomePage"
 		at InboxHomePage

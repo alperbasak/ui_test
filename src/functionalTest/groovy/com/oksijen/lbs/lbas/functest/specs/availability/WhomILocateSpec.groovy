@@ -10,13 +10,14 @@ import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.availability.*
 
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 /**
  * 
  */
 @Stepwise
 class WhomILocateSpec extends LocateSpec {
-    
+	@RetryOnFailure(times=5)
 def "Whom I can locate page is displayed"(){
 	given: "We are at the WelcomePage"
 	at WelcomePage
@@ -29,7 +30,7 @@ def "Whom I can locate page is displayed"(){
 	locateOthers.click()
 	waitFor { at WhomILocatePage }
 	}
-
+@RetryOnFailure(times=5)
 def "Filter by kind of request option allows me to show only the permanent permissions"(){
 
 	given:"We are at whom I can locate page"
@@ -56,7 +57,7 @@ def "Filter by kind of request option allows me to show only the permanent permi
 	filterBy.click()
 	allFilter.click()
 	}
-
+@RetryOnFailure(times=5)
 def "When mouse is hovered over i, visibility profile is shown"(){
 	given:"We are at who can locate me page"
 	at LocateMePage

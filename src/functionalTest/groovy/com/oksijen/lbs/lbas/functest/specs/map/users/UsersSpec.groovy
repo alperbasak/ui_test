@@ -8,13 +8,14 @@ import org.openqa.selenium.Keys
 import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 /**
  * 
  */
 @Stepwise
 class UsersSpec extends LocateSpec {
-	  
+	@RetryOnFailure(times=5)
 	  def "Permission is required to locate other users"(){
 		  given: "We are at the UsersPage"
 		  at MapHomePage
@@ -31,7 +32,7 @@ class UsersSpec extends LocateSpec {
 		  
 	  }
 	
-	
+	  @RetryOnFailure(times=5)
 	  def "I locate the user after I use the search bar"() {
 		given: "We are at the UsersPage"	
     	at UsersPage
@@ -85,7 +86,7 @@ class UsersSpec extends LocateSpec {
 		waitFor {requestUserButton.hasClass('pendingRequestLeft')==true}
 		resetInput.click()
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Show only locatable users"() {
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -97,7 +98,7 @@ class UsersSpec extends LocateSpec {
 		then:"Only locatable users will be shown"
 		waitFor {nolocatableUsers.displayed==false}	
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Sending a message to a user from detail card"() {
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -114,7 +115,7 @@ class UsersSpec extends LocateSpec {
 		expect successSent.displayed, is(true)
 		waitFor {successSent.displayed==false}
 	}	
-	
+	@RetryOnFailure(times=5)
 	def "Creating locating report of a user"() {
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -165,7 +166,7 @@ class UsersSpec extends LocateSpec {
 		waitFor {locReportDiv.displayed==false}
 		$('#btn_map_clear').click()
 		}
-
+	@RetryOnFailure(times=5)
 	def "Detailed user information dialog opens when I click User Details"(){
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -177,7 +178,7 @@ class UsersSpec extends LocateSpec {
 		waitFor {$('.itemDetails').displayed==true}
 		closeThick.click()
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Locating user from detail card"() {
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -200,7 +201,7 @@ class UsersSpec extends LocateSpec {
 		expect tooltip.displayed, is(false)
 		$('#btn_map_clear').click()
 	}
-	
+	@RetryOnFailure(times=5)
 	def "I share my location with a user"() {
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -252,7 +253,7 @@ class UsersSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		
 		}
-		
+		@RetryOnFailure(times=5)
 		def "Create location reports of selected users using create report button"(){
 			given:"We are at the UsersPage"
 			at UsersPage
@@ -290,7 +291,7 @@ class UsersSpec extends LocateSpec {
 			and:"Close Report dialog"
 			$('#btn_map_clear').click()
 			}
-	
+		@RetryOnFailure(times=5)
 		def "Send a message to selected groups or users"(){
 			given:"We are at the UsersPage"
 			at UsersPage

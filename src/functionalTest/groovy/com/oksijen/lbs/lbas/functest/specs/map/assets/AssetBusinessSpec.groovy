@@ -9,11 +9,12 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.map.MapHomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
 import com.oksijen.lbs.lbas.functest.pages.admin.*
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 
 @Stepwise
 class AssetBusinessSpec extends LocateSpec {
-  
+	@RetryOnFailure(times=5)
 def "Create an asset and see that it's locatable within business hours"(){
 	given:"We are at asset management page"
 		at MapHomePage
@@ -64,7 +65,7 @@ def "Create an asset and see that it's locatable within business hours"(){
 		}
 		
 	}
-
+@RetryOnFailure(times=5)
 def "Check if its unlocatable out of business hours"(){
 	given:"We are at admin page"
 	at MapHomePage
@@ -98,7 +99,7 @@ def "Check if its unlocatable out of business hours"(){
 	waitFor{$('span',text:'BusinessAsset Test').parent().find('li.icon.locked.first').displayed==true}
 	
 }
-
+@RetryOnFailure(times=5)
 def "Restore company hours and delete asset"(){
 		given:"We are at asset management page"
 		at AssetsPage

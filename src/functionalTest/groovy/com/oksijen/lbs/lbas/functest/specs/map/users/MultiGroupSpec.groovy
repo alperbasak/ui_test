@@ -8,13 +8,14 @@ import org.openqa.selenium.Keys
 import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 /**
  * 
  */
 @Stepwise
 class MultiGroupSpec extends LocateSpec {
-	  
+	@RetryOnFailure(times=5)
 	def "Show only locatable users"() {
 		given:"We are at the UsersPage"
 		at UsersPage
@@ -26,7 +27,7 @@ class MultiGroupSpec extends LocateSpec {
 		then:"Only locatable users will be shown"
 		waitFor {nolocatableUsers.displayed==false}	
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Select two groups and locate"(){
 		given:"at Users page"
 		at UsersPage
@@ -50,7 +51,7 @@ class MultiGroupSpec extends LocateSpec {
 		waitFor{tooltip.displayed == false }
 		
 			}
-		
+	@RetryOnFailure(times=5)
 	def "Select three groups and locate"(){
 		given:"at Users page"
 		at UsersPage
@@ -81,7 +82,7 @@ class MultiGroupSpec extends LocateSpec {
 		waitFor{tooltip.displayed == false }
 		
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Select five groups and locate"(){
 		given:"at Users page"
 		at UsersPage

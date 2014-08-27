@@ -12,12 +12,15 @@ import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.admin.*
 import com.oksijen.lbs.lbas.functest.pages.map.*
 
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
+
 /**
  * 
  */
 @Stepwise
 class AssetTrackingSpec extends LocateSpec {
-    
+	@RetryOnFailure(times=5)
 def "Asset Management Page is displayed"(){
 	given: "We are at the WelcomePage"
 	at WelcomePage
@@ -30,9 +33,15 @@ def "Asset Management Page is displayed"(){
 	assetMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	}
-
+@RetryOnFailure(times=5)
 def "Edit asset in the group"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 
 	when:"I click Edit asset"
@@ -87,9 +96,15 @@ def "Edit asset in the group"(){
 	assetMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	}
-
+@RetryOnFailure(times=5)
 def "Tracking Settings PPT:on VC:0"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 	
 	when:"I click Edit asset"
@@ -146,9 +161,15 @@ def "Tracking Settings PPT:on VC:0"(){
 	assetMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	}
-
+@RetryOnFailure(times=5)
 def "Tracking Settings PPT:off VC:Company"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 	
 	when:"I click Edit asset"
@@ -183,9 +204,15 @@ def "Tracking Settings PPT:off VC:Company"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Tracking Settings PPT:on VC:Company"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 	
 	when:"I click Edit asset"
@@ -241,9 +268,15 @@ def "Tracking Settings PPT:on VC:Company"(){
 	assetMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	}
-
+@RetryOnFailure(times=5)
 def "Tracking Settings PPT:off VC:Custom"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 	
 	when:"I click Edit asset"
@@ -310,9 +343,15 @@ def "Tracking Settings PPT:off VC:Custom"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Tracking Settings PPT:on VC:Custom"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 	
 	when:"I click Edit asset"
@@ -369,9 +408,15 @@ def "Tracking Settings PPT:on VC:Custom"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Tracking Settings PPT:on VC:Unlocatable Custom"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 
 	when:"I click Edit asset"
@@ -417,9 +462,15 @@ def "Tracking Settings PPT:on VC:Unlocatable Custom"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-	
+@RetryOnFailure(times=5)
 def "Tracking Settings PPT:off VC:Specific"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 	
 	when:"I click Edit asset"
@@ -459,9 +510,15 @@ def "Tracking Settings PPT:off VC:Specific"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-
+@RetryOnFailure(times=5)
 def "Tracking Settings PPT:on VC:Specific"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 
 	when:"I click Edit asset"
@@ -535,6 +592,12 @@ def "Tracking Settings PPT:on VC:Specific"(){
 @Ignore
 def "Delete asset and group"(){
 	given:"We are the Asset Tab"
+	if($('#admin').displayed==false){
+		at WelcomePage
+		adminBtn.click()
+		waitFor { at AdminHomePage }
+		assetMan.click()
+		}
 	at AdminHomePage
 	
 	when:"I delete asset"

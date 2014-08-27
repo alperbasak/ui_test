@@ -13,6 +13,7 @@ class AvailabilityHomePage extends WelcomePage {
         mainDiv(required: true) 			{ $("div#privacy") }
         leftPanel(required: true) 			{ $("div#visibility") }
         rightPanel(required: true) 			{ $("div#availability-container") }
+		myAvailability(required:true)		{$('li#availabilityMe')}
 		myVisibility(required: true)		{$("li.visibilityMe")}
 		locateMe(required:true)				{$("li.locateMe")}
 		locateOthers(required:true)			{$('li.locateOthers')}
