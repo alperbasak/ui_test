@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys
 import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
+import com.oksijen.lbs.lbas.functest.pages.availability.*
 import spock.lang.Specification
 import com.oksijen.lbs.spock.extensions.retry.*
 /**
@@ -200,13 +201,13 @@ class UsersActionSpec extends LocateSpec {
 		waitFor {successDialog.displayed==false}
 	
 			}
-	@Ignore
+	@RetryOnFailure(times=5)
 	def "Requesting permission to locate user"(){
 		given: "We are at the UsersPage"
 		at UsersPage
 		
 		when:"I select a user and make a request"
-		$('div.contents ul li').last().find('img.openClose').click()
+		searchInput="cagdas"
 		waitFor {$('ul.users').displayed==true}
 		nolocatableUsers.find('input.user').click()
 		actionListClose2.click()
@@ -220,16 +221,19 @@ class UsersActionSpec extends LocateSpec {
 		and:"Permission requested acknowledgement message displayed"
 		waitFor {permissionDialog.displayed==true}
 		$('button.ui-button').click()
-
+		decline()
+		
 		}
-	@Ignore
+	
+	@RetryOnFailure(times=5)
 	def "Share my location with a user"() {
 		given:"We are at the UsersPage"
 		at UsersPage
 		
 		when:"I select a user and share my location"
-		$('div.contents ul li').last().find('img.openClose').click()
-		$('input.user.check-box').click()
+		searchInput="cagdas"
+		waitFor {$('ul.users').displayed==true}
+		nolocatableUsers.find('input.user').click()
 		actionListClose2.click()
 		shareMyLocation.click()
 
@@ -238,8 +242,19 @@ class UsersActionSpec extends LocateSpec {
 		$(".ui-dialog-buttonset button").click()
 		waitFor {successDialog.displayed==true}
 		waitFor {successDialog.displayed==false}
+		
+		privacyMenu.click()
+		waitFor { at AvailabilityHomePage }
+		locateMe.click()
+		waitFor { at LocateMePage }
+		cagPermission.jquery.mouseover()
+		waitFor {cagPermission.find('a.delete').displayed==true}
+		cagPermission.find('a.delete').click()
+		waitFor {$('#dialog').displayed==true}
+		sendBtn.click()
+		waitFor {$('#dialog').displayed==false}
+		
 		}
-	
-	
+
 }
 		

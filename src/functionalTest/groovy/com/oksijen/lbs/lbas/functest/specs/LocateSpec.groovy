@@ -11,6 +11,7 @@ import com.oksijen.lbs.lbas.functest.util.TestParams
 import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.*
+import com.oksijen.lbs.lbas.functest.pages.availability.*
 
 /**
  * Base class for all specs to extend.
@@ -118,6 +119,7 @@ class LocateSpec extends GebSpec {
 		waitFor {at WelcomePage}
 		inboxMenu.jquery.mouseover()
 		waitFor{$('.menu-popup').displayed==true}
+		$('ul.tab-access').find('li',1).jquery.mouseover()
 		$('ul.tab-access').find('li',1).click()
 		waitFor { $("li.tab-requests").hasClass('ui-state-active')==true}
 		waitFor {$("table#requestedList tbody").children().size() > 0}
@@ -127,6 +129,56 @@ class LocateSpec extends GebSpec {
 		waitFor {$('div.ui-dialog').displayed==true}
 		waitFor {$('body').hasClass('div.ui-dialog')==false}
 		}
+	
+	def	decline(){
+		$('#btn_logout').click()
+		waitFor{at LoginPage}
+		username << params.get('company.username')
+		password << params.get('company.password')
+		loginButton.click()
+		waitFor {at WelcomePage}
+		inboxMenu.jquery.mouseover()
+		waitFor{$('.menu-popup').displayed==true}
+		$('ul.tab-access').find('li',1).jquery.mouseover()
+		$('ul.tab-access').find('li',1).click()
+		waitFor { $("li.tab-requests").hasClass('ui-state-active')==true}
+		waitFor {$("table#requestedList tbody").children().size() > 0}
+		$("table#requestedList tbody").children().click()
+		waitFor {$('ul.action').hasClass("buttons_class")==true}
+		$('button#inboxLocationRequestRejectButton').click()
+		waitFor {$('div.ui-dialog').displayed==true}
+		waitFor {$('body').hasClass('div.ui-dialog')==false}
+		$('#btn_logout').click()
+		waitFor{at LoginPage}
+		username << params.get('username')
+		password << params.get('password')
+		loginButton.click()
+		waitFor {at WelcomePage}
+		}
+	
+	def deletePermission(){
+		privacyMenu.click()
+		waitFor { at AvailabilityHomePage }
+		locateMe.click()
+		waitFor { at LocateMePage }
+		
+		if($('table#whoLocateMe').find('tr.makeHover',username:'cagdas turkdogan').size()==1){
+		cagPermission.jquery.mouseover()
+		waitFor {cagPermission.find('a.delete').displayed==true}
+		cagPermission.find('a.delete').click()
+		waitFor {$('#dialog').displayed==true}
+		sendBtn.click()
+		waitFor {$('#dialog').displayed==false}}
+		
+		if($('table#whoLocateMe').find('tr.makeHover',username:'Alper Baþak').size()==1){
+		alpPermission.jquery.mouseover()
+		waitFor {alpPermission.find('a.delete').displayed==true}
+		alpPermission.find('a.delete').click()
+		waitFor {$('#dialog').displayed==true}
+		sendBtn.click()
+		waitFor {$('#dialog').displayed==false}}
+		
+	}
 	
 	def request(req, acc) {
 		$('#btn_logout').click()
@@ -156,4 +208,5 @@ class LocateSpec extends GebSpec {
 		waitFor('fast') { $('.shareMyLocationBox').displayed == true }
 		$(".ui-dialog-buttonset button").click()
 	}
+
 }

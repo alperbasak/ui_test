@@ -19,13 +19,14 @@ import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class InboxTableSpec extends LocateSpec {
 	
-	
-	@RetryOnFailure(times=5)
+
+	@RetryOnFailure(times=3)
 	def "Checking if buttons activate on checkbox click"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
 		inboxMenu.jquery.mouseover()
 		waitFor{$('.menu-popup').displayed==true}
+		popupInbox.jquery.mouseover()
 		popupInbox.click()
 		waitFor { at InboxHomePage}
 		
@@ -43,7 +44,7 @@ class InboxTableSpec extends LocateSpec {
 		inboxPanel.click()
 		}
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure(times=3)
 	def "Clicking select all, selects all messages"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -59,10 +60,15 @@ class InboxTableSpec extends LocateSpec {
 		expect markAsRead.hasClass('multi_user_button_inactive'), is(false)
 		expect markAsUnread.hasClass('multi_user_button_inactive'), is(false)
 		expect markDelete.hasClass('multi_user_button_inactive'), is(false)
+		
+		and:
+		markAsUnread.click()
+		waitFor {markAsUnread.hasClass('multi_user_button_inactive')==true}
+		waitFor {$("table#inboxTable tbody tr").first().find("div").hasClass('bold')==true}
 		inboxPanel.click()
 	}
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure(times=3)
 	def "Clicking Delete, Deletes selected message"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -80,7 +86,7 @@ class InboxTableSpec extends LocateSpec {
 		inboxPanel.click()
 		}
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure(times=3)
 	def "Clicking Mark As Read, changes selected message status as read"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -100,7 +106,7 @@ class InboxTableSpec extends LocateSpec {
 		}
 	
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure(times=3)
 	def "Clicking Mark As Unread, changes selected message status as unread"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage

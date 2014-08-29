@@ -17,6 +17,7 @@ import com.oksijen.lbs.spock.extensions.retry.*
  */
 
 @Stepwise
+
 class InboxPopupSpec extends LocateSpec { 
 	@RetryOnFailure(times=5)
 def "Clicking messages takes me to messages page"(){
@@ -26,7 +27,8 @@ def "Clicking messages takes me to messages page"(){
 		waitFor{$('.menu-popup').displayed==true}
 		
 		when: "I click messages"
-		$('ul.tab-access').find('li',0).click()
+		$('ul.tab-access').find('li',0).jquery.mouseover()
+			$('ul.tab-access').find('li',0).find('a span').click()
 				
 		then: "Messages page should render"
 		waitFor {at InboxHomePage}
@@ -41,7 +43,8 @@ def "Clicking messages takes me to messages page"(){
 		waitFor{$('.menu-popup').displayed==true}
 		
 		when: "I click incoming requests"
-		$('ul.tab-access').find('li',1).click()
+		$('ul.tab-access').find('li',1).jquery.mouseover()
+		$('ul.tab-access').find('li',1).find('a span').click()
 		
 		then: "Incoming Requests page should render"
 		waitFor {$("li.tab-requests").hasClass('ui-state-active')==true}
@@ -56,7 +59,8 @@ def "Clicking messages takes me to messages page"(){
 		waitFor{$('.menu-popup').displayed==true}
 		
 		when: "I click Sent messages"
-		$('ul.tab-access').find('li',2).click()
+		$('ul.tab-access').find('li',2).jquery.mouseover()
+		$('ul.tab-access').find('li',2).find('a span').click()
 		
 		then:"Sent page should render"
 		waitFor {at SentPage}
@@ -71,7 +75,8 @@ def "Clicking messages takes me to messages page"(){
 		waitFor{$('.menu-popup').displayed==true}
 		
 		when: "I click Sent requests"
-		$('ul.tab-access').find('li',3).click()
+		$('ul.tab-access').find('li',3).jquery.mouseover()
+		$('ul.tab-access').find('li',3).find('a span').click()
 		
 		then: "Sent Requests page should render"
 		waitFor {$("li.tab-requests").hasClass('ui-state-active')==true}

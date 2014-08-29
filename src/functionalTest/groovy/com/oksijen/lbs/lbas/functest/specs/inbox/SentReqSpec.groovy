@@ -27,6 +27,7 @@ class SentReqSpec extends LocateSpec {
 		at WelcomePage
 		inboxMenu.jquery.mouseover()
 		waitFor{$('.menu-popup').displayed==true}
+		$('ul.tab-access').find('li',3).jquery.mouseover()
 		$('ul.tab-access').find('li',3).click()
 		waitFor {at SentPage}
 		waitFor { requestsTab.hasClass('ui-state-active')==true}

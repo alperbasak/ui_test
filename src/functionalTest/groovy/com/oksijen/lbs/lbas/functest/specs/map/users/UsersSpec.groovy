@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys
 import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
+import com.oksijen.lbs.lbas.functest.pages.availability.*
 import spock.lang.Specification
 import com.oksijen.lbs.spock.extensions.retry.*
 /**
@@ -60,7 +61,7 @@ class UsersSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		resetInput.click()
     }
-	@Ignore
+	  @RetryOnFailure(times=5)
 	def "Make a locating request to another user"(){
 		given: "We are at the UsersPage"
 		at UsersPage
@@ -85,6 +86,7 @@ class UsersSpec extends LocateSpec {
 		searchInput<<Keys.chord(Keys.SPACE)
 		waitFor {requestUserButton.hasClass('pendingRequestLeft')==true}
 		resetInput.click()
+		decline()
 		}
 	@RetryOnFailure(times=5)
 	def "Show only locatable users"() {
@@ -104,7 +106,7 @@ class UsersSpec extends LocateSpec {
 		at UsersPage
 		
 		when:"I click send message icon"
-//		groupOpenClose.click()
+		groupOpenClose.click()
 		locatableUsers.find('img.openClose').click()
 		waitFor {locatableUsers.find('ul.item_details').displayed==true}
 		detailMessage.click()
@@ -121,9 +123,12 @@ class UsersSpec extends LocateSpec {
 		at UsersPage
 		
 		when:"I click create report"
+		if ($('div.usersList',0).hasClass('groupElementExpanded')==false){
+			groupOpenClose.click()
+			locatableUsers.find('img.openClose').click()
+			waitFor {locatableUsers.find('ul.item_details').displayed==true}
+		}
 		detailReport.click()
-//		waitFor {$('.locateSingleUser').find('.ui-dialog-buttonset button').displayed==true}
-//		$('.locateSingleUser').find('.ui-dialog-buttonset button').click()
 	
 		then: "Report dialog opens and click create"
 		waitFor {$('form#requestReportPermission').displayed==true}
@@ -172,6 +177,11 @@ class UsersSpec extends LocateSpec {
 		at UsersPage
 		
 		when:"I click create report"
+		if ($('div.usersList',0).hasClass('groupElementExpanded')==false){
+			groupOpenClose.click()
+			locatableUsers.find('img.openClose').click()
+			waitFor {locatableUsers.find('ul.item_details').displayed==true}
+		}
 		detailUser.click()
 		
 		then:"Detailed user information dialog opens"
@@ -184,6 +194,11 @@ class UsersSpec extends LocateSpec {
 		at UsersPage
 
 		when:"I click Locate from detail card"
+		if ($('div.usersList',0).hasClass('groupElementExpanded')==false){
+			groupOpenClose.click()
+			locatableUsers.find('img.openClose').click()
+			waitFor {locatableUsers.find('ul.item_details').displayed==true}
+		}
 		detailLocate.click()
 
 		then: "Tooltip should be shown on map"
@@ -201,12 +216,18 @@ class UsersSpec extends LocateSpec {
 		expect tooltip.displayed, is(false)
 		$('#btn_map_clear').click()
 	}
+	
 	@RetryOnFailure(times=5)
 	def "I share my location with a user"() {
 		given:"We are at the UsersPage"
 		at UsersPage
 		
 		when:"I click Locate from detail card"
+		if ($('div.usersList',0).hasClass('groupElementExpanded')==false){
+			groupOpenClose.click()
+			locatableUsers.find('img.openClose').click()
+			waitFor {locatableUsers.find('ul.item_details').displayed==true}
+		}
 		detailShareLoc.click()
 
 		then: "Tooltip should be shown on map"
@@ -214,10 +235,22 @@ class UsersSpec extends LocateSpec {
 		$(".ui-dialog-buttonset button").click()
 		waitFor {successDialog.displayed==true}
 		waitFor {successDialog.displayed==false}
+		
+		privacyMenu.click()
+		waitFor { at AvailabilityHomePage }
+		locateMe.click()
+		waitFor { at LocateMePage }
+		alpPermission.jquery.mouseover()
+		waitFor {alpPermission.find('a.delete').displayed==true}
+		alpPermission.find('a.delete').click()
+		waitFor {$('#dialog').displayed==true}
+		sendBtn.click()
+		waitFor {$('#dialog').displayed==false}
 		}
-	
+	@RetryOnFailure(times=5)
 		def "Show selected users location using locate button"(){
 		given:"We are at the UsersPage"
+		$('#btn_map').click()
 		at UsersPage
 		
 		when:"I select show only locatable from dropdown box"
@@ -240,12 +273,6 @@ class UsersSpec extends LocateSpec {
 		and: "Tooltip should be shown on map"
 		waitFor('fast') { tooltip.displayed == true }
 		
-		and: "There must be links visible on tooltip"
-		expect hasLink(tooltip, 'Show Nearest Users'), is(true)
-		expect hasLink(tooltip, 'Save Place'), is(true)
-		expect hasLink(tooltip, 'Get Directions'), is(true)
-		expect hasLink(tooltip, 'Setup Meeting'), is(true)
-		
 		and: "Tooltip should be closed when close button is clicked"
 		expect tooltipClose.displayed, is(true)
 		tooltipClose.click()
@@ -264,20 +291,17 @@ class UsersSpec extends LocateSpec {
 			waitFor {nolocatableUsers.displayed==false}
 			
 			then:"Select All locatable users"
+			if($('#select_all_tab-users').value()){
+				$('#select_all_tab-users').click()
+			}
+			$('span.groupName',text:'VF').parent().parent().find('input.groupId').click()
 			$('#btn_tab-users_createReport').click()
-			
 			and: "Report dialog opens and click create"
 			waitFor {$('form#requestReportPermission').displayed==true}
 			permissionSend.click()
 			
 			and: "Tooltip should be shown on map"
 			waitFor('fast') { tooltip.displayed == true }
-			
-			and: "There must be links visible on tooltip"
-			expect hasLink(tooltip, 'Show Nearest Users'), is(true)
-			expect hasLink(tooltip, 'Save Place'), is(true)
-			expect hasLink(tooltip, 'Get Directions'), is(true)
-			expect hasLink(tooltip, 'Setup Meeting'), is(true)
 			
 			and:"Location report dialog should open and I click close"
 			waitFor {locReportDiv.displayed==true}
@@ -287,7 +311,6 @@ class UsersSpec extends LocateSpec {
 			tooltipClose.click()
 			expect tooltip.displayed, is(false)
 			
-	
 			and:"Close Report dialog"
 			$('#btn_map_clear').click()
 			}
@@ -302,14 +325,14 @@ class UsersSpec extends LocateSpec {
 			waitFor {nolocatableUsers.displayed==false}
 			
 			then:"Select All locatable users"
-			if($('input#select_all_tab-users',checked:"checked")){
+			if($('input#select_all_tab-users').value()==false){
 			$('input#select_all_tab-users').click()
 			}
 			$('#btn_tab-users_sendMessage').click()
 			
 			and:"Send message dialog is opened"
 			waitFor {$('.userSendMessage').displayed==true}
-			$('button.cancel').click()
+			$('#sendMessage').find('button.send').click()
 			waitFor {$('.userSendMessage').displayed==false}
 		}
 	}

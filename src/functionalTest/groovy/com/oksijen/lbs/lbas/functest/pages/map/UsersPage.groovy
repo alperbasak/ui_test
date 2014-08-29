@@ -23,7 +23,7 @@ class UsersPage extends MapHomePage {
 		
 		showLocatable(required:false)	{$('ul#filter_all_tab-users-menu li',1)}
 		
-		groupOpenClose(required:false)		{$('div.group',1).find('img.openClose')}
+		groupOpenClose(required:false)		{$('span.groupName',text:'VF').parent().parent().find('img.openClose')}
 		detailLocate(required:false)	{locatableUsers.find('.items_list_buttons li',0)}
 		detailReport(required:false)	{locatableUsers.find('.items_list_buttons li',1)}
 		detailMessage(required:false)	{locatableUsers.find('.items_list_buttons li',2)}
@@ -70,5 +70,6 @@ class UsersPage extends MapHomePage {
 		successSent(required: false) 		{ $("div.successMessageCheck") }
 		
 		locatableGroup(required:false)		{$('div#tab-users div.contents ul li').not(".noLocatableItems")}
+		calendar(required:true)		{$('#btn_calendar')}
     }
 }

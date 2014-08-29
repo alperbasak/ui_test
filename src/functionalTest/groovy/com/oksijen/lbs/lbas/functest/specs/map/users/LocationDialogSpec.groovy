@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys
 import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
+import com.oksijen.lbs.lbas.functest.pages.calendar.*
 import spock.lang.Specification
 import com.oksijen.lbs.spock.extensions.retry.*
 
@@ -212,10 +213,24 @@ class LocationDialogSpec extends LocateSpec {
 		waitFor {successDialog.displayed==true}
 		waitFor {successDialog.displayed==false}
 		$('#btn_map_clear').click()
+		
+		and:"Delete TestEvent"
+		calendar.click()
+		waitFor {at CalendarHomePage}
+		$('span.fc-event-title',text:'TestEvent').click()
+		waitFor{$('.meeting-detail').displayed==true}
+		$('.ui-dialog-buttonset button')[2].click()
+		waitFor{$('.delete-text').displayed==true}
+		$('.buttons_class').find('button.send').click()
+		
+		and:"Success dialog is shown"
+		waitFor {$('.noCloseNoOk').displayed==true}
+		waitFor {$('.noCloseNoOk').displayed==false}
 	}
 	@RetryOnFailure(times=5)
 	def "New message dialog opens when send message is clicked"() {
 		given: "We are at the UsersPage"
+		$('#btn_map').click()
 		at UsersPage
 		
 		when:"I click locate"

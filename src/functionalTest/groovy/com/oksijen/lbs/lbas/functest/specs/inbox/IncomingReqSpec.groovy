@@ -36,6 +36,7 @@ class IncomingReqSpec extends LocateSpec {
 		waitFor {at WelcomePage}
 		inboxMenu.jquery.mouseover()
 		waitFor{$('.menu-popup').displayed==true}
+		$('ul.tab-access').find('li',1).jquery.mouseover()
 		$('ul.tab-access').find('li',1).click()
 		waitFor { requestsTab.hasClass('ui-state-active')==true}
 		

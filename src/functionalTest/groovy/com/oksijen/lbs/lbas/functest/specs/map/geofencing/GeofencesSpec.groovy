@@ -15,7 +15,7 @@ import spock.lang.Specification
 import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class GeofencesSpec extends LocateSpec {
-	@Ignore
+	@RetryOnFailure(times=5)
     def "Geofence drawing should be visible on map when I click on create"() {
     	given: "We are at the GeofencesPage"    	
     	at MapHomePage
@@ -30,31 +30,27 @@ class GeofencesSpec extends LocateSpec {
         then: "Geofence drawing toolbar should be visible on map"
         waitFor('fast') { hasSLink($('div.gm-style'), 'Save Geofence') == true }
         waitFor('fast') { hasSLink($('div.gm-style'), 'Cancel') == true }
-
-		and:"I click on rectangle and create a geofence"
-		drawRect.click()
-		interact{					///////////////NULL
-			clickAndHold(canvas)
-			moveByOffset(100,100)
-			release()
-		}		
-		saveGeo.click()
-		
-		and:"New Geofence name dialog will open"
-		waitFor {$('.addExcpPos').displayed==true}
-		$('input#geofenceName') << params.get('geofenceName')
-		$('a.send-button').click()
-		waitFor {successDialog.displayed==true}
-		waitFor {successDialog.displayed==false}
+		$('a.map_button span',text:'Cancel').click()
+//		and:"I click on rectangle and create a geofence"
+//		drawRect.click()
+//		interact{					///////////////NULL
+//			clickAndHold(canvas)
+//			moveByOffset(100,100)
+//			release()
+//		}		
+//		saveGeo.click()
+//		
+//		and:"New Geofence name dialog will open"
+//		waitFor {$('.addExcpPos').displayed==true}
+//		$('input#geofenceName') << params.get('geofenceName')
+//		$('a.send-button').click()
+//		waitFor {successDialog.displayed==true}
+//		waitFor {successDialog.displayed==false}
     }
 	@RetryOnFailure(times=5)
 	def "I can show a geofence by clicking on the name"(){
 		given: "We are at the GeofencesPage"
-		at MapHomePage
-		geofencingTab.click()
-		waitFor {at GeofencingPage}
-		geofencesBtn.click()
-		waitFor {at GeofencesPage}
+		at GeofencesPage
 	
 		when:"I click on a geofence name"
 		$('ul#geofenceList li div a').click()

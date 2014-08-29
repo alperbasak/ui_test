@@ -13,13 +13,14 @@ import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.inbox.InboxPopupMenu
 import com.oksijen.lbs.lbas.functest.pages.inbox.InboxHomePage
 import com.oksijen.lbs.lbas.functest.pages.availability.AvailabilityHomePage
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 /**
  * Created by cpekyaman on 3/25/2014.
  */
 @Stepwise
 class WelcomeMenuSpec extends LocateSpec {
-	
+	@RetryOnFailure(times=5)
 	def "Map should be rendered when menu is clicked"() {
 		given: "We are at the WelcomePage"
 		at WelcomePage
@@ -30,7 +31,7 @@ class WelcomeMenuSpec extends LocateSpec {
 		then: "Map page should be rendered"
 		waitFor {at MapHomePage}
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Calendar should be rendered when menu is clicked"() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
@@ -41,7 +42,7 @@ class WelcomeMenuSpec extends LocateSpec {
         then: "Calendar page should be rendered"
         waitFor {at CalendarHomePage}
     }
-    
+	@RetryOnFailure(times=5)
     def "Privacy should be rendered when menu is clicked"() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
@@ -52,7 +53,7 @@ class WelcomeMenuSpec extends LocateSpec {
         then: "Privacy page should be rendered"
         waitFor {at AvailabilityHomePage}
     }
-    
+	@RetryOnFailure(times=5)
 	def "Popup should be rendered when mouse hovered over it "() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
@@ -63,7 +64,7 @@ class WelcomeMenuSpec extends LocateSpec {
         then: "Inbox popup menu should be rendered"
         waitFor {at InboxPopupMenu}
     }
-    
+	@RetryOnFailure(times=5)
     def "Account should be rendered when account button is clicked"() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
@@ -74,7 +75,7 @@ class WelcomeMenuSpec extends LocateSpec {
         then: "Account page should be rendered"
         waitFor {at AccountHomePage}
     }
-	
+	@RetryOnFailure(times=5)
 	def "Privacy statements should be rendered when privacy statements button is clicked"() {
 		given: "We are at the WelcomePage"
 		at WelcomePage
@@ -85,15 +86,16 @@ class WelcomeMenuSpec extends LocateSpec {
 		then: "Privact terms page should be rendered"
 		waitFor {at PrivacyTermsHomePage}
 	}
-	
+	@RetryOnFailure(times=5)
 	def "Inbox should be rendered when menu is clicked"() {
 		given: "We are at the WelcomePage"
 		at WelcomePage
 		
 		when: "I click inbox link"
 		inboxMenu.jquery.mouseover()
-		waitFor {at InboxPopupMenu}
-		$('a.inbox').click()
+		waitFor{$('.menu-popup').displayed==true}
+		popupInbox.jquery.mouseover()
+		popupInbox.click()
 
 		then: "Inbox page should be rendered"
 		waitFor {at InboxHomePage}

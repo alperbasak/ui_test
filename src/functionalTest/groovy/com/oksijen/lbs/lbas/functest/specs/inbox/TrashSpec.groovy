@@ -28,6 +28,7 @@ class TrashSpec extends LocateSpec {
 		at WelcomePage
 		inboxMenu.jquery.mouseover()
 		waitFor{$('.menu-popup').displayed==true}
+		popupInbox.jquery.mouseover()
 		popupInbox.click()
 		waitFor { at InboxHomePage}
 		trashPanel.click()

@@ -1,6 +1,7 @@
 package com.oksijen.lbs.lbas.functest.pages.availability
 
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
+import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 
 /**
  * 
@@ -14,6 +15,8 @@ class LocateMePage extends AvailabilityHomePage {
         leftPanel(required: true) 			{$("div#visibility") }
         rightPanel(required: true) 			{$("div#whoLocate-container") }
 		allPermission(required:false)		{$('table#whoLocateMe').find('tr.makeHover td.eight',0)}
+		cagPermission(required:false)		{$('table#whoLocateMe').find('tr.makeHover',username:'cagdas turkdogan').find('td.eight')}										
+		alpPermission(required:false)		{$('table#whoLocateMe').find('tr.makeHover',username:startsWith('Alper Ba')).find('td.eight')}
 		permPermission(required:false)		{$('table#whoLocateMe').find('tr.makeHover', type: "permanent")}
 		tempPermission(required:false)		{$('table#whoLocateMe').find('tr.makeHover', type: "temporary")}
 		

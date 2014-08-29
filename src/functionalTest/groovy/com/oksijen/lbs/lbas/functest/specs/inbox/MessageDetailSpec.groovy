@@ -26,6 +26,7 @@ def "Clicking on a message displays the message"() {
 		at WelcomePage
 		inboxMenu.jquery.mouseover()
 		waitFor{$('.menu-popup').displayed==true}
+		popupInbox.jquery.mouseover()
 		popupInbox.click()
 		waitFor { at InboxHomePage}
 	

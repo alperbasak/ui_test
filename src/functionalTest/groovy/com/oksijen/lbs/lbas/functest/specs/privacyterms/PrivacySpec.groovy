@@ -8,13 +8,15 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 import com.oksijen.lbs.lbas.functest.pages.WelcomePage
 import com.oksijen.lbs.lbas.functest.pages.LoginPage
 import com.oksijen.lbs.lbas.functest.pages.privacyterms.*
-
+import spock.lang.Specification
+import com.oksijen.lbs.spock.extensions.retry.*
 /**
  * 
  */
 @Stepwise
 class PrivacySpec extends LocateSpec {
-    def "Vodafone Privacy Statements will be rendered"() {
+	@RetryOnFailure(times=5)
+	 def "Vodafone Privacy Statements will be rendered"() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
     	
@@ -24,7 +26,7 @@ class PrivacySpec extends LocateSpec {
         then: "Vodafone Privacy Statements should be rendered"
         waitFor {at PrivacyTermsHomePage}
     }
-	
+	 @RetryOnFailure(times=5)
 	def "Editing showing the statements at login and rejecting to agree at login won't let me login"(){
 		given: "We are at the WelcomePage"
 		at PrivacyTermsHomePage
@@ -46,7 +48,7 @@ class PrivacySpec extends LocateSpec {
 		$('a.multi_user_button').click()
 		waitFor {at LoginPage}
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Agreeing to statement will let me login"() {
 		given: "We are at the WelcomePage"
 		at LoginPage
@@ -61,7 +63,7 @@ class PrivacySpec extends LocateSpec {
 		then: "I am at Welcome Page"
 		waitFor {at WelcomePage}
 		}
-	
+	@RetryOnFailure(times=5)
 	def "Company Privacy Statements will be rendered"() {
 		given: "We are at the WelcomePage"
 		at WelcomePage
