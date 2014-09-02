@@ -69,6 +69,9 @@ class UsersSpec extends LocateSpec {
 		when:"I enter search text"
 		searchInput<<params.get('users.Request')
 		waitFor {$('span.searchReset').displayed==true}
+		if (nolocatableUsers.find('a.globalSearchButton').hasClass('pendingRequestLeft')){
+			decline()
+		}
 		
 		then:"I click request on a user I want to send a request"
 		requestUserButton.click()

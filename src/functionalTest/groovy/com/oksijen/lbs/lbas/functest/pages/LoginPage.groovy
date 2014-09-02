@@ -24,7 +24,8 @@ class LoginPage extends Page {
 			
 		loginPrivacy(required: true, wait: true) {
 				$("input#btn_login")
-        
+				
+				logoutBtn(required: true) 		{ $("a#btn_logout") }
     }
 }
 }

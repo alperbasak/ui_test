@@ -34,6 +34,7 @@ def "Create an asset and get location report within temporary hours"(){
 		assetAllocated<<"Alper"
 		waitFor{$('ul.ui-autocomplete li').size()>0}
 		$('li.ui-menu-item a.ui-corner-all')[0].click()
+		$('#id_agps_enabled').click()		
 		assetGroupMenu.click()
 		assetGroup.click()
 		

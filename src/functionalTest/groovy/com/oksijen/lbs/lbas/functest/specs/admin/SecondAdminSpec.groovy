@@ -327,6 +327,7 @@ def "Setup a meeting at a place"(){
 	then:"Meeting dialog opens"
 	waitFor{$('.dialog.noClose').displayed==true}
 	$('#meetingSubject')<<'TestMeeting'
+	$('#meetingCheckboxAllDay').click()
 	$('#inboxLocationRequestAcceptButton').click()
 	
 	and:"Success dialog is shown"

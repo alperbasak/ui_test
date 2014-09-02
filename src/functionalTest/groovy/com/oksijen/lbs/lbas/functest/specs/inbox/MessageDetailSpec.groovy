@@ -20,7 +20,7 @@ import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class MessageDetailSpec extends LocateSpec {
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 def "Clicking on a message displays the message"() {
 		given: "We are at the InboxHomePage"
 		at WelcomePage
@@ -31,22 +31,27 @@ def "Clicking on a message displays the message"() {
 		waitFor { at InboxHomePage}
 	
 	when: "I click on a message"
+	$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I go back to inboxPage"
-	expect messageDetail.displayed, is(true)
+	waitFor{ messageDetail.displayed==true}
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Reply, opens reply dialog; Cancel, closes dialog"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage
 	
 	when: "I click on a message"
+	$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Reply"
 	waitFor('fast') {messageDetail.displayed==true}
@@ -61,14 +66,17 @@ def "Clicking on Reply, opens reply dialog; Cancel, closes dialog"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Reply, opens reply dialog; Send, sends the message"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage	
 	
 	when: "I click on a message"
+		$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Reply"
 	waitFor('fast') {messageDetail.displayed==true}
@@ -84,14 +92,17 @@ def "Clicking on Reply, opens reply dialog; Send, sends the message"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Reply, opens reply dialog; via SMS is selected, also sends the message via SMS"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage
 	
 	when: "I click on a message"
+		$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Reply"
 	waitFor('fast') {messageDetail.displayed==true}
@@ -108,14 +119,17 @@ def "Clicking on Reply, opens reply dialog; via SMS is selected, also sends the 
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Reply All, opens reply all dialog; Cancel, closes dialog"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage
 	
 	when: "I click on a message"
+		$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Reply all"
 	waitFor('fast') {messageDetail.displayed==true}
@@ -130,14 +144,17 @@ def "Clicking on Reply All, opens reply all dialog; Cancel, closes dialog"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Reply All, opens reply all dialog; Send, sends the message"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage
 	
 	when: "I click on a message"
+		$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Reply All"
 	waitFor('fast') {messageDetail.displayed==true}
@@ -156,14 +173,17 @@ def "Clicking on Reply All, opens reply all dialog; Send, sends the message"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Reply all, opens reply all dialog; via SMS is selected, also sends the message via SMS"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage
 		
 	when: "I click on a message"
+		$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Reply All"
 	waitFor('fast') {messageDetail.displayed==true}
@@ -183,14 +203,17 @@ def "Clicking on Reply all, opens reply all dialog; via SMS is selected, also se
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Forward, opens forward dialog; Cancel, closes dialog"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage
 	
 	when: "I click on a message"
+		$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Reply all"
 	waitFor('fast') {messageDetail.displayed==true}
@@ -205,14 +228,17 @@ def "Clicking on Forward, opens forward dialog; Cancel, closes dialog"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Forward, opens forward dialog; Send, sends the message"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage
 	
 	when: "I click on a message"
+		$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Forward"
 	waitFor('fast') {messageDetail.displayed==true}
@@ -234,14 +260,17 @@ def "Clicking on Forward, opens forward dialog; Send, sends the message"() {
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Forward, opens forward dialog; via SMS is selected, also sends the message via SMS"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage
 		
 	when: "I click on a message"
+		$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Forward"
 	waitFor('fast') {messageDetail.displayed==true}
@@ -264,14 +293,17 @@ def "Clicking on Forward, opens forward dialog; via SMS is selected, also sends 
 	$("a.goBack").click()
 	waitFor { at InboxHomePage}
 }
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Clicking on Delete, opens delete success dialog"() {
 		given: "We are at the InboxHomePage"
+		$('a.inbox').click()
 		at InboxHomePage
 		
 	when: "I click on a message"
+		$('#searchMessageInput')<<'alper'
+	$('a.search-bt').click()
 	waitFor {$("table#inboxTable tbody").children().size() > 0}
-	$("table#inboxTable tbody tr.inboxTbTRRowCell").click()
+	$('table#inboxTable tbody tr').click()
 	
 	then:"Message should render and I click Delete"
 	waitFor('fast') {messageDetail.displayed==true}

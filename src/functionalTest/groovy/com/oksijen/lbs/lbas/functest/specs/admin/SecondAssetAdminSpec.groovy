@@ -8,7 +8,7 @@ import com.oksijen.lbs.lbas.functest.specs.LocateSpec
 
 import com.oksijen.lbs.lbas.functest.pages.map.MapHomePage
 import com.oksijen.lbs.lbas.functest.pages.map.*
-
+@Ignore
 @Stepwise
 class SecondAssetAdminSpec extends LocateSpec {
   

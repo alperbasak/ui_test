@@ -14,7 +14,7 @@ import com.oksijen.lbs.spock.extensions.retry.*
 
 @Stepwise
 class AssetBusinessSpec extends LocateSpec {
-	@RetryOnFailure(times=5)
+//	@RetryOnFailure(times=5)
 def "Create an asset and see that it's locatable within business hours"(){
 	given:"We are at asset management page"
 		at MapHomePage
@@ -32,7 +32,8 @@ def "Create an asset and see that it's locatable within business hours"(){
 		assetModel<<"Test"
 		assetAllocated<<"Alper"
 		waitFor{$('ul.ui-autocomplete li').size()>0}
-		$('a.ui-corner-all')[0].click()
+		$('li.ui-menu-item',0).find('a.ui-corner-all').click()
+		$('#id_agps_enabled').click()
 		assetGroupMenu.click()
 		assetGroup.click()
 		

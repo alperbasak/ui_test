@@ -113,6 +113,7 @@ class PlacesSearchSpec extends LocateSpec {
 		$('#tab-places-enterprise').find('input.placeId').click()
 		$('#editCategoryGroupAction').click()
 		waitFor {$('.newCategoryPopUp').displayed==true}
+		waitFor{$('form#categoryDetailForm').displayed==true}
 		$('#categoryDetailForm_categoryName') << params.get('editUser.name')
 		
 		then:"I edit admin rights"

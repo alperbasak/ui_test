@@ -156,30 +156,6 @@ class LocateSpec extends GebSpec {
 		waitFor {at WelcomePage}
 		}
 	
-	def deletePermission(){
-		privacyMenu.click()
-		waitFor { at AvailabilityHomePage }
-		locateMe.click()
-		waitFor { at LocateMePage }
-		
-		if($('table#whoLocateMe').find('tr.makeHover',username:'cagdas turkdogan').size()==1){
-		cagPermission.jquery.mouseover()
-		waitFor {cagPermission.find('a.delete').displayed==true}
-		cagPermission.find('a.delete').click()
-		waitFor {$('#dialog').displayed==true}
-		sendBtn.click()
-		waitFor {$('#dialog').displayed==false}}
-		
-		if($('table#whoLocateMe').find('tr.makeHover',username:'Alper Baþak').size()==1){
-		alpPermission.jquery.mouseover()
-		waitFor {alpPermission.find('a.delete').displayed==true}
-		alpPermission.find('a.delete').click()
-		waitFor {$('#dialog').displayed==true}
-		sendBtn.click()
-		waitFor {$('#dialog').displayed==false}}
-		
-	}
-	
 	def request(req, acc) {
 		$('#btn_logout').click()
 		waitFor{at LoginPage}

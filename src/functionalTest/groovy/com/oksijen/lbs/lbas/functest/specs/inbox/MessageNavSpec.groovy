@@ -22,7 +22,7 @@ import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class MessageNavSpec extends LocateSpec {
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Clicking next arrow takes me to next messages page"(){
 		given: "We are at the InboxHomePage"
 		at WelcomePage
@@ -41,7 +41,7 @@ class MessageNavSpec extends LocateSpec {
 		inboxPanel.click()
 		}
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Clicking last arrow takes me to last messages page"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -54,7 +54,7 @@ class MessageNavSpec extends LocateSpec {
 		waitFor {$("div#inboxPaging ul li").last().children().hasClass('active')==true}
 		inboxPanel.click()
 	}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Clicking prev arrow takes me to previous messages page"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage
@@ -69,7 +69,7 @@ class MessageNavSpec extends LocateSpec {
 		inboxPanel.click()
 		}
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Clicking first arrow takes me to first messages page"(){
 		given: "We are at the InboxHomePage"
 		at InboxHomePage

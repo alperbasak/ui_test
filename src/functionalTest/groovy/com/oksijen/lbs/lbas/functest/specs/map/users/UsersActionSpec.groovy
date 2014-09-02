@@ -209,6 +209,9 @@ class UsersActionSpec extends LocateSpec {
 		when:"I select a user and make a request"
 		searchInput="cagdas"
 		waitFor {$('ul.users').displayed==true}
+		if (nolocatableUsers.find('a.globalSearchButton').hasClass('pendingRequestLeft')){
+			decline()
+		}
 		nolocatableUsers.find('input.user').click()
 		actionListClose2.click()
 		requestPermission.click()
@@ -233,6 +236,9 @@ class UsersActionSpec extends LocateSpec {
 		when:"I select a user and share my location"
 		searchInput="cagdas"
 		waitFor {$('ul.users').displayed==true}
+		if (nolocatableUsers.find('a.globalSearchButton').hasClass('pendingRequestLeft')){
+			decline()
+		}
 		nolocatableUsers.find('input.user').click()
 		actionListClose2.click()
 		shareMyLocation.click()

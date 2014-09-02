@@ -20,7 +20,7 @@ import com.oksijen.lbs.spock.extensions.retry.*
  */
 @Stepwise
 class AssetTrackingSpec extends LocateSpec {
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 def "Asset Management Page is displayed"(){
 	given: "We are at the WelcomePage"
 	at WelcomePage
@@ -33,7 +33,7 @@ def "Asset Management Page is displayed"(){
 	assetMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Edit asset in the group"(){
 	given:"We are the Asset Tab"
 	if($('#admin').displayed==false){
@@ -69,10 +69,10 @@ def "Edit asset in the group"(){
 	then:"Tracking Settings PPT:off VC:0"
 	$('ul.tabs li')[1].click()
 	waitFor{$('#assetTracking').displayed==true}
-	if ($('#permanentPeriodicTracking',value:'true').size()>0){
+	if ($('#permanentPeriodicTracking').value()){
 		$('#permanentPeriodicTracking').click()
 	}
-	waitFor{$('#permanentPeriodicTracking').value()==false}
+	waitFor{$('#permanentPeriodicTrackingFrequency-button').displayed==false}
 	$('#assetVisibilityType',value:'none').click()
 	sendDialog.click()
 	waitFor {successDialog.displayed==true}
@@ -96,7 +96,7 @@ def "Edit asset in the group"(){
 	assetMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Tracking Settings PPT:on VC:0"(){
 	given:"We are the Asset Tab"
 	if($('#admin').displayed==false){
@@ -114,8 +114,10 @@ def "Tracking Settings PPT:on VC:0"(){
 	then:"I enable permanent periodic tracking"
 	$('ul.tabs li')[1].click()
 	waitFor{$('#assetTracking').displayed==true}
-	waitFor{$('#permanentPeriodicTracking').value()==false}
-	$('#permanentPeriodicTracking').click()
+	if ($('#permanentPeriodicTracking').value()==false){
+		$('#permanentPeriodicTracking').click()
+	}
+	waitFor{$('#permanentPeriodicTrackingFrequency-button').displayed==true}
 	sendDialog.click()
 	waitFor {successDialog.displayed==true}
 	waitFor {successDialog.displayed==false}
@@ -131,7 +133,7 @@ def "Tracking Settings PPT:on VC:0"(){
 	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==false}
-	$('a',name:'btn_item_locate').click()
+	$('.groupElementExpanded').find('a',name:'btn_item_locate').click()
 	waitFor{tooltip.displayed==true}
 //	if($('button.ui-button-text-only').displayed){
 //		$('button.ui-button-text-only').click()
@@ -161,7 +163,7 @@ def "Tracking Settings PPT:on VC:0"(){
 	assetMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Tracking Settings PPT:off VC:Company"(){
 	given:"We are the Asset Tab"
 	if($('#admin').displayed==false){
@@ -178,8 +180,10 @@ def "Tracking Settings PPT:off VC:Company"(){
 	
 	then:"I change periodic tracking"
 	$('ul.tabs li')[1].click()
-	waitFor{$('#permanentPeriodicTracking').value()=='true'}
-	$('#permanentPeriodicTracking').click()
+	if ($('#permanentPeriodicTracking').value()){
+		$('#permanentPeriodicTracking').click()
+	}
+	waitFor{$('#permanentPeriodicTrackingFrequency-button').displayed==false}
 	$('#assetVisibilityType',value:'company').click()
 	sendDialog.click()
 	waitFor {successDialog.displayed==true}
@@ -204,7 +208,7 @@ def "Tracking Settings PPT:off VC:Company"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Tracking Settings PPT:on VC:Company"(){
 	given:"We are the Asset Tab"
 	if($('#admin').displayed==false){
@@ -222,8 +226,10 @@ def "Tracking Settings PPT:on VC:Company"(){
 	then:"I enable permanent periodic tracking"
 	$('ul.tabs li')[1].click()
 	waitFor{$('#assetTracking').displayed==true}
-	waitFor{$('#permanentPeriodicTracking').value()==false}
-	$('#permanentPeriodicTracking').click()
+	if ($('#permanentPeriodicTracking').value()==false){
+		$('#permanentPeriodicTracking').click()
+	}
+	waitFor{$('#permanentPeriodicTrackingFrequency-button').displayed==true}
 	sendDialog.click()
 	waitFor {successDialog.displayed==true}
 	waitFor {successDialog.displayed==false}
@@ -239,7 +245,7 @@ def "Tracking Settings PPT:on VC:Company"(){
 	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==false}
-	$('a',name:'btn_item_locate').click()
+	$('.groupElementExpanded').find('a',name:'btn_item_locate').click()
 	waitFor{tooltip.displayed==true}
 //	if($('button.ui-button-text-only').displayed){
 //		$('button.ui-button-text-only').click()
@@ -268,7 +274,7 @@ def "Tracking Settings PPT:on VC:Company"(){
 	assetMan.click()
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Tracking Settings PPT:off VC:Custom"(){
 	given:"We are the Asset Tab"
 	if($('#admin').displayed==false){
@@ -285,8 +291,10 @@ def "Tracking Settings PPT:off VC:Custom"(){
 	
 	then:"I change periodic tracking"
 	$('ul.tabs li')[1].click()
-	waitFor{$('#permanentPeriodicTracking').value()=='true'}
-	$('#permanentPeriodicTracking').click()
+	if ($('#permanentPeriodicTracking').value()){
+		$('#permanentPeriodicTracking').click()
+	}
+	waitFor{$('#permanentPeriodicTrackingFrequency-button').displayed==false}
 	$('#assetVisibilityType',value:'permanent').click()
 	waitFor{$('div#permanent').displayed==true}
 	
@@ -343,7 +351,7 @@ def "Tracking Settings PPT:off VC:Custom"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Tracking Settings PPT:on VC:Custom"(){
 	given:"We are the Asset Tab"
 	if($('#admin').displayed==false){
@@ -361,8 +369,10 @@ def "Tracking Settings PPT:on VC:Custom"(){
 	then:"I enable permanent periodic tracking"
 	$('ul.tabs li')[1].click()
 	waitFor{$('#assetTracking').displayed==true}
-	waitFor{$('#permanentPeriodicTracking').value()==false}
-	$('#permanentPeriodicTracking').click()
+	if ($('#permanentPeriodicTracking').value()==false){
+		$('#permanentPeriodicTracking').click()
+	}
+	waitFor{$('#permanentPeriodicTrackingFrequency-button').displayed==true}
 	sendDialog.click()
 	waitFor {successDialog.displayed==true}
 	waitFor {successDialog.displayed==false}
@@ -378,7 +388,7 @@ def "Tracking Settings PPT:on VC:Custom"(){
 	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==false}
-	$('a',name:'btn_item_locate').click()
+	$('.groupElementExpanded').find('a',name:'btn_item_locate').click()
 	waitFor{tooltip.displayed==true}
 	if($('span.ui-button-text').displayed){
 		$('button.ui-button-text-only').click()
@@ -408,7 +418,7 @@ def "Tracking Settings PPT:on VC:Custom"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Tracking Settings PPT:on VC:Unlocatable Custom"(){
 	given:"We are the Asset Tab"
 	if($('#admin').displayed==false){
@@ -462,7 +472,7 @@ def "Tracking Settings PPT:on VC:Unlocatable Custom"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Tracking Settings PPT:off VC:Specific"(){
 	given:"We are the Asset Tab"
 	if($('#admin').displayed==false){
@@ -479,8 +489,10 @@ def "Tracking Settings PPT:off VC:Specific"(){
 	
 	then:"I change periodic tracking"
 	$('ul.tabs li')[1].click()
-	waitFor{$('#permanentPeriodicTracking').value()=='true'}
-	$('#permanentPeriodicTracking').click()
+	if ($('#permanentPeriodicTracking').value()){
+		$('#permanentPeriodicTracking').click()
+	}
+	waitFor{$('#permanentPeriodicTrackingFrequency-button').displayed==false}
 	$('#assetVisibilityType',value:'specific').click()
 	waitFor{$('div#specific').displayed==true}
 
@@ -510,7 +522,7 @@ def "Tracking Settings PPT:off VC:Specific"(){
 	waitFor { rightPanel.find('h1').text().contains('Asset') }
 	
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Tracking Settings PPT:on VC:Specific"(){
 	given:"We are the Asset Tab"
 	if($('#admin').displayed==false){
@@ -528,8 +540,10 @@ def "Tracking Settings PPT:on VC:Specific"(){
 	then:"I enable permanent periodic tracking"
 	$('ul.tabs li')[1].click()
 	waitFor{$('#assetTracking').displayed==true}
-	waitFor{$('#permanentPeriodicTracking').value()==false}
-	$('#permanentPeriodicTracking').click()
+	if ($('#permanentPeriodicTracking').value()==false){
+		$('#permanentPeriodicTracking').click()
+	}
+	waitFor{$('#permanentPeriodicTrackingFrequency-button').displayed==true}
 	sendDialog.click()
 	waitFor {successDialog.displayed==true}
 	waitFor {successDialog.displayed==false}
@@ -545,7 +559,7 @@ def "Tracking Settings PPT:on VC:Specific"(){
 	$('div.container span',text:'AssetTrackingTest Model').click()
 	waitFor{$('span',text:'AssetTrackingTest Model').parent().find('ul.item_details').displayed==true}
 	waitFor{$('li.icon.locked.first').displayed==false}
-	$('a',name:'btn_item_locate').click()
+	$('.groupElementExpanded').find('a',name:'btn_item_locate').click()
 	waitFor{tooltip.displayed==true}
 	if($('span.ui-button-text').displayed){
 		$('button.ui-button-text-only').click()
@@ -579,7 +593,7 @@ def "Tracking Settings PPT:on VC:Specific"(){
 	and:"Tracking Settings PPT:off VC:0"
 	$('ul.tabs li')[1].click()
 	waitFor{$('#assetTracking').displayed==true}
-	if ($('#permanentPeriodicTracking',value:'true').size()>0){
+	if ($('#permanentPeriodicTracking').value()){
 		$('#permanentPeriodicTracking').click()
 	}
 	waitFor{$('#permanentPeriodicTracking').value()==false}

@@ -15,7 +15,7 @@ import com.oksijen.lbs.spock.extensions.retry.*
  */
 @Stepwise
 class PrivacySpec extends LocateSpec {
-	@RetryOnFailure(times=5)
+	
 	 def "Vodafone Privacy Statements will be rendered"() {
     	given: "We are at the WelcomePage"
     	at WelcomePage
@@ -26,7 +26,7 @@ class PrivacySpec extends LocateSpec {
         then: "Vodafone Privacy Statements should be rendered"
         waitFor {at PrivacyTermsHomePage}
     }
-	 @RetryOnFailure(times=5)
+	 
 	def "Editing showing the statements at login and rejecting to agree at login won't let me login"(){
 		given: "We are at the WelcomePage"
 		at PrivacyTermsHomePage
@@ -38,23 +38,23 @@ class PrivacySpec extends LocateSpec {
 		
 		then: "When Logout-login, privacy statement will be shown"
 		$('a#btn_logout').click()
-		at LoginPage
+		waitFor {at LoginPage}
 		username << params.get('username')
 		password << params.get('password')
-		loginPrivacy.click()
+		$("input#btn_login").click()
 		
 		and:"Privacy Statement will be shown and select Reject"
 		waitFor {$('#privacy-statement').displayed==true}
 		$('a.multi_user_button').click()
 		waitFor {at LoginPage}
 		}
-	@RetryOnFailure(times=5)
+	
 	def "Agreeing to statement will let me login"() {
 		given: "We are at the WelcomePage"
 		at LoginPage
 		username << params.get('username')
 		password << params.get('password')
-		loginPrivacy.click()
+		$("input#btn_login").click()
 		waitFor {$('#privacy-statement').displayed==true}
 		
 		when: "I click agree"
@@ -63,7 +63,7 @@ class PrivacySpec extends LocateSpec {
 		then: "I am at Welcome Page"
 		waitFor {at WelcomePage}
 		}
-	@RetryOnFailure(times=5)
+	
 	def "Company Privacy Statements will be rendered"() {
 		given: "We are at the WelcomePage"
 		at WelcomePage
