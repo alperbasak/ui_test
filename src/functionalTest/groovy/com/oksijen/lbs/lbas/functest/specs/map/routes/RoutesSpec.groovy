@@ -12,7 +12,7 @@ import spock.lang.Specification
 import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class RoutesSpec extends LocateSpec {
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Empty destination input will generate error"(){
 		given:"We are at RoutesPage"
 		at MapHomePage
@@ -25,7 +25,7 @@ class RoutesSpec extends LocateSpec {
 		then:"Error information is displayed"
 		waitFor  {$('#routing').find('div#error-view-sendmessage').displayed==true}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Creating a route will display a route on the map"(){
 		given: "We are at the RoutesPage"
 		at RoutesPage
@@ -52,7 +52,7 @@ class RoutesSpec extends LocateSpec {
 		$('div.gm-style-iw').next('div').click()
 		waitFor {$('div.gm-style-iw').displayed==false}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Adding destination will add a new point and update the route"(){
 		given:"We are at RoutesPage"
 		at RoutesPage
@@ -73,7 +73,7 @@ class RoutesSpec extends LocateSpec {
 		waitFor {$('#idRouteResult').displayed==true}
 		waitFor {$('#idRouteResultActionsDiv').displayed==true}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Deleting a destination from the route will update the route"(){
 		given:"We are at RoutesPage"
 		at RoutesPage
@@ -93,7 +93,7 @@ class RoutesSpec extends LocateSpec {
 		$('div.gm-style-iw').next('div').click()
 		waitFor {$('div.gm-style-iw').displayed==false}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Include traffic information and save the route"(){
 		given:"We are at RoutesPage"
 		at RoutesPage
@@ -114,7 +114,7 @@ class RoutesSpec extends LocateSpec {
 		expect successSent.displayed, is(true)
 		waitFor {successSent.displayed==false}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Show saved routes on map"(){
 		given:"We are at RoutesPage"
 		at RoutesPage
@@ -132,7 +132,7 @@ class RoutesSpec extends LocateSpec {
 		waitFor {$('#idRouteResult').displayed==true}
 		waitFor {$('#idRouteResultActionsDiv').displayed==true}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Share a route with another user"(){
 		given:"We are at RoutesPage"
 		at RoutesPage
@@ -148,15 +148,15 @@ class RoutesSpec extends LocateSpec {
 		waitFor {$('.shareRouteDialog').displayed==true}
 		$('input#token-input-messageTo') << 'AlperTest'
 		waitFor { addressList.displayed == true }					
-		expect addressListItems.size(), greaterThan(0)
-		addressListItems.click()
-		expect $("ul.token-input-list-facebook").children().size(), greaterThan(0)
+		waitFor {addressListItems.size()>0}
+		addressListItems[0].click()
+		waitFor { $("ul.token-input-list-facebook li").size()>0}
 		
 		and:"I share with a user"
 		$('.shareRouteDialog').find('a#btShareRoute').click()
 		waitFor {$('ul.places li').size()>1}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "I delete route"(){
 		given: "We are at My Routes page"
 		waitFor {$('div.searchSavedRoutes').displayed==true}

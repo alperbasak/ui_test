@@ -17,7 +17,7 @@ import com.oksijen.lbs.spock.extensions.retry.*
  */
 @Stepwise
 class LocationDialogSpec extends LocateSpec {
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Showing nearby users of another user"(){
 		given: "We are at the UsersPage"
 		at MapHomePage
@@ -58,7 +58,7 @@ class LocationDialogSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		
 	} 
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Save location to my places"(){
 		given: "We are at the UsersPage"
 		at UsersPage
@@ -87,7 +87,7 @@ class LocationDialogSpec extends LocateSpec {
 		waitFor {at PlacesPage}
 		
 	}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "More info about location is displayed when more info is clicked"(){
 		given:"We are at PlacesPage"
 		at PlacesPage
@@ -99,7 +99,7 @@ class LocationDialogSpec extends LocateSpec {
 		then:"Extra info about place will be displayed"
 		waitFor {$('li#extra').displayed==true}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "I can share the location with another user"(){
 		given:"We are at PlacesPage"
 		at PlacesPage
@@ -115,7 +115,7 @@ class LocationDialogSpec extends LocateSpec {
 		$('span',key:"buttons.share").click()
 		waitFor {$('.shareWithMailPhone').displayed==false}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "I can edit saved location details"(){
 		given:"We are at PlacesPage"
 		at PlacesPage
@@ -149,7 +149,7 @@ class LocationDialogSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		
 	}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Get directions to the location of the user"() {
 		given: "We are at the UsersPage"
 		at PlacesPage
@@ -180,7 +180,7 @@ class LocationDialogSpec extends LocateSpec {
 		waitFor('fast') { tooltip.displayed == true }
 		$('#btn_map_clear').click()
 	}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "A meeting can be created at the location"() {
 		given: "We are at the UsersPage"
 		at RoutesPage
@@ -227,7 +227,7 @@ class LocationDialogSpec extends LocateSpec {
 		waitFor {$('.noCloseNoOk').displayed==true}
 		waitFor {$('.noCloseNoOk').displayed==false}
 	}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "New message dialog opens when send message is clicked"() {
 		given: "We are at the UsersPage"
 		$('#btn_map').click()
@@ -253,7 +253,7 @@ class LocationDialogSpec extends LocateSpec {
 		waitFor {successSent.displayed==false}
 		$('#btn_map_clear').click()
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Location history report will be displayed when view report is clicked"() {
 		given: "We are at the UsersPage"
 		at UsersPage
@@ -279,7 +279,7 @@ class LocationDialogSpec extends LocateSpec {
 		waitFor {$('#locReportTableDiv').displayed==false}
 		$('#btn_map_clear').click()
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "User information is displayed when view details is clicked"() {
 		given: "We are at the UsersPage"
 		at UsersPage

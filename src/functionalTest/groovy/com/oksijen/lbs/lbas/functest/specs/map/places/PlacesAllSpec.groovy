@@ -13,8 +13,8 @@ import com.oksijen.lbs.spock.extensions.retry.*
  * 
  */
 @Stepwise
-class PlacesSearchSpec extends LocateSpec {
-	@RetryOnFailure(times=5)
+class PlacesAllSpec extends LocateSpec {
+	@RetryOnFailure
     def "I should be able to search with autocomplete search input"() {
     	given: "We are at the PlacesPage"    	
     	at MapHomePage
@@ -44,7 +44,7 @@ class PlacesSearchSpec extends LocateSpec {
         expect tooltip.displayed, is(false)
 		$('#btn_map_clear').click()
     }
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Select a place and show on map"() {
 		given: "We are at the PlacesPage"    
 		at PlacesPage
@@ -70,7 +70,7 @@ class PlacesSearchSpec extends LocateSpec {
 		
 		}
 
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Add a new category to enterprise"(){
 		given: "We are at the PlacesPage"
 		at PlacesPage
@@ -104,13 +104,13 @@ class PlacesSearchSpec extends LocateSpec {
 		waitFor {$('.dialog.undefined').displayed==true}
 		$('.undefined').find('.ui-dialog-buttonset button').click()
 	}	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Edit category"(){
 		given: "We are at the PlacesPage"
 		at PlacesPage
 		
 		when:"I select a category to edit"
-		$('#tab-places-enterprise').find('input.placeId').click()
+		enterprisePlace.click()
 		$('#editCategoryGroupAction').click()
 		waitFor {$('.newCategoryPopUp').displayed==true}
 		waitFor{$('form#categoryDetailForm').displayed==true}
@@ -126,13 +126,13 @@ class PlacesSearchSpec extends LocateSpec {
 		waitFor {successDialog.displayed==false}
 		
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Delete category"(){
 		given: "We are at the PlacesPage"
 		at PlacesPage
 		
 		when:"I select a category to delete"
-		$('#tab-places-enterprise').find('input.placeId').click()
+		enterprisePlace.click()
 		$('#btn_tab-places_Delete').click()
 		
 		then:"Delete confirmation dialog is shown"
@@ -141,7 +141,7 @@ class PlacesSearchSpec extends LocateSpec {
 		waitFor {$('.dialog.undefined').displayed==true}
 		$('.undefined').find('.ui-dialog-buttonset button').click()
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Show enterprise location"(){
 		given: "We are at the PlacesPage"
 		at PlacesPage
@@ -168,7 +168,7 @@ class PlacesSearchSpec extends LocateSpec {
 		expect tooltip.displayed, is(false)
 		$('#btn_map_clear').click()
 	}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Creating a new category for personal places"(){
 		given: "We are at the PlacesPage"
 		at PlacesPage
@@ -191,13 +191,13 @@ class PlacesSearchSpec extends LocateSpec {
 		waitFor {$('.dialog.undefined').displayed==true}
 		$('.undefined').find('.ui-dialog-buttonset button').click()
 	}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Editing a personal places category"(){
 		given: "We are at the PlacesPage"
 		at PlacesPage
 		
 		when:"I select a category to edit"
-		$('#tab-places-personal').find('input.placeId').click()
+		personalPlace.click()
 		$('#editCategoryGroupActionPer').click()
 		waitFor {$('.newCategoryPopUp').displayed==true}
 		$('#categoryDetailForm_categoryName') << params.get('editUser.name')
@@ -226,13 +226,13 @@ class PlacesSearchSpec extends LocateSpec {
 		waitFor {successDialog.displayed==false}
 		
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Delete personal category"(){
 		given: "We are at the PlacesPage"
 		at PlacesPage
 		
 		when:"I select a category to delete"
-		$('#tab-places-personal').find('input.placeId').click()
+		personalPlace.click()
 		$('#btn_tab-places_Delete').click()
 		
 		then:"Delete confirmation dialog is shown"

@@ -28,7 +28,8 @@ class PlacesPage extends MapHomePage {
 		successDialog(required:false)	{$('.success-dialog')}
 		
 		calendar(required:true)		{$('#btn_calendar')}
-		enterprisePlace(required:false)	{$('span.groupName',text:'aa-Edited').parent().parent().find('input.placeId')}
+		enterprisePlace(required:false)	{$('#tab-places-enterprise').find('span.groupName',text:startsWith('aaa')).parent().parent().find('input.placeId')}
+		personalPlace(required:false)	{$('#tab-places-personal').find('span.groupName',text:startsWith('aaa')).parent().parent().find('input.placeId')}
 		
     }
 }
