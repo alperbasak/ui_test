@@ -4,6 +4,7 @@ import geb.spock.GebSpec
 import spock.lang.*
 import static org.hamcrest.Matchers.*
 import static spock.util.matcher.HamcrestSupport.*
+
 import org.openqa.selenium.Keys
 
 import com.oksijen.lbs.lbas.functest.specs.LocateSpec
@@ -14,6 +15,7 @@ import com.oksijen.lbs.lbas.functest.pages.map.*
 import com.oksijen.lbs.lbas.functest.pages.calendar.*
 
 import spock.lang.Specification
+
 import com.oksijen.lbs.spock.extensions.retry.*
 
 /**
@@ -376,7 +378,7 @@ def "Show enterprise category on map"(){
 	clickFirstItem(autocompleteListItems)
 	waitFor('fast') { tooltip.displayed == true }
 	expect hasLink(tooltip, 'Save Place'), is(true)
-	$('a',text:'Save Place').click()
+	$('li.savePlace a',text:'Save Place').click()
 	waitFor {$('#edit_loc_dialog').displayed==true}
 	$('#editPoiName')<<'Place1'
 	$('#edit_loc_tab2_link').click()
@@ -447,5 +449,56 @@ def "Setup a meeting at a place"(){
 	waitFor {$('.noCloseNoOk').displayed==false}
 		
 	}
+
+@RetryOnFailure
+def "Delete enterprise category"(){
+	when: "We are at the PlacesPage"
+	$('#btn_map').click()
+	at WelcomePage
+	$('a#btn_tab-places').click()
+	at PlacesPage
+	then:
+	$('#btn_tab-places-enterprise').click()
+	waitFor {$('#tab-places-enterprise').hasClass('ui-tabs-hide')==false}
+	if (enterprisePlace.displayed==true){
+		enterprisePlace.click()
+	$('a#btn_tab-places_Delete').click()
+	waitFor{$('.dialog.undefined').displayed==true}
+	$('div.ui-dialog-buttonset button').click()
+	waitFor{$('#ui-dialog-title-dialog', text:'Delete').displayed==false}
+	waitFor{$('#ui-dialog-title-dialog', text:'Success').displayed==true}
+	waitFor{$('div.ui-dialog-buttonset button span',text:'OK').displayed==true}
+//	$('div.ui-dialog-buttonset button span',text:'OK').click()
+}
+	}
+@RetryOnFailure
+def "Delete Groups"(){
+	when:"We are at Group Management Page"
+	adminBtn.click()
+	at AdminHomePage
+	groupMan.click()
+	at AdminHomePage
+	
+	then:"I select all added groups"
+	if($('td.name',text:'NewGroup1').displayed==true){
+	$('td.name',text:'NewGroup1').parent().find('input').click()
+	if($('td.name',text:'NewGroup2').displayed==true){
+	$('td.name',text:'NewGroup2').parent().find('input').click()
+	if($('td.name',text:'NewAssetGroup1').displayed==true){
+	$('td.name',text:'NewAssetGroup1').parent().find('input').click()
+	if($('td.name',text:'NewAssetGroup2').displayed==true){
+	$('td.name',text:'NewAssetGroup2').parent().find('input').click()}}}
+	selectMenu[1].click()
+	delete.click()
+	apply.click()
+	
+	waitFor{$('.confirmation').displayed==true}
+	$('#dialog').find('span',text:'OK').click()
+	and:"Success dialog is shown"
+	waitFor {successDialog.displayed==true}
+	waitFor {successDialog.displayed==false}
+	
+	}
+}
 
 }

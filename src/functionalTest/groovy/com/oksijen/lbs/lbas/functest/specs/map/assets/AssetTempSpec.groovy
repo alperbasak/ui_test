@@ -15,7 +15,7 @@ import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class AssetTempSpec extends LocateSpec {
 
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Create an asset and get location report within temporary hours"(){
 	given:"We are at asset management page"
 		at MapHomePage
@@ -79,7 +79,7 @@ def "Create an asset and get location report within temporary hours"(){
 	waitFor{$('#locReportUserList ul').displayed==true}
 	$('#btn_map_clear').click()
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Get location report outside temporary hours"(){
 	given:"We are at AssetPage"
 		$('#refreshAssets').click()
@@ -120,7 +120,7 @@ def "Get location report outside temporary hours"(){
 	$('.ui-button-text').click()
 	waitFor{$('.dialogError').displayed==false}
 	}
-@RetryOnFailure(times=5)
+@RetryOnFailure
 def "Delete asset"(){
 		given:"We are at asset management page"
 		$('a#btn_admin').click()

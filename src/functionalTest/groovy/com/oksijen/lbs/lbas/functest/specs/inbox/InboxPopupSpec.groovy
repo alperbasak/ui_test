@@ -19,7 +19,7 @@ import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 
 class InboxPopupSpec extends LocateSpec { 
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 def "Clicking messages takes me to messages page"(){
 		given: "We are at the InboxPopupMenu"
 		at WelcomePage
@@ -35,7 +35,7 @@ def "Clicking messages takes me to messages page"(){
 		locateLogo.click()
 			}
 		
-@RetryOnFailure(times=5)
+@RetryOnFailure
 	def "Clicking Incoming Requests takes me to incoming requests page"(){
 		given: "We are at the InboxPopupMenu"
 		at WelcomePage
@@ -51,7 +51,7 @@ def "Clicking messages takes me to messages page"(){
 		locateLogo.click()
 			}
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Clicking sent messages takes me to sent messages page"() {
 		given: "We are at the InboxPopupMenu"
 		at WelcomePage
@@ -67,7 +67,7 @@ def "Clicking messages takes me to messages page"(){
 		locateLogo.click()
 		}
 	
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Clicking sent requests takes me to sent requests page"() {
 		given: "We are at the InboxPopupMenu"
 		at WelcomePage

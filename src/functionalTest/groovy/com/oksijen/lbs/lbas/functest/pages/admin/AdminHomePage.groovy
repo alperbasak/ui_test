@@ -15,6 +15,7 @@ class AdminHomePage extends WelcomePage {
         rightPanel(required: true) 	{ $("div#adminContent") }
 		
 		groupMan(required: true) 	{$('ul.adminMenu li',3)}
+		userMan(required:true)		{$('ul.adminMenu li',1)}
 		companyMan(required: true) 	{$('ul.adminMenu li',0)}
 		selectMenu(required:false)	{$('a.ui-selectmenu')}
 		addGroup(required:false)	{$('li a',text:"Add group")}

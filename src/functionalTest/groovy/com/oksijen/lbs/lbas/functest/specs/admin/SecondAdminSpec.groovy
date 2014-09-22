@@ -22,60 +22,75 @@ import com.oksijen.lbs.spock.extensions.retry.*
  */
 @Stepwise
 class SecondAdminSpec extends LocateSpec {
-    @Ignore
+    
 def "Create a group, select multi admin"(){							
-	given:"We are at Group Management Page"		
-	adminBtn.click()
-	at AdminHomePage
-	groupMan.click()
-	at AdminHomePage
+//	given:"We are at Group Management Page"		
+//	adminBtn.click()
+//	at AdminHomePage
+//	groupMan.click()
+//	at AdminHomePage
+//	
+//	when:"I select Add Group from dropdown and click apply"
+//	selectMenu.click()
+//	addGroup.click()
+//	apply.click()
+//	
+//	then:"Add members"
+//	waitFor {groupDialog.displayed==true}
+//	groupName<<"SecondAdminGroup"
+//	groupMembersTab.click()
+//	waitFor{members.displayed==true}
+//	waitFor{allMembers.size()>0}
+//	$('select#selected option',text:'GroupAdmin1 Test').click()
+//	$('select#selected option',text:'GroupAdmin2 Test').click()
+//	$('select#selected option',text:'GroupAdmin3 Test').click()
+//	memberAdd.click()
+//	
+//	and:"New group dialog opens and I select only one admin"
+//	groupPermissionsTab.click()
+//	waitFor {permissions.displayed==true}
+//	
+//	def checkboxes= permissions.find('input',type:"checkbox")
+//	checkboxes[0].click()
+//	checkboxes[1].click()
+//	checkboxes[2].click()
+//	checkboxes[3].click()
+//	checkboxes[4].click()
+//	checkboxes[5].click()
+//	checkboxes[6].click()
+//	checkboxes[7].click()
+//	checkboxes[8].click()
+//	
+//	and: "Add more than one admin and save"
+//	groupAdminTab.click()
+//	waitFor {admin.displayed==true}
+//	$('select#allAdminUsers option',text:'GroupAdmin1 Test').click()
+//	$('select#allAdminUsers option',text:'GroupAdmin2 Test').click()
+//	$('select#allAdminUsers option',text:'GroupAdmin3 Test').click()
+//	arrowAdd.click()
+//	
+//	waitFor('fast') {groupAdminUsers.size()>1}
+//	sendDialog.click()
+//	waitFor {$('.confirmation').displayed==true}
+//	$('span.ui-button-text',text:'OK').click()
+//	waitFor {successDialog.displayed==true}
+//	waitFor {successDialog.displayed==false}
+	when:
+	at UsersPage
+	$('a.multi_user_button_refresh').click()
+	$('#tab-users').find('span.groupName',text:'SecondAdminGroup').click()
+	then:
+	waitFor{$('ul.users').displayed==true}
+	if($('ul.users').find('input.user.check-box',fullname:'New-Edited User').displayed==true){
+		$('ul.users').find('input.user.check-box',fullname:'New-Edited User').click()
+		actionListClose2.click()
+		deleteUser.click()
+		waitFor {$('#dialog').displayed==true}
+		$('div.ui-dialog-buttonset button',0).click()
+		waitFor {successDialog.displayed==true}
+		waitFor {successDialog.displayed==false}
+	}
 	
-	when:"I select Add Group from dropdown and click apply"
-	selectMenu.click()
-	addGroup.click()
-	apply.click()
-	
-	then:"Add members"
-	waitFor {groupDialog.displayed==true}
-	groupName<<"SecondAdminGroup"
-	groupMembersTab.click()
-	waitFor{members.displayed==true}
-	waitFor{allMembers.size()>0}
-	$('select#selected option',text:'GroupAdmin1 Test').click()
-	$('select#selected option',text:'GroupAdmin2 Test').click()
-	$('select#selected option',text:'GroupAdmin3 Test').click()
-	memberAdd.click()
-	
-	and:"New group dialog opens and I select only one admin"
-	groupPermissionsTab.click()
-	waitFor {permissions.displayed==true}
-	
-	def checkboxes= permissions.find('input',type:"checkbox")
-	checkboxes[0].click()
-	checkboxes[1].click()
-	checkboxes[2].click()
-	checkboxes[3].click()
-	checkboxes[4].click()
-	checkboxes[5].click()
-	checkboxes[6].click()
-	checkboxes[7].click()
-	checkboxes[8].click()
-	
-	and: "Add more than one admin and save"
-	groupAdminTab.click()
-	waitFor {admin.displayed==true}
-	$('select#allAdminUsers option',text:'GroupAdmin1 Test').click()
-	$('select#allAdminUsers option',text:'GroupAdmin2 Test').click()
-	$('select#allAdminUsers option',text:'GroupAdmin3 Test').click()
-	arrowAdd.click()
-	
-	waitFor('fast') {groupAdminUsers.size()>1}
-	sendDialog.click()
-	waitFor {$('.confirmation').displayed==true}
-	$('span.ui-button-text',text:'OK').click()
-	waitFor {successDialog.displayed==true}
-	waitFor {successDialog.displayed==false}
-
 	}
 @RetryOnFailure
 def "Logout and login with 2nd admin"(){
@@ -99,7 +114,7 @@ def "Logout and login with 2nd admin"(){
 def "Locate users with other admin"(){
 	given:"We are at Users Page"
 	at UsersPage
-	
+		
 	when:"I select the group and click locate"
 	$('input.groupId').click()
 	$('a#btn_tab-users_showOnMap').click()
@@ -159,7 +174,7 @@ def "Other admin can create new user"(){
 	when:"I open actions and click create new user"
 	$('#userActionList5-button').click()
 	waitFor{$('#userActionList5-menu').displayed==true}
-	$('#userActionList5-menu li.userActionList2').click()
+	$('#userActionList5-menu li.userActionList2 a').click()
 	
 	then:"Enter user details and create new user"
 	waitFor{$('.addExcpPos').displayed==true}
@@ -277,7 +292,7 @@ def "Show enterprise category on map"(){
 	clickFirstItem(autocompleteListItems)
 	waitFor('fast') { tooltip.displayed == true }
 	expect hasLink(tooltip, 'Save Place'), is(true)
-	$('a',text:'Save Place').click()
+	$('li.savePlace a',text:'Save Place').click()
 	waitFor {$('#edit_loc_dialog').displayed==true}
 	$('#editPoiName')<<'Place1'
 	$('#edit_loc_tab2_link').click()

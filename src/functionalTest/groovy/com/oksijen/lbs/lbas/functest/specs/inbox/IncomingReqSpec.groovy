@@ -23,16 +23,23 @@ import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class IncomingReqSpec extends LocateSpec {
 
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Rejecting Location Permission Request"(){
 		given:"I am at Incoming Requests Page"
+		at WelcomePage
+		inboxMenu.jquery.mouseover()
+		waitFor{$('.menu-popup').displayed==true}
+		$('ul.tab-access').find('li',1).jquery.mouseover()
+		$('ul.tab-access').find('li',1).click()
+		waitFor { requestsTab.hasClass('ui-state-active')==true}
+		if($("table#requestedList tbody").children().size()==0){
 		request('user4','alper')
 		request('alper3','alper')
 		$('#btn_logout').click()
 		waitFor{at LoginPage}
 		username << params.get('username')
 		password << params.get('password')
-		loginButton.click()
+		loginButton.click()}
 		waitFor {at WelcomePage}
 		inboxMenu.jquery.mouseover()
 		waitFor{$('.menu-popup').displayed==true}
@@ -54,7 +61,7 @@ class IncomingReqSpec extends LocateSpec {
 		waitFor {$('div.ui-dialog').displayed==true}
 		waitFor {$('body').hasClass('div.ui-dialog')==false}
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Accepting Location Permission Request"(){				
 		given:"I am at Incoming Requests Page"
 		waitFor { requestsTab.hasClass('ui-state-active')==true}

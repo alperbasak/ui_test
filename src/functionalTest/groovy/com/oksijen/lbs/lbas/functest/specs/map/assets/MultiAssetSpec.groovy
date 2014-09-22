@@ -12,7 +12,7 @@ import spock.lang.Specification
 import com.oksijen.lbs.spock.extensions.retry.*
 @Stepwise
 class MultiAssetSpec extends LocateSpec {
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Show only locatable assets"() {
 		given:"We are at the UsersPage"
 		at MapHomePage
@@ -26,10 +26,10 @@ class MultiAssetSpec extends LocateSpec {
 		then:"Only locatable users will be shown"
 		waitFor {nolocatableUsers.displayed==false}
 	}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	 def "Select two asset group and locate them all"(){
 		given: "We are at the AssetsPage"
-		at AssetsPage
+		waitFor {at AssetsPage}
 		
 		when:"I select a group and click Locate"
 		locatableAssets[4].find('input.groupId').click()
@@ -52,10 +52,10 @@ class MultiAssetSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		expect tooltip.displayed, is(false)
 		}
-	 @RetryOnFailure(times=5)
+	 @RetryOnFailure
 	def "Select three asset group and locate them all"(){	
 		given: "We are at the AssetsPage"
-		at AssetsPage
+		waitFor {at AssetsPage}
 		
 		when:"I select a group and click Locate"
 		locatableAssets[2].find('input.groupId').click()
@@ -83,10 +83,10 @@ class MultiAssetSpec extends LocateSpec {
 		$('#btn_map_clear').click()
 		expect tooltip.displayed, is(false)
 		}
-	@RetryOnFailure(times=5)
+	@RetryOnFailure
 	def "Select five asset group and locate them all"(){
 		given: "We are at the AssetsPage"
-		at AssetsPage
+		waitFor {at AssetsPage}
 		
 		when:"I select a group and click Locate"
 		locatableAssets[1].find('input.groupId').click()
